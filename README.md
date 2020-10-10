@@ -2,8 +2,6 @@
 
 作者：董正 刘瑞龙 王宇辰 崔俞崧 田野
 
----
-
 ### Admin
 
 * creating new users, assigning user roles, modifying user profiles and moderating the community

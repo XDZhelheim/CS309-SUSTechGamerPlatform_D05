@@ -45,7 +45,21 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "indent":"off",
+      "no-unused-vars": "off",
+      "no-trailing-spaces": 0,
+      "eqeqeq": 0,
+      "no-tabs": 0,
+      "no-mixed-spaces-and-tabs": 0,
+      "no-extra-parens": "off",
+      "no-extra-semi": "off",
+      "no-inline-comments": "off",
+      "no-plusplus": "off",
+      "no-return-assign": "off",
+      "comma-spacing": "off",
+      "comma-dangle": "off"
+    }
   },
   "browserslist": [
     "> 1%",

@@ -3,7 +3,7 @@
     <img src="./assets/logo.png">
     <div>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld msg="Welcome"/>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <img src="../assets/logo.png" alt="">
+    <h1>Welcome</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -22,10 +23,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  name: 'HelloWorld'
 }
 </script>
 
@@ -48,6 +46,15 @@ a
 
 #sgp {
   font-family 'Source Han Serif CN', 'Times New Roman', serif
+}
+
+.hello {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
 }
 
 </style>

@@ -58,7 +58,8 @@
       "no-plusplus": "off",
       "no-return-assign": "off",
       "comma-spacing": "off",
-      "comma-dangle": "off"
+      "comma-dangle": "off",
+      "space-before-function-paren": 0
     }
   },
   "browserslist": [

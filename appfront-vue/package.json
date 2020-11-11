@@ -59,7 +59,8 @@
       "no-return-assign": "off",
       "comma-spacing": "off",
       "comma-dangle": "off",
-      "space-before-function-paren": 0
+      "space-before-function-paren": 0,
+      "object-curly-spacing": "off"
     }
   },
   "browserslist": [

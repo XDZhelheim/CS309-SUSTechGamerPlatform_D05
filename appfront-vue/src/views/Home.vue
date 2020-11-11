@@ -23,28 +23,8 @@
         <div id="recent-and-poster">
             <el-row :gutter="20" type="flex" align="top">
                 <el-col id="recent" span="6">
-                    <el-row>
-                        <el-image :src="recentgames[0]">
-                            <div slot="placeholder" class="image-slot">
-                                LOADING<span class="dot">...</span>
-                            </div>
-                            <div slot="error" class="image-slot">
-                                <i class="el-icon-picture-outline"></i>
-                            </div>
-                        </el-image>
-                    </el-row>
-                    <el-row>
-                        <el-image :src="recentgames[0]">
-                            <div slot="placeholder" class="image-slot">
-                                LOADING<span class="dot">...</span>
-                            </div>
-                            <div slot="error" class="image-slot">
-                                <i class="el-icon-picture-outline"></i>
-                            </div>
-                        </el-image>
-                    </el-row>
-                    <el-row>
-                        <el-image :src="recentgames[0]">
+                    <el-row id="r-game" v-for="game in recentgames" :key=game>
+                        <el-image :src="game">
                             <div slot="placeholder" class="image-slot">
                                 LOADING<span class="dot">...</span>
                             </div>
@@ -56,16 +36,9 @@
                 </el-col>
 
                 <el-col id="poster" span="18">
-                    <el-carousel height="375px" indicator-position="outside">
+                    <el-carousel :height="bannerHeight+'px'">
                         <el-carousel-item v-for="poster in posters" :key="poster">
-                            <el-image :src="poster">
-                                <div slot="placeholder" class="image-slot">
-                                    LOADING<span class="dot">...</span>
-                                </div>
-                                <div slot="error" class="image-slot">
-                                    <i class="el-icon-picture-outline"></i>
-                                </div>
-                            </el-image>
+                            <img ref="bannerHeight" :src="poster" alt="" @load="imgLoad" style="width: 100%">
                         </el-carousel-item>
                     </el-carousel>
                 </el-col>
@@ -80,15 +53,35 @@
         data() {
             return {
                 activeIndex: '1',
-                recentgames: [require('../assets/recentgames/test.jpg')],
-                posters: [require('../assets/recentgames/test.jpg'), require('../assets/recentgames/test.jpg'), require('../assets/recentgames/test.jpg')]
+                bannerHeight: '',
+                recentgames: [
+                    require('../assets/recentgames/test.jpg'),
+                    require('../assets/recentgames/test.jpg'),
+                    require('../assets/recentgames/test.jpg')
+                ],
+                posters: [
+                    require('../assets/recentgames/test.jpg'),
+                    require('../assets/recentgames/test.jpg'),
+                    require('../assets/recentgames/test.jpg'),
+                    require('../assets/recentgames/test.jpg')
+                ]
             }
         },
         methods: {
-
+            imgLoad () {
+                this.$nextTick(() => {
+                    this.bannerHeight = this.$refs.bannerHeight[0].height
+                    console.log(this.$refs)
+                })
+            }
         },
         mounted() {
-                document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
+            document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
+            this.imgLoad()
+            window.addEventListener('resize', () => {
+                this.bannerHeight = this.$refs.bannerHeight[0].height
+                this.imgLoad()
+            }, false)
         },
         beforeDestroy() {
             document.querySelector('body').removeAttribute('style')
@@ -104,10 +97,6 @@
         width: 100%;
     }
 
-    .el-row--flex.is-justify-end {
-        height: 61px;
-    }
-
     .el-menu-item.menu-right {
         float: right;
     }
@@ -121,6 +110,14 @@
         margin: 0;
         padding: 0;
     }
+
+    #r-game:nth-child(2), #r-game:nth-child(3) {
+        margin-top: 7px;
+    }
+
+    /* .el-carousel__container, .el-carousel--horizontal{
+        height: auto!important;
+    } */
 
     /* .el-row, .el-col {
         border: solid thin white;

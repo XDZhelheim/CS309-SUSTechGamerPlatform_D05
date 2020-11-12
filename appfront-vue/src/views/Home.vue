@@ -34,7 +34,6 @@
         name: 'Home',
         data() {
             return {
-                activeIndex: '/shop',
                 bannerHeight: '',
                 recentgames: [
                     require('../assets/recentgames/test.jpg'),

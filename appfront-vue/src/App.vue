@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <header>
+        <nav>
             <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
@@ -19,7 +19,7 @@
                 <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
-        </header>
+        </nav>
         <router-view />
     </div>
 </template>
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-    header {
+    nav {
         position: fixed;
         top: 0%;
         left: 0%;

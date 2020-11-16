@@ -76,7 +76,7 @@
                 recentgames: [
                     {url: require('../assets/recentgames/test.jpg'), name: '爬'},
                     {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'}
+                    {url: require('../assets/recentgames/test.jpg'), name: '爬爬爬爬'}
                 ],
                 posters: [
                     require('../assets/recentgames/test.jpg'),

@@ -41,6 +41,7 @@ export default {
         top: 0%;
         left: 0%;
         width: 100%;
+        z-index: 999;
     }
 
     .el-menu-item.menu-right {

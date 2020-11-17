@@ -30,7 +30,7 @@
         <div id="rank">
             <el-row id="rank-nav" type="flex" align="middle">
                 <el-col span="2">
-                    <span>排行榜</span>
+                    <span id="rank-nav-text">排行榜</span>
                 </el-col>
                 <el-col span="22">
                     <el-tabs v-model="activeRank" @tab-click="handleClick">
@@ -43,7 +43,7 @@
                 </el-col>
             </el-row>
 
-            <el-row id="rank-pic" :gutter="10">
+            <el-row id="rank-pic" :gutter="10" type="flex" justify="center">
                 <el-col :span="rank_pic_span" v-for="game in rank" :key=game>
                     <el-image :src="game.url">
                         <div slot="placeholder" class="image-slot">
@@ -56,13 +56,171 @@
                 </el-col>
             </el-row>
 
-            <el-row id="rank-text" :gutter="10">
+            <el-row id="rank-text" :gutter="10" type="flex" justify="center">
                 <el-col :span="rank_pic_span" v-for="(game, index) in rank" :key=game>
-                    <p class="rank-text-p">{{index+1}}</p>
                     <p class="rank-text-p">{{game.name}}</p>
+                    <p class="rank-text-p">{{index+1}}</p>
                 </el-col>
             </el-row>
         </div>
+
+        <div id="recommend">
+            <el-row :gutter="15">
+                <el-col :span="8" id="rec-onsale">
+                    <el-row>
+                        <span class="rec-text">优惠</span>
+                    </el-row>
+                    <el-row>
+                        <el-image :src="posters[0]">
+                            <div slot="placeholder" class="image-slot">
+                                LOADING<span class="dot">...</span>
+                            </div>
+                            <div slot="error" class="image-slot">
+                                <i class="el-icon-picture-outline"></i>
+                            </div>
+                        </el-image>
+                    </el-row>
+                    <el-row :gutter="5">
+                        <el-col :span="12">
+                            <el-image :src="posters[0]">
+                                <div slot="placeholder" class="image-slot">
+                                    LOADING<span class="dot">...</span>
+                                </div>
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-image :src="posters[0]">
+                                <div slot="placeholder" class="image-slot">
+                                    LOADING<span class="dot">...</span>
+                                </div>
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </el-col>
+                    </el-row>
+                </el-col>
+
+                <el-col :span="8" id="rec-new">
+                    <el-row>
+                        <span class="rec-text">新品</span>
+                    </el-row>
+                    <el-row :gutter="5">
+                        <el-col :span="18">
+                            <el-row>
+                                <el-image :src="posters[0]">
+                                    <div slot="placeholder" class="image-slot">
+                                        LOADING<span class="dot">...</span>
+                                    </div>
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline"></i>
+                                    </div>
+                                </el-image>
+                            </el-row>
+                            <el-row :gutter="5">
+                                <el-col :span="16">
+                                    <el-image :src="posters[0]">
+                                        <div slot="placeholder" class="image-slot">
+                                            LOADING<span class="dot">...</span>
+                                        </div>
+                                        <div slot="error" class="image-slot">
+                                            <i class="el-icon-picture-outline"></i>
+                                        </div>
+                                    </el-image>
+                                </el-col>
+                                <el-col :span="8">
+                                    <el-image :src="posters[0]">
+                                        <div slot="placeholder" class="image-slot">
+                                            LOADING<span class="dot">...</span>
+                                        </div>
+                                        <div slot="error" class="image-slot">
+                                            <i class="el-icon-picture-outline"></i>
+                                        </div>
+                                    </el-image>
+                                </el-col>
+                            </el-row>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-row>
+                                <el-image :src="posters[0]">
+                                    <div slot="placeholder" class="image-slot">
+                                        LOADING<span class="dot">...</span>
+                                    </div>
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline"></i>
+                                    </div>
+                                </el-image>
+                            </el-row>
+                            <el-row>
+                                <el-image :src="posters[0]">
+                                    <div slot="placeholder" class="image-slot">
+                                        LOADING<span class="dot">...</span>
+                                    </div>
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline"></i>
+                                    </div>
+                                </el-image>
+                            </el-row>
+                        </el-col>
+                    </el-row>
+                </el-col>
+
+                <el-col :span="8" id="rec-test">
+                    <el-row>
+                        <span class="rec-text">测试</span>
+                    </el-row>
+                    <el-row>
+                        <el-image :src="posters[0]">
+                            <div slot="placeholder" class="image-slot">
+                                LOADING<span class="dot">...</span>
+                            </div>
+                            <div slot="error" class="image-slot">
+                                <i class="el-icon-picture-outline"></i>
+                            </div>
+                        </el-image>
+                    </el-row>
+                    <el-row :gutter="5">
+                        <el-col :span="12">
+                            <el-image :src="posters[0]">
+                                <div slot="placeholder" class="image-slot">
+                                    LOADING<span class="dot">...</span>
+                                </div>
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-image :src="posters[0]">
+                                <div slot="placeholder" class="image-slot">
+                                    LOADING<span class="dot">...</span>
+                                </div>
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </el-col>
+                    </el-row>
+                </el-col>
+            </el-row>
+
+            <el-row :gutter="15">
+                <el-col :span="8" v-for="index in 3" :key=index>
+                    <el-row type="flex" justify="center">
+                        <el-button plain type="primary" icon="el-icon-more">更多</el-button>
+                    </el-row>
+                </el-col>
+            </el-row>
+        </div>
+
+        <footer>
+            <p>SUSTech Gamer</p>
+            <p>作者: 董正 刘瑞龙 王宇辰 崔俞崧 田野</p>
+            <p>Designed by 我哥哥</p>
+        </footer>
 
     </div>
 </template>
@@ -106,7 +264,7 @@
             },
 
             cal_rank_pic_span() {
-                this.rank_pic_span = 24 / this.rank.length
+                this.rank_pic_span=Math.floor(24/this.rank.length)
             }
         },
 
@@ -126,7 +284,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     #recent-and-poster {
         margin: 5px;
     }
@@ -153,8 +311,24 @@
         padding: 0;
     }
 
-    .el-tabs__item.is-top {
+    /* rank nav color */
+    #rank-nav-text {
         color: white;
+        padding-left: 12px;
+    }
+
+    .el-button--primary.is-plain {
+        background-color: transparent;
+    }
+
+    .rec-text {
+        color: white;
+    }
+
+    footer {
+        color: white;
+        text-align: center;
+        margin-top: 50px;
     }
 
 </style>

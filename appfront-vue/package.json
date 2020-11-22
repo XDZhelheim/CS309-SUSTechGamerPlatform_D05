@@ -63,8 +63,10 @@
       "object-curly-spacing": "off",
       "no-multiple-empty-lines": "off",
       "key-spacing":"off",
-      "space-infix-ops": "off"
-      
+      "space-infix-ops": "off",
+      "space-before-blocks": "off",
+      "prefer-const": "off",
+      "quotes": "off"
     }
   },
   "browserslist": [

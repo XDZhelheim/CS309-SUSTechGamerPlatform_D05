@@ -285,6 +285,11 @@
 </script>
 
 <style scoped>
+    #home {
+        width: 1200px;
+        margin: auto;
+    }
+
     #recent-and-poster {
         margin: 5px;
     }

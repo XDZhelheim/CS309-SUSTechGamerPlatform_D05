@@ -26,11 +26,11 @@
             <el-dialog title="登录" :visible.sync="loginFormVisible" top="30vh" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
                     <el-form-item label="用户名">
-                        <el-input v-model="name" style="width:var(--itemLength)"></el-input>
+                        <el-input v-model="name" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
 
                     <el-form-item label="密码">
-                        <el-input show-password v-model="password" style="width:var(--itemLength)"></el-input>
+                        <el-input show-password v-model="password" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -45,15 +45,15 @@
             <el-dialog title="注册" :visible.sync="signinFormVisible" top="30vh" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
                     <el-form-item label="用户名">
-                        <el-input v-model="name" style="width:var(--itemLength)"></el-input>
+                        <el-input v-model="name" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
 
                     <el-form-item label="密码">
-                        <el-input show-password v-model="password" style="width:var(--itemLength)"></el-input>
+                        <el-input show-password v-model="password" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
 
                     <el-form-item label="确认密码">
-                        <el-input show-password v-model="confirmPassword" style="width:var(--itemLength)"></el-input>
+                        <el-input show-password v-model="confirmPassword" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">

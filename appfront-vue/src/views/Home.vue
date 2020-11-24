@@ -2,7 +2,18 @@
     <div id="home">
         <div id="placehold"></div>
 
-        <div id="recent-and-poster">
+        <header>
+            <el-row type="flex" align="middle">
+                <el-col span="12">
+                    <h1>SUSTech Gamer</h1>
+                </el-col>
+                <el-col push="7" span="6">
+                    <p>{{date}}</p>
+                </el-col>
+            </el-row>
+        </header>
+
+        <div id="recent-and-poster" style="clear: both">
             <el-row :gutter="20" type="flex" align="top">
                 <el-col id="recent" span="6">
                     <el-row id="r-game" v-for="game in recentgames" :key=game>
@@ -232,26 +243,27 @@
             return {
                 bannerHeight: '',
                 recentgames: [
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬爬爬爬'}
+                    {url: require('../assets/recentgames/r6s.jpg'), name: 'Tom Clancy\'s Rainbow Six Siege'},
+                    {url: require('../assets/recentgames/bf3.jpg'), name: 'Battlefield 3'},
+                    {url: require('../assets/recentgames/codmw.jpeg'), name: 'Call of Duty: Modern Warfare'}
                 ],
                 posters: [
-                    require('../assets/recentgames/test.jpg'),
-                    require('../assets/recentgames/test.jpg'),
-                    require('../assets/recentgames/test.jpg'),
-                    require('../assets/recentgames/test.jpg')
+                    require('../assets/poster/sekiro.jpg'),
+                    require('../assets/poster/God-of-War-4.jpg'),
+                    require('../assets/poster/zelda.jpg'),
+                    require('../assets/poster/witcher.jpg')
                 ],
                 rank: [
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'},
-                    {url: require('../assets/recentgames/test.jpg'), name: '爬'}
+                    {url: require('../assets/rank/csgo.jpg'), name: 'CS: GO'},
+                    {url: require('../assets/rank/dota2.jpg'), name: 'DOTA 2'},
+                    {url: require('../assets/rank/among-us.jpg'), name: 'AMOUNG US'},
+                    {url: require('../assets/rank/demons-souls.jpg'), name: 'Demon\'s Souls'},
+                    {url: require('../assets/rank/ttf2.png'), name: 'TITANFALL 2'},
+                    {url: require('../assets/rank/codbocw.jpg'), name: 'Call of Duty: BOCW'}
                 ],
                 rank_pic_span: 0,
-                activeRank: 'day'
+                activeRank: 'day',
+                date: ''
             }
         },
 
@@ -265,6 +277,10 @@
 
             cal_rank_pic_span() {
                 this.rank_pic_span=Math.floor(24/this.rank.length)
+            },
+
+            showDate() {
+                this.date=new Date().toString().substring(0, 24)
             }
         },
 
@@ -276,6 +292,7 @@
                 this.imgLoad()
             }, false)
             this.cal_rank_pic_span()
+            setInterval(this.showDate, 1000)
         },
 
         beforeDestroy() {
@@ -288,6 +305,13 @@
     #home {
         width: 1200px;
         margin: auto;
+    }
+
+    header {
+        color: aqua;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 1.2rem;
+        margin: 5px;
     }
 
     #recent-and-poster {
@@ -321,10 +345,6 @@
         color: white;
         padding-left: 12px;
     }
-
-    /* .el-button--primary.is-plain {
-        background-color: transparent;
-    } */
 
     .rec-text {
         color: white;

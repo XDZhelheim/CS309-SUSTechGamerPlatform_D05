@@ -147,4 +147,8 @@ export default {
         font-size: 16px !important;
         color: white !important;
     }
+
+    .el-tabs__item {
+        color:white !important;
+    }
 </style>

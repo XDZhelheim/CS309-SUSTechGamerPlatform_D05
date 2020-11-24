@@ -322,9 +322,9 @@
         padding-left: 12px;
     }
 
-    .el-button--primary.is-plain {
+    /* .el-button--primary.is-plain {
         background-color: transparent;
-    }
+    } */
 
     .rec-text {
         color: white;

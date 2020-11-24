@@ -23,14 +23,14 @@
         <router-view />
 
         <div id="login">
-            <el-dialog title="登录" :visible.sync="loginFormVisible">
+            <el-dialog title="登录" :visible.sync="loginFormVisible" top="30vh" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
                     <el-form-item label="用户名">
                         <el-input v-model="name" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="密码">
-                        <el-input v-model="password" style="width:var(--itemLength)"></el-input>
+                        <el-input show-password v-model="password" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -42,23 +42,24 @@
         </div>
 
         <div id="signin">
-            <el-dialog title="注册" :visible.sync="signinFormVisible">
+            <el-dialog title="注册" :visible.sync="signinFormVisible" top="30vh" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
                     <el-form-item label="用户名">
                         <el-input v-model="name" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="密码">
-                        <el-input v-model="password" style="width:var(--itemLength)"></el-input>
+                        <el-input show-password v-model="password" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="确认密码">
-                        <el-input v-model="confirmPassword" style="width:var(--itemLength)"></el-input>
+                        <el-input show-password v-model="confirmPassword" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button plain type="warning" @click="signinFormVisible = false; clear();">取消</el-button>
                     <el-button plain type="primary" @click="signinFormVisible = false;">注册</el-button>
+                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clear();">登录</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -134,8 +135,8 @@ export default {
         background: rgb(55, 55, 55) !important;
         background-size: cover !important;
         border-radius: 20px !important;
-        /* top: 50% !important;
-        left: 50% !important; */
+        width: 500px !important;
+        border: solid thin lightgoldenrodyellow;
     }
 
     .el-dialog__title {

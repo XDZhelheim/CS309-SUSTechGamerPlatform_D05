@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies List</title>
+</head>
+<body>
+<div>
+    <h2>Game List</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>GameName</th>
+            <th>ReleaseDate</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Country</th>
+            <th>Language</th>
+            <th>Operation</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record,it:${purchaseRecordList}">
+            <td th:text="${it.count}">1</td>
+            <td th:text="${record.username}">Overwatch</td>
+            <td th:text="${record.date}">2016-9-10</td>
+            <td th:text="${record.money}">100</td>
+            <td th:switch="${record.type}">
+                <span th:case=0>RPG</span>
+                <span th:case=1>FPS</span>
+            <td th:text="${record.description}">TaoBao</td>
+            <td th:text="${record.description1}">China</td>
+            <td th:text="${record.description2}">Chinese</td>
+            <td>
+                <a href="./addPurchaseRecord.html" th:href="@{/findOneRecord{id}(id=${record.id})}">update</a>
+            </td>
+            <td>
+                <form th:action="@{/deleteOneRecord{id}(id=${record.id})}" method="get">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+<!--<form action="/insertOneRecord" method="get">-->
+<!--    <button type="submit">Add New</button>-->
+<!--</form>-->
+    <a href="./addPurchaseRecord.html", th:href="@{/insertOneRecord}">add New</a>
+    <p th:text="${msg}"> Here is to show message</p>
+</div>
+</body>
+</html>

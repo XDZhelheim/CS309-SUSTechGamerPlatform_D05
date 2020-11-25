@@ -82,7 +82,7 @@
                         <span class="rec-text">优惠</span>
                     </el-row>
                     <el-row>
-                        <el-image :src="posters[0]">
+                        <el-image :src="onsale[0].url">
                             <div slot="placeholder" class="image-slot">
                                 LOADING<span class="dot">...</span>
                             </div>
@@ -93,7 +93,7 @@
                     </el-row>
                     <el-row :gutter="5">
                         <el-col :span="12">
-                            <el-image :src="posters[0]">
+                            <el-image :src="onsale[1].url">
                                 <div slot="placeholder" class="image-slot">
                                     LOADING<span class="dot">...</span>
                                 </div>
@@ -103,7 +103,7 @@
                             </el-image>
                         </el-col>
                         <el-col :span="12">
-                            <el-image :src="posters[0]">
+                            <el-image :src="onsale[2].url">
                                 <div slot="placeholder" class="image-slot">
                                     LOADING<span class="dot">...</span>
                                 </div>
@@ -122,7 +122,7 @@
                     <el-row :gutter="5">
                         <el-col :span="18">
                             <el-row>
-                                <el-image :src="posters[0]">
+                                <el-image :src="newgames[0].url">
                                     <div slot="placeholder" class="image-slot">
                                         LOADING<span class="dot">...</span>
                                     </div>
@@ -131,32 +131,20 @@
                                     </div>
                                 </el-image>
                             </el-row>
-                            <el-row :gutter="5">
-                                <el-col :span="16">
-                                    <el-image :src="posters[0]">
-                                        <div slot="placeholder" class="image-slot">
-                                            LOADING<span class="dot">...</span>
-                                        </div>
-                                        <div slot="error" class="image-slot">
-                                            <i class="el-icon-picture-outline"></i>
-                                        </div>
-                                    </el-image>
-                                </el-col>
-                                <el-col :span="8">
-                                    <el-image :src="posters[0]">
-                                        <div slot="placeholder" class="image-slot">
-                                            LOADING<span class="dot">...</span>
-                                        </div>
-                                        <div slot="error" class="image-slot">
-                                            <i class="el-icon-picture-outline"></i>
-                                        </div>
-                                    </el-image>
-                                </el-col>
+                            <el-row>
+                                <el-image :src="newgames[1].url">
+                                    <div slot="placeholder" class="image-slot">
+                                        LOADING<span class="dot">...</span>
+                                    </div>
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline"></i>
+                                    </div>
+                                </el-image>
                             </el-row>
                         </el-col>
                         <el-col :span="6">
                             <el-row>
-                                <el-image :src="posters[0]">
+                                <el-image :src="newgames[2].url">
                                     <div slot="placeholder" class="image-slot">
                                         LOADING<span class="dot">...</span>
                                     </div>
@@ -166,7 +154,17 @@
                                 </el-image>
                             </el-row>
                             <el-row>
-                                <el-image :src="posters[0]">
+                                <el-image :src="newgames[3].url">
+                                    <div slot="placeholder" class="image-slot">
+                                        LOADING<span class="dot">...</span>
+                                    </div>
+                                    <div slot="error" class="image-slot">
+                                        <i class="el-icon-picture-outline"></i>
+                                    </div>
+                                </el-image>
+                            </el-row>
+                            <el-row>
+                                <el-image :src="newgames[4].url">
                                     <div slot="placeholder" class="image-slot">
                                         LOADING<span class="dot">...</span>
                                     </div>
@@ -184,7 +182,7 @@
                         <span class="rec-text">测试</span>
                     </el-row>
                     <el-row>
-                        <el-image :src="posters[0]">
+                        <el-image :src="testgames[0].url">
                             <div slot="placeholder" class="image-slot">
                                 LOADING<span class="dot">...</span>
                             </div>
@@ -195,7 +193,7 @@
                     </el-row>
                     <el-row :gutter="5">
                         <el-col :span="12">
-                            <el-image :src="posters[0]">
+                            <el-image :src="testgames[1].url">
                                 <div slot="placeholder" class="image-slot">
                                     LOADING<span class="dot">...</span>
                                 </div>
@@ -205,7 +203,7 @@
                             </el-image>
                         </el-col>
                         <el-col :span="12">
-                            <el-image :src="posters[0]">
+                            <el-image :src="testgames[2].url">
                                 <div slot="placeholder" class="image-slot">
                                     LOADING<span class="dot">...</span>
                                 </div>
@@ -230,7 +228,6 @@
         <footer>
             <p>SUSTech Gamer</p>
             <p>作者: 董正 刘瑞龙 王宇辰 崔俞崧 田野</p>
-            <p>Designed by 我哥哥</p>
         </footer>
 
     </div>
@@ -260,6 +257,23 @@
                     {url: require('../assets/rank/demons-souls.jpg'), name: 'Demon\'s Souls'},
                     {url: require('../assets/rank/ttf2.png'), name: 'TITANFALL 2'},
                     {url: require('../assets/rank/codbocw.jpg'), name: 'Call of Duty: BOCW'}
+                ],
+                onsale: [
+                    {url: require('../assets/onsale/fallguys.jpg'), name: 'Fall Guys'},
+                    {url: require('../assets/onsale/witcher.jpg'), name: 'The Witcher: Wild Hunt'},
+                    {url: require('../assets/onsale/gta5.jpg'), name: 'Grand Theft Auto 5'},
+                ],
+                newgames: [
+                    {url: require('../assets/newgames/ac-valhalla.jpg'), name: 'Assassin\'s Creed: Valhalla'},
+                    {url: require('../assets/newgames/watchdogslegion.jpg'), name: 'Watch Dogs: Legion'},
+                    {url: require('../assets/newgames/demonssouls-square.jpg'), name: 'Demon\'s Souls'},
+                    {url: require('../assets/newgames/bocw-square.jpg'), name: 'Call of Duty: BOCW'},
+                    {url: require('../assets/newgames/ghostrunner.jpg'), name: 'GhostRunner'},
+                ],
+                testgames: [
+                    {url: require('../assets/testgames/ff16-2.jpg'), name: 'Final Fantasy XVI'},
+                    {url: require('../assets/testgames/yuanshen.jpg'), name: '原神'},
+                    {url: require('../assets/testgames/dyinglight2.jpg'), name: 'Dying Light 2'},
                 ],
                 rank_pic_span: 0,
                 activeRank: 'day',
@@ -354,6 +368,10 @@
         color: white;
         text-align: center;
         margin-top: 50px;
+    }
+
+    #test {
+        width: 50px;
     }
 
 </style>

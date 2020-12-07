@@ -3,6 +3,7 @@ package com.example.springproject.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Deprecated
 @Entity
 public class UserInfo {
     @Id

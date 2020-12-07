@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
+@Deprecated
 public class UserForm {
     @NotBlank(message = "Username shouldn't be null")
     private String username;

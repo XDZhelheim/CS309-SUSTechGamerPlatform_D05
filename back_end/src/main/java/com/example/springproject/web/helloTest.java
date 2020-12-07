@@ -3,6 +3,7 @@ package com.example.springproject.web;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Deprecated
 @RestController("/OOAD")
 public class helloTest {
     @RequestMapping("/hello")

@@ -6,11 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+@Deprecated
 public interface PurchaseRecordRepository extends JpaRepository<PurchaseRecord, Long> {
 
     @Query("select p from PurchaseRecord p where p.username=?1 and p.type=?2")
     List<PurchaseRecord> findByNameAndAndType(String username, int type);
-
-
-
 }

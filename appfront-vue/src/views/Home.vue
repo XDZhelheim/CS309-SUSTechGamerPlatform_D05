@@ -1,6 +1,5 @@
 <template>
     <div id="home">
-        <div id="placehold"></div>
 
         <header>
             <el-row type="flex" align="middle">
@@ -330,12 +329,6 @@
 
     #recent-and-poster {
         margin: 5px;
-    }
-
-    #placehold {
-        height: 61px;
-        margin: 0;
-        padding: 0;
     }
 
     #r-game:nth-child(2), #r-game:nth-child(3) {

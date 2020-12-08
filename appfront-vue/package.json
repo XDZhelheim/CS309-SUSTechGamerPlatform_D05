@@ -66,7 +66,8 @@
       "space-infix-ops": "off",
       "space-before-blocks": "off",
       "prefer-const": "off",
-      "quotes": "off"
+      "quotes": "off",
+      "curly": "off"
     }
   },
   "browserslist": [

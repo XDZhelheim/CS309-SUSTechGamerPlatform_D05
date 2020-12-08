@@ -20,6 +20,7 @@
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
         </nav>
+        <div id="placehold"></div>
         <router-view />
 
         <div id="login">
@@ -114,6 +115,12 @@ export default {
         float: right;
     }
 
+    #placehold {
+        height: 61px;
+        margin: 0;
+        padding: 0;
+    }
+
 </style>
 
 <style>
@@ -134,7 +141,7 @@ export default {
         background-color: transparent !important;
     }
 
-    .el-input--medium .el-input__inner {
+    .el-input--medium .el-input__inner, .el-input--medium .el-textarea__inner, .el-input--medium .el-input__count {
         background-color: transparent !important;
         border-color: aqua !important;
         color: aqua !important;

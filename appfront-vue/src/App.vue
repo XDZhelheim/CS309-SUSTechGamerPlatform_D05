@@ -36,7 +36,7 @@
                 <div slot="footer" class="dialog-footer">
                     <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clear();">注册</el-button>
                     <el-button plain type="warning" @click="loginFormVisible = false; clear();">取消</el-button>
-                    <el-button plain type="primary" @click="loginFormVisible = false;">登录</el-button>
+                    <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -79,6 +79,7 @@ export default {
             name: null,
             password: null,
             confirmPassword: null,
+            loginStatus: false
         }
     },
 
@@ -87,6 +88,14 @@ export default {
             this.name=null
             this.password=null
             this.confirmPassword=null
+        },
+
+        login() {
+            this.loginStatus=true
+        },
+
+        register() {
+
         }
     }
 }

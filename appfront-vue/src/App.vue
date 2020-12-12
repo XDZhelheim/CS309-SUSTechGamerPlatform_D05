@@ -15,7 +15,8 @@
                 <el-menu-item index="/my-games">我的游戏</el-menu-item>
                 <el-menu-item index="/community">游戏社区</el-menu-item>
                 <el-menu-item index="/customer-service">客服反馈</el-menu-item>
-                <el-menu-item @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
+                <el-menu-item v-if="loginStatus" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
+                <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
@@ -27,11 +28,11 @@
             <el-dialog title="登录" :visible.sync="loginFormVisible" top="30vh" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
                     <el-form-item label="用户名">
-                        <el-input v-model="name" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
+                        <el-input v-model="loginForm.username" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
 
                     <el-form-item label="密码">
-                        <el-input show-password v-model="password" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
+                        <el-input show-password v-model="loginForm.password" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -65,6 +66,31 @@
             </el-dialog>
         </div>
 
+        <div id="info">
+            <el-dialog title="个人信息" :visible.sync="infoVisible" top="30vh" :lock-scroll="false">
+                <el-col :span="8">
+                    <el-row type="flex" justify="center">
+                        <el-avatar :size="100" :src="userInfo.avatarURL"></el-avatar>
+                    </el-row>
+                    <el-row type="flex" justify="center">
+                        <el-upload
+                            class="avatar-uploader"
+                            action="uploadAvatarAdd"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <p id="p-upload">上传头像</p>
+                        </el-upload>
+                    </el-row>
+                </el-col>
+
+                <el-col :span="16">
+                    <p class="p-username">用户名:</p>
+                    <p class="p-username">{{userInfo.username}}</p>
+                </el-col>
+            </el-dialog>
+        </div>
+
     </div>
 </template>
 
@@ -76,11 +102,21 @@ export default {
             activeIndex: '/',
             loginFormVisible: false,
             signinFormVisible: false,
+            infoVisible: false,
             labelPosition: 'right',
             name: null,
             password: null,
             confirmPassword: null,
-            loginStatus: false
+            loginForm: {
+                username: '',
+                password: ''
+            },
+            loginStatus: false,  // 这里是调试 暂时赋值
+            userInfo: {
+                avatarURL: require("./assets/avatars/testavatar.jpg"),
+                username: "Test User Name"
+            },
+            uploadAvatarAdd: "#" // 后端处理上传头像的地址
         }
     },
 
@@ -91,14 +127,48 @@ export default {
             this.confirmPassword=null
         },
 
-        login() {
-            this.loginStatus=true
+        handleAvatarSuccess(res, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
         },
 
-        register() {
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
 
+            if (!isJPG) {
+            this.$message.error('上传头像图片只能是 JPG 格式!');
+            }
+            if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
         }
+
+        // login () {
+        //     let _this = this;
+        //     if (this.loginForm.username === '' || this.loginForm.password === '') {
+        //         alert('账号或密码不能为空');
+        //     } else {
+        //         this.axios({
+        //             method: 'post',
+        //             url: '/user/login',
+        //             data: _this.loginForm
+        //         }).then(res => {
+        //             console.log(res.data);
+        //             _this.userToken = 'Bearer ' + res.data.data.body.token;
+        //             // 将用户token保存到vuex中
+        //             _this.changeLogin({ Authorization: _this.userToken });
+        //             _this.$router.push('/home');
+        //             alert('登陆成功');
+        //         }).catch(error => {
+        //             alert('账号或密码错误');
+        //             console.log(error);
+        //         });
+        //     }
+        // }
+
     }
+
 }
 </script>
 
@@ -119,6 +189,15 @@ export default {
         height: 61px;
         margin: 0;
         padding: 0;
+    }
+
+    .p-username {
+        color: aqua;
+        font-size: 1.5em;
+    }
+
+    #p-upload {
+        color: aqua;
     }
 
 </style>
@@ -155,6 +234,10 @@ export default {
         border: solid thin lightgoldenrodyellow;
     }
 
+    #info .el-dialog {
+        height: 250px !important;
+    }
+
     .el-dialog__title {
         color: white !important;
     }
@@ -167,4 +250,5 @@ export default {
     .el-tabs__item {
         color:white !important;
     }
+
 </style>

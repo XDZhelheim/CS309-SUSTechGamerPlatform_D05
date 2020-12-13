@@ -25,6 +25,11 @@ public class GameUserServiceImpl implements GameUserService {
     }
 
     @Override
+    public List<GameUser> listAllGamesForCreditAs(Users users, char creditAs) {
+        return gameUserRepository.findGameUserByUsersAndCreditAs(users, creditAs);
+    }
+
+    @Override
     public List<GameUser> getGameOwners(Game game) {
         return gameUserRepository.findGameUserByGame(game);
     }

@@ -11,6 +11,8 @@ public interface GameUserService {
 
     void delete(Users users, Game game);
 
+    List<GameUser> listAllGamesForCreditAs(Users users, char creditAs);
+
     List<GameUser> getGameOwners(Game game);
 
     List<GameUser> getOwnerUsers(Users users);

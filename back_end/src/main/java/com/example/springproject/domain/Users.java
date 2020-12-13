@@ -15,7 +15,7 @@ public class Users {
     @NotNull
     private String password;
     @NotNull
-    private Date create_date;
+    private Date createDate;
     @NotNull
     private char role;
     @NotNull
@@ -47,12 +47,12 @@ public class Users {
         return password;
     }
 
-    public void setCreate_date(Date create_date) {
-        this.create_date = create_date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public Date getCreate_date() {
-        return create_date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
     public void setRole(char role) {

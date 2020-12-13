@@ -16,9 +16,9 @@ public class GameUser {
     @OneToOne
     private Users users;
     @NotNull
-    private char credit_as;
+    private char creditAs;
     @NotNull
-    private Time purchase_time;
+    private Time purchaseTime;
 
     private long rank;
 
@@ -48,20 +48,20 @@ public class GameUser {
         return users;
     }
 
-    public void setCredit_as(char credit_as) {
-        this.credit_as = credit_as;
+    public void setCreditAs(char creditAs) {
+        this.creditAs = creditAs;
     }
 
-    public char getCredit_as() {
-        return credit_as;
+    public char getCreditAs() {
+        return creditAs;
     }
 
-    public void setPurchase_time(Time purchase_time) {
-        this.purchase_time = purchase_time;
+    public void setPurchaseTime(Time purchaseTime) {
+        this.purchaseTime = purchaseTime;
     }
 
-    public Time getPurchase_time() {
-        return purchase_time;
+    public Time getPurchaseTime() {
+        return purchaseTime;
     }
 
     public void setRank(long rank) {

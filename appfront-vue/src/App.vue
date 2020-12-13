@@ -134,7 +134,7 @@ export default {
                 username: '',
                 password: ''
             },
-            loginStatus: true,  // 这里是调试 暂时赋值
+            loginStatus: true, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
@@ -162,20 +162,20 @@ export default {
         },
 
         handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+            this.imageUrl = URL.createObjectURL(file.raw)
         },
 
         beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
+            const isJPG = file.type === 'image/jpeg'
+            const isLt2M = file.size / 1024 / 1024 < 2
 
             if (!isJPG) {
-            this.$message.error('上传头像图片只能是 JPG 格式!');
+            this.$message.error('上传头像图片只能是 JPG 格式!')
             }
             if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!');
+            this.$message.error('上传头像图片大小不能超过 2MB!')
             }
-            return isJPG && isLt2M;
+            return isJPG && isLt2M
         },
 
         gotoURL(url) {

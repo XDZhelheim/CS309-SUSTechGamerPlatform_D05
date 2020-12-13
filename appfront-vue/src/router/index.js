@@ -40,10 +40,6 @@ const routes = [
     {
         path: '/developer',
         component: () => import('../views/Developer.vue')
-    },
-    {
-        path: '/user',
-        component: () => import('../views/UserInfo.vue')
     }
 ]
 

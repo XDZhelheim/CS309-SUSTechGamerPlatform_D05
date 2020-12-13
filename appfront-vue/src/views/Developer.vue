@@ -121,7 +121,7 @@
 
 <script>
     export default {
-        name: 'community',
+        name: 'developer',
         data() {
             return {
                 tableData: [{

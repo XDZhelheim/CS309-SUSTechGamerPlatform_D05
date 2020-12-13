@@ -144,7 +144,7 @@ export default {
             myGames: [
                 {
                     gametitle: "The Witcher: Wild Hunt",
-                    gameURL: "/developer"
+                    gameURL: "/GamePage"
                 },
                 {
                     gametitle: "原神",
@@ -180,6 +180,7 @@ export default {
 
         gotoURL(url) {
             this.$router.push(url)
+            this.myGamesVisible=false
         }
 
     }

@@ -40,6 +40,10 @@ const routes = [
     {
         path: '/developer',
         component: () => import('../views/Developer.vue')
+    },
+    {
+        path: '/gamepage',
+        component: () => import('../views/GamePage.vue')
     }
 ]
 

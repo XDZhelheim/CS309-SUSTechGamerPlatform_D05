@@ -15,7 +15,7 @@
                 <el-menu-item @click="myGamesVisible=true">我的游戏</el-menu-item>
                 <!-- <el-menu-item index="/community">游戏社区</el-menu-item>
                 <el-menu-item index="/customer-service">客服反馈</el-menu-item> -->
-                <el-menu-item v-if="loginStatus" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
+                <el-menu-item v-if="loginStatus==false" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
@@ -134,7 +134,7 @@ export default {
                 username: '',
                 password: ''
             },
-            loginStatus: false,  // 这里是调试 暂时赋值
+            loginStatus: true,  // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",

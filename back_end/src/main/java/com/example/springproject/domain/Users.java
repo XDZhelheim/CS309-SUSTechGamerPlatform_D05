@@ -18,6 +18,8 @@ public class Users {
     private Date create_date;
     @NotNull
     private char role;
+    @NotNull
+    private double account;
 
     private String email;
 
@@ -67,5 +69,13 @@ public class Users {
 
     public String getEmail() {
         return email;
+    }
+
+    public double getAccount() {
+        return account;
+    }
+
+    public void setAccount(double account) {
+        this.account = account;
     }
 }

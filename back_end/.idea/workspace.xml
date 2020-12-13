@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4e477888-207a-4c2c-9601-a8578403dab0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/api/SDKLogRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/SDKLog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/SDKLogService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/SDKLogServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/PurchaseRecordApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/PurchaseRecordApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,17 +72,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SpringprojectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="springproject" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.springproject.SpringprojectApplication" />
@@ -119,7 +105,8 @@
       <workItem from="1607235020767" duration="838000" />
       <workItem from="1607346593049" duration="3228000" />
       <workItem from="1607351603810" duration="161000" />
-      <workItem from="1607747519998" duration="1148000" />
+      <workItem from="1607747519998" duration="1214000" />
+      <workItem from="1607781428502" duration="724000" />
     </task>
     <task id="LOCAL-00001" summary="Database made">
       <created>1607349785287</created>
@@ -128,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607349785287</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="SDKLog update">
+      <created>1607748704604</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1607748704604</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,6 +130,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Database made" />
-    <option name="LAST_COMMIT_MESSAGE" value="Database made" />
+    <MESSAGE value="SDKLog update" />
+    <option name="LAST_COMMIT_MESSAGE" value="SDKLog update" />
   </component>
 </project>

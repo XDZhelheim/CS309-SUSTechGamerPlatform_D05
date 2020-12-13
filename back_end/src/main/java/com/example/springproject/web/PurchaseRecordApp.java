@@ -62,7 +62,4 @@ public class PurchaseRecordApp {
                                                   @RequestParam int type){
         return purchaseRecordService.findByNameAndAndType(username,type);
     }
-
-
-
 }

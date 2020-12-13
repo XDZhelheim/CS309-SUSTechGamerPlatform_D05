@@ -4,14 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4e477888-207a-4c2c-9601-a8578403dab0" name="Default Changelist" comment="game info update">
+    <list default="true" id="4e477888-207a-4c2c-9601-a8578403dab0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/SpringprojectApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/SpringprojectApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/api/GameUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/api/GameUserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/GameUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/GameUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/Users.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/helloTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/helloTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/Bean/UserForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/Bean/UserForm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/SpringprojectApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/SpringprojectApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/api/PurchaseRecordRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/api/PurchaseRecordRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/api/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/api/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/domain/PurchaseRecord.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/domain/PurchaseRecord.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/domain/UserInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/domain/UserInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/PurchaseRecordService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/PurchaseRecordService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/PurchaseRecordServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/PurchaseRecordServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/web/PurchaseRecordApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/web/PurchaseRecordApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/web/PurchaseRecordController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/web/PurchaseRecordController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/web/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/web/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/web/helloTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/web/helloTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,16 +91,16 @@
       <recent name="D:\programming\java\classes\ooad\Pro\SUSTechGamerPlatform_D05\back_end\src\main\java\com\example\springproject\domain" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+  <component name="RunManager" selected="Spring Boot.SpringprojectApplication">
+    <configuration name="Rubbish" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.springproject.Rubbish" />
+      <module name="springproject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.springproject.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -97,6 +112,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Rubbish" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -127,7 +147,9 @@
       <workItem from="1607781428502" duration="724000" />
       <workItem from="1607826134393" duration="251000" />
       <workItem from="1607826570971" duration="320000" />
-      <workItem from="1607827523527" duration="597000" />
+      <workItem from="1607827523527" duration="854000" />
+      <workItem from="1607828870163" duration="367000" />
+      <workItem from="1607869063524" duration="518000" />
     </task>
     <task id="LOCAL-00001" summary="Database made">
       <created>1607349785287</created>
@@ -150,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607826265134</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="game info update">
+      <created>1607828142011</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1607828142011</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +189,7 @@
     <MESSAGE value="Database made" />
     <MESSAGE value="SDKLog update" />
     <MESSAGE value="personal account update" />
-    <option name="LAST_COMMIT_MESSAGE" value="personal account update" />
+    <MESSAGE value="game info update" />
+    <option name="LAST_COMMIT_MESSAGE" value="game info update" />
   </component>
 </project>

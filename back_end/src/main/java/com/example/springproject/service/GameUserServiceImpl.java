@@ -43,4 +43,14 @@ public class GameUserServiceImpl implements GameUserService {
     public GameUser getRecord(Users users, Game game) {
         return gameUserRepository.findGameUserByUsersAndGame(users, game);
     }
+
+    @Override
+    public double averageScore(Game game) {
+        List<GameUser> pairs = gameUserRepository.findByGameAndScoreExists(game);
+        double score = 0;
+        for (GameUser gameUser : pairs) {
+            score += gameUser.getScore();
+        }
+        return score / pairs.size();
+    }
 }

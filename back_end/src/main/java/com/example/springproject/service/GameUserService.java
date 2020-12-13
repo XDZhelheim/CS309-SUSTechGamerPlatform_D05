@@ -18,4 +18,6 @@ public interface GameUserService {
     List<GameUser> getOwnerUsers(Users users);
 
     GameUser getRecord(Users users, Game game);
+
+    double averageScore(Game game);
 }

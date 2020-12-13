@@ -20,7 +20,7 @@ public class GameUser {
     @NotNull
     private Time purchaseTime;
 
-    private long rank;
+    private double score;
 
     private String details;
 
@@ -64,12 +64,12 @@ public class GameUser {
         return purchaseTime;
     }
 
-    public void setRank(long rank) {
-        this.rank = rank;
+    public void setScore(double rank) {
+        this.score = rank;
     }
 
-    public long getRank() {
-        return rank;
+    public double getScore() {
+        return score;
     }
 
     public void setDetails(String details) {

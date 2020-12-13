@@ -13,7 +13,7 @@ public class Game {
     @Column(unique = true)
     private String name;
     @NotNull
-    private Date create_time;
+    private Date createTime;
     @NotNull
     private double price;
     @NotNull
@@ -41,12 +41,12 @@ public class Game {
         return name;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public Date getCreateTime() {
+        return createTime;
     }
 
     public void setPrice(double price) {

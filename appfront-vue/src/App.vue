@@ -12,9 +12,9 @@
             router>
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/shop">游戏商城</el-menu-item>
-                <el-menu-item index="/my-games">我的游戏</el-menu-item>
-                <el-menu-item index="/community">游戏社区</el-menu-item>
-                <el-menu-item index="/customer-service">客服反馈</el-menu-item>
+                <el-menu-item @click="myGamesVisible=true">我的游戏</el-menu-item>
+                <!-- <el-menu-item index="/community">游戏社区</el-menu-item>
+                <el-menu-item index="/customer-service">客服反馈</el-menu-item> -->
                 <el-menu-item v-if="loginStatus" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
@@ -68,28 +68,50 @@
 
         <div id="info">
             <el-dialog title="个人信息" :visible.sync="infoVisible" top="30vh" :lock-scroll="false">
-                <el-col :span="8">
-                    <el-row type="flex" justify="center">
-                        <el-avatar :size="100" :src="userInfo.avatarURL"></el-avatar>
-                    </el-row>
-                    <el-row type="flex" justify="center">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="uploadAvatarAdd"
-                            :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
-                            <p id="p-upload">上传头像</p>
-                        </el-upload>
-                    </el-row>
-                </el-col>
+                <el-row>
+                    <el-col :span="2"><p></p></el-col>
 
-                <el-col :span="16">
-                    <p class="p-username">用户名:</p>
-                    <p class="p-username">{{userInfo.username}}</p>
-                </el-col>
+                    <el-col :span="8">
+                        <el-row type="flex" justify="center">
+                            <el-avatar :size="150" :src="userInfo.avatarURL"></el-avatar>
+                        </el-row>
+                        <el-row type="flex" justify="center">
+                            <el-upload
+                                class="avatar-uploader"
+                                action="uploadAvatarAdd"
+                                :show-file-list="false"
+                                :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <p id="p-upload">上传头像</p>
+                            </el-upload>
+                        </el-row>
+                    </el-col>
+
+                    <el-col :span="2"><p></p></el-col>
+
+                    <el-col :span="12">
+                        <el-row>
+                            <p class="p-username">用户名:</p>
+                            <p class="p-username">{{userInfo.username}}</p>
+                        </el-row>
+                        <el-row>
+                            <p class="p-username">账户余额:</p>
+                            <p class="p-username">{{userInfo.money}}</p>
+                        </el-row>
+                    </el-col>
+                </el-row>
             </el-dialog>
         </div>
+
+        <el-drawer
+        title="我的游戏"
+        :visible.sync="myGamesVisible"
+        direction="ltr"
+        size="20%">
+            <p v-for="game in myGames" :key="game" class="p-mygames">
+                <el-link :underline="false" @click="gotoURL(game.gameURL)">{{game.gametitle}}</el-link>
+            </p>
+        </el-drawer>
 
     </div>
 </template>
@@ -103,6 +125,7 @@ export default {
             loginFormVisible: false,
             signinFormVisible: false,
             infoVisible: false,
+            myGamesVisible: false,
             labelPosition: 'right',
             name: null,
             password: null,
@@ -114,9 +137,20 @@ export default {
             loginStatus: false,  // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
-                username: "Test User Name"
+                username: "Test User Name",
+                money: 123
             },
-            uploadAvatarAdd: "#" // 后端处理上传头像的地址
+            uploadAvatarAdd: "#", // 后端处理上传头像的地址
+            myGames: [
+                {
+                    gametitle: "The Witcher: Wild Hunt",
+                    gameURL: "/developer"
+                },
+                {
+                    gametitle: "原神",
+                    gameURL: "/shop"
+                }
+            ]
         }
     },
 
@@ -142,30 +176,11 @@ export default {
             this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isJPG && isLt2M;
-        }
+        },
 
-        // login () {
-        //     let _this = this;
-        //     if (this.loginForm.username === '' || this.loginForm.password === '') {
-        //         alert('账号或密码不能为空');
-        //     } else {
-        //         this.axios({
-        //             method: 'post',
-        //             url: '/user/login',
-        //             data: _this.loginForm
-        //         }).then(res => {
-        //             console.log(res.data);
-        //             _this.userToken = 'Bearer ' + res.data.data.body.token;
-        //             // 将用户token保存到vuex中
-        //             _this.changeLogin({ Authorization: _this.userToken });
-        //             _this.$router.push('/home');
-        //             alert('登陆成功');
-        //         }).catch(error => {
-        //             alert('账号或密码错误');
-        //             console.log(error);
-        //         });
-        //     }
-        // }
+        gotoURL(url) {
+            this.$router.push(url)
+        }
 
     }
 
@@ -193,10 +208,20 @@ export default {
 
     .p-username {
         color: aqua;
-        font-size: 1.5em;
+        font-size: 1.2em;
     }
 
     #p-upload {
+        color: aqua;
+    }
+
+    .p-mygames {
+        margin-left: 10%;
+        font-size: 1.2em; /* 行间距 */
+    }
+
+    .el-link {
+        font-size: 16px;
         color: aqua;
     }
 
@@ -235,7 +260,7 @@ export default {
     }
 
     #info .el-dialog {
-        height: 250px !important;
+        height: 300px !important;
     }
 
     .el-dialog__title {
@@ -249,6 +274,15 @@ export default {
 
     .el-tabs__item {
         color:white !important;
+    }
+
+    .el-drawer__header {
+        font-size: 20px !important;
+        color: aqua !important;
+    }
+
+    .el-drawer.ltr {
+        background-color: rgb(80, 80, 80) !important;
     }
 
 </style>

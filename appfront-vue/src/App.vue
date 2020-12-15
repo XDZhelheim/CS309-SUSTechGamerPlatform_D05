@@ -61,7 +61,7 @@
                 <div slot="footer" class="dialog-footer">
                     <el-button plain type="warning" @click="signinFormVisible = false; clear();">取消</el-button>
                     <el-button plain type="primary" @click="signinFormVisible = false;">注册</el-button>
-                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clear();">登录</el-button>
+                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clear(); login();">登录</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -72,7 +72,7 @@
                     <el-col :span="2"><p></p></el-col>
 
                     <el-col :span="8">
-                        <el-row type="flex" justify="center">
+                        <el-row class="row-avatar" type="flex" justify="center" align="middle">
                             <el-avatar :size="150" :src="userInfo.avatarURL"></el-avatar>
                         </el-row>
                         <el-row type="flex" justify="center">
@@ -97,9 +97,16 @@
                         <el-row>
                             <p class="p-username">账户余额:</p>
                             <p class="p-username">{{userInfo.money}}</p>
+                            <div>
+                                <el-input-number v-model="rechargeMoney" controls-position="right" size="mini" :precision="2" :step="1" :min="0"></el-input-number>&emsp;
+                                <el-button size="mini" round plain type="success" @click="recharge();">充值</el-button>
+                            </div>
                         </el-row>
                     </el-col>
                 </el-row>
+                <div slot="footer" class="dialog-footer">
+                    <el-button plain type="danger" @click="logout()">登出</el-button>
+                </div>
             </el-dialog>
         </div>
 
@@ -134,12 +141,13 @@ export default {
                 username: '',
                 password: ''
             },
-            loginStatus: true, // 这里是调试 暂时赋值
+            loginStatus: false, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
                 money: 123
             },
+            rechargeMoney: 0,
             uploadAvatarAdd: "#", // 后端处理上传头像的地址
             myGames: [
                 {
@@ -181,6 +189,22 @@ export default {
         gotoURL(url) {
             this.$router.push(url)
             this.myGamesVisible=false
+        },
+
+        recharge() {
+            this.userInfo.money+=this.rechargeMoney
+            // 后端要更新余额
+        },
+
+        login() {
+            this.loginStatus=true
+            // 登录，待完善
+        },
+
+        logout() {
+            this.loginStatus=false
+            this.infoVisible=false
+            // 登出，待完善
         }
 
     }
@@ -221,9 +245,8 @@ export default {
         font-size: 1.2em; /* 行间距 */
     }
 
-    .el-link {
-        font-size: 16px;
-        color: aqua;
+    .row-avatar {
+        margin-top: 30px;
     }
 
 </style>
@@ -246,7 +269,12 @@ export default {
         background-color: transparent !important;
     }
 
-    .el-input--medium .el-input__inner, .el-input--medium .el-textarea__inner, .el-input--medium .el-input__count {
+    .el-input--medium .el-input__inner,
+    .el-input--mini .el-input__inner,
+    .el-input--medium .el-textarea__inner,
+    .el-input--medium .el-input__count,
+    .el-input-number__decrease,
+    .el-input-number__increase {
         background-color: transparent !important;
         border-color: aqua !important;
         color: aqua !important;
@@ -260,9 +288,9 @@ export default {
         border: solid thin lightgoldenrodyellow;
     }
 
-    #info .el-dialog {
-        height: 300px !important;
-    }
+    /* #info .el-dialog {
+        height: 400px !important;
+    } */
 
     .el-dialog__title {
         color: white !important;
@@ -284,6 +312,11 @@ export default {
 
     .el-drawer.ltr {
         background-color: rgb(80, 80, 80) !important;
+    }
+
+    .el-drawer .el-link {
+        font-size: 16px !important;
+        color: aqua !important;
     }
 
 </style>

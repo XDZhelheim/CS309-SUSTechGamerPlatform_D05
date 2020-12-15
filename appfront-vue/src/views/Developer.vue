@@ -1,6 +1,8 @@
 <template>
     <div id="developer">
         <div id="gl">
+            <el-button id="ag" plain type="primary" icon="el-icon-plus" @click="addGameFormVisible = true">添加新游戏</el-button>
+            <el-button id="sdk" plain type="primary" icon="el-icon-download" @click="downloadSDK()">下载用户信息</el-button>
             <h1>管理游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="title" label="名称"></el-table-column>
@@ -16,11 +18,14 @@
                         <el-button icon="el-icon-delete" plain type="warning" @click="delGame(scope.$index)"></el-button>
                     </template>
                 </el-table-column>
+                <el-table-column prop="op" label="上传游戏" width="100">
+                    <el-upload
+                        action="uploadGameAdd"
+                        :show-file-list="false">
+                        <el-button icon="el-icon-upload2" plain type="success"></el-button>
+                    </el-upload>
+                </el-table-column>
             </el-table>
-        </div>
-
-        <div id="ag">
-            <el-button plain type="primary" icon="el-icon-plus" @click="addGameFormVisible = true">添加新游戏</el-button>
         </div>
 
         <div id="fm">
@@ -149,6 +154,7 @@
                 editGameFormVisible: false,
                 editIndex: 0,
                 tempGame: null,
+                uploadGameAdd: '#', // 上传游戏的地址
 
                 gameTypes: [
                     {
@@ -196,12 +202,9 @@
             },
 
             addGame() {
-                if (this.check()) {
-                    this.tableData.push(this.newGame)
-                    this.addGameFormVisible = false
-                    this.clear()
-                } else
-                    this.errmsg()
+                this.tableData.push(this.newGame)
+                this.addGameFormVisible = false
+                this.clear()
             },
 
             clear() {
@@ -229,20 +232,8 @@
                 return JSON.parse(JSON.stringify(object))
             },
 
-            check() {
-                // for (let key in this.newGame)
-                //     if (this.newGame[key] == null)
-                //         return false
-                // for (let i = 0; i < this.tableData.length; i++) {
-                //     if (this.tableData[i].title == this.newGame.title && this.tableData[i].movieHall ==
-                //         this.newGame.movieHall && this.tableData[i].type != this.newGame.type)
-                //         return false
-                // }
-                return true
-            },
-
-            errmsg() {
-                this.$message.error('Invalid input! Please check your input.')
+            downloadSDK() {
+                // 下载 SDK
             }
         },
 
@@ -278,8 +269,12 @@
     }
 
     #ag {
-        margin-top: 2.5em;
-        text-align: center;
+        float: right;
+    }
+
+    #sdk {
+        float: right;
+        margin-right: 10px;
     }
 
     .el-form-item__label {

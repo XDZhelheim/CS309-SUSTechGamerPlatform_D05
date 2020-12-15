@@ -101,7 +101,10 @@
                     abstract: "该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。"
                 },
 
-                currentusername: "now user name", // 当前用户名
+                userInfo: {
+                    username: "Test User Name",
+                    money: 123
+                },
                 rate: 0, // 用户打分
                 currentusercomment: "", // 用户评论
 
@@ -153,7 +156,7 @@
 
             commitComment() {
                 let newCommit={
-                    username: this.currentusername,
+                    username: this.userInfo.username,
                     comment: this.currentusercomment
                 }
                 this.comments.push(newCommit)

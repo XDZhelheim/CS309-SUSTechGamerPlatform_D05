@@ -2,7 +2,7 @@ package com.example.springproject.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
+import java.sql.Date;
 
 @Entity
 public class GameUser {
@@ -18,7 +18,7 @@ public class GameUser {
     @NotNull
     private char creditAs;
     @NotNull
-    private Time purchaseTime;
+    private Date purchaseTime;
 
     private double score;
 
@@ -56,16 +56,16 @@ public class GameUser {
         return creditAs;
     }
 
-    public void setPurchaseTime(Time purchaseTime) {
+    public void setPurchaseTime(Date purchaseTime) {
         this.purchaseTime = purchaseTime;
     }
 
-    public Time getPurchaseTime() {
+    public Date getPurchaseTime() {
         return purchaseTime;
     }
 
-    public void setScore(double rank) {
-        this.score = rank;
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public double getScore() {

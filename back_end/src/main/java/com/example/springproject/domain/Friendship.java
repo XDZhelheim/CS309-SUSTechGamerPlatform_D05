@@ -2,7 +2,7 @@ package com.example.springproject.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
+import java.sql.Date;
 
 @Entity
 public class Friendship {
@@ -16,7 +16,7 @@ public class Friendship {
     @OneToOne
     private Users user2;
     @NotNull
-    private Time add_time;
+    private Date addTime;
 
     private String details;
 
@@ -44,12 +44,12 @@ public class Friendship {
         return id;
     }
 
-    public void setAdd_time(Time add_time) {
-        this.add_time = add_time;
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
-    public Time getAdd_time() {
-        return add_time;
+    public @NotNull Date getAddTime() {
+        return addTime;
     }
 
     public void setDetails(String details) {

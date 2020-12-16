@@ -7,6 +7,7 @@ import com.example.springproject.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +17,8 @@ public class GameUserServiceImpl implements GameUserService {
 
     @Override
     public void buy(GameUser gameUser) {
+        gameUser.setPurchaseTime(new Date(System.currentTimeMillis()));
+        gameUser.setId(gameUserRepository.count() + 1);
         gameUserRepository.save(gameUser);
     }
 

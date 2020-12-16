@@ -5,6 +5,8 @@ import com.example.springproject.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+
 @Service
 public class UsersServiceImpl implements UsersService {
     @Autowired
@@ -12,6 +14,10 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void save(Users users) {
+        users.setAccount(0);
+        users.setCreateDate(new Date(System.currentTimeMillis()));
+        users.setRole('U');
+        users.setId(usersRepository.count() + 1);
         usersRepository.save(users);
     }
 

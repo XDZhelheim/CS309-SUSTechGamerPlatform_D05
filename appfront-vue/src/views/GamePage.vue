@@ -143,6 +143,7 @@
 
             buy() {
                 this.have=true
+
                 // 买游戏，扣钱
             },
 
@@ -165,6 +166,33 @@
         },
 
         mounted() {
+             if (typeof WebSocket == "undefined"){
+                console.log("不支持webSocket")
+            } else {
+                console.log("支持webSocket")
+                var socketUrl ="http://localhost:8083/"+Math.floor(Math.random() * 10000)
+                socketUrl = socketUrl.replace("https", "ws").replace("http", "ws")
+                console.log(socketUrl)
+                if (this.socket != null) {
+                    this.socket.close()
+                    this.socket = null
+                }
+                this.socket = new WebSocket(socketUrl)
+
+                this.socket.onopen = function() {
+                    console.log("websocket 打开")
+                }
+                this.socket.onmessage = function(msg) {
+                }
+                this.socket.onclose = function() {
+                    console.log("关闭")
+                }
+                this.socket.onerror = function() {
+                    console.log("错误")
+                }
+            }
+
+
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
             this.imgLoad()
             window.addEventListener('resize', () => {

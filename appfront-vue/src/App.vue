@@ -39,6 +39,11 @@
                     <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clear();">注册</el-button>
                     <el-button plain type="warning" @click="loginFormVisible = false; clear();">取消</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
+                    <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
+                    <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
+                    <el-button plain type="primary" @click="loginFormVisible = false; putMessage();">putMessage</el-button>
+
+                    
                 </div>
             </el-dialog>
         </div>
@@ -60,7 +65,7 @@
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button plain type="warning" @click="signinFormVisible = false; clear();">取消</el-button>
-                    <el-button plain type="primary" @click="signinFormVisible = false;">注册</el-button>
+                    <el-button plain type="primary" @click="signinFormVisible = false; regis()">注册</el-button>
                     <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clear(); login();">登录</el-button>
                 </div>
             </el-dialog>
@@ -123,7 +128,14 @@
     </div>
 </template>
 
+
 <script>
+import ttt from "./views/Shop.vue"
+import developer from "./views/Developer"
+// tt.t()
+// import {s} from './views/tt.vue'
+
+
 export default {
     name: 'app',
     data() {
@@ -169,6 +181,121 @@ export default {
             this.confirmPassword=null
         },
 
+        test(t){
+            var str = "Apple, Banana, Mango"
+            alert(str.slice(2,))
+        },
+
+        openSocket(){
+            if (typeof WebSocket == "undefined"){
+                console.log("不支持webSocket")
+            } else {
+                console.log("支持webSocket")
+                // alert("支持")
+                var socketUrl ="http://localhost:8083/"+Math.floor(Math.random() * 10000)
+                socketUrl = socketUrl.replace("https", "ws").replace("http", "ws")
+                console.log(socketUrl)
+                if (this.socket != null) {
+                    this.socket.close()
+                    this.socket = null
+                }
+                this.socket = new WebSocket(socketUrl)
+
+                this.socket.onopen = function() {
+                    console.log("websocket 打开")
+                }
+                this.socket.onmessage = function(msg) {
+                    alert(msg.data)
+                }
+                this.socket.onclose = function() {
+                    console.log("关闭")
+                }
+                this.socket.onerror = function() {
+                    console.log("错误")
+                }
+            }
+        },
+
+       
+        login() {
+            this.socket.send(
+            '{"login":"true","name":"' +
+             this.loginForm.username +
+            '","password":"' +
+             this.loginForm.password +
+            '"}')
+            this.socket.onmessage = function(msg){
+                alert(msg.data)
+                if (msg.data=="loginT"){
+                    this.loginStatus=true
+                } else {
+                    this.loginStatus=false
+                }
+            }
+            // this.loginStatus=true
+        },
+
+        regis() {
+           this.socket.send(
+            '{"register":"true","name":"' +
+             this.name +
+            '","password":"' +
+             this.password +
+             '","confirmPassword":"' +
+             this.confirmPassword +
+            '"}')
+            this.socket.onmessage = function(msg){
+                alert(msg.data)
+            }
+        },
+
+// 这里的getMessage是在商城界面获取评论内容的
+        getMessage() {
+            this.socket.send(
+            '{"get_comment":"true"}')
+            this.socket.onmessage = function(msg){
+                alert(msg.data)
+            }
+            // this.loginStatus=true
+        },
+
+// 这里的putMessage是在商城界面，向后端输送当前的评论内容  ,其中输送的内容即为此处的this.name
+        putMessage() {
+            var msg = JSON.stringify(developer.data().newGame)
+            alert(msg)
+            // JSON.stringify(this.newGame)
+            // var ms = JSON.stringify(inMsg)
+            // this.socket.send("ee")
+            // alert("ee")
+            this.socket.send(
+                msg
+            )
+            // this.socket.onmessage = function(msg){
+            //     // alert(msg.data)    
+            // }
+            // this.loginStatus=true
+        },
+
+        getTable() {
+             this.socket.send(
+            '{"put_table":"true"}')
+            this.socket.onmessage = function(msg){
+                alert(msg.data)
+            }
+        },
+
+        putTable() {
+             this.socket.send(
+            '{"put_table":"true","content":"' +
+             this.name +
+            '"}')
+            this.socket.onmessage = function(msg){
+                alert(msg.data)  
+            }
+        },
+
+
+
         handleAvatarSuccess(res, file) {
             this.imageUrl = URL.createObjectURL(file.raw)
         },
@@ -196,10 +323,10 @@ export default {
             // 后端要更新余额
         },
 
-        login() {
-            this.loginStatus=true
-            // 登录，待完善
-        },
+        // login() {
+        //     this.loginStatus=true
+        //     // 登录，待完善
+        // },
 
         logout() {
             this.loginStatus=false

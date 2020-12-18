@@ -4,6 +4,7 @@ import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.springproject.domain.Game;
 import com.example.springproject.domain.Users;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
@@ -12,12 +13,18 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+
+
 /**
- * WebSocketServer
- * @author zhengkai.blog.csdn.net
+ 1.   game.setId(1);//这个怎么设？？？？？？？？？？？
+这个怎么设置为唯一值
+ 2.
+
  */
 @ServerEndpoint("/{userId}")
 @Component
@@ -179,12 +186,25 @@ public class WebSocketServer {
                 String check_login = jsonObject.getString("login");
                 String check_regis = jsonObject.getString("register");
                 String get_comment = jsonObject.getString("get_comment");
+                String put_comment = jsonObject.getString("put_comment");
+                String put_mess = jsonObject.getString("put_mess");
+//下面是，收到 管理游戏 消息时处理
+                String title = jsonObject.getString("title");
+                String date = jsonObject.getString("date");
+                String price = jsonObject.getString("price");
+                String type = jsonObject.getString("type");
+                String publisher = jsonObject.getString("publisher");
+                String language = jsonObject.getString("language");
+                String abstract_String = jsonObject.getString("abstract");
+                String AddDe = jsonObject.getString("AddDe");
+                String Buy = jsonObject.getString("buy");
+
+
 
                 if (check_login != null) {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
-
                     if (UsersGenerator.userService.checkLogin(users)) {
                         sendMessage("True");
                     } else {
@@ -197,11 +217,38 @@ public class WebSocketServer {
                     UsersGenerator.userService.save(users);
                     sendMessage("this is confirm");
                 } else if (get_comment != null) {
-
                     sendMessage("check");
+                } else if (put_comment != null) {
+                    sendMessage(put_mess);
+                } else if (AddDe != null ){
+                    Game game = new Game();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+                    Date d = sdf.parse(date);
+                    java.sql.Date sql_date = new java.sql.Date(d.getTime());
+                    game.setCreateTime(sql_date);
+
+                    game.setId(1);//这个怎么设？？？？？？？？？？？
+                    game.setGameType(type);
+                    game.setIntro(abstract_String);
+//                    game.setLanguage(language);
+                    game.setLanguage('c');
+
+                    game.setName(title);
+                    game.setPrice(Double.parseDouble(price));
+                    game.setPublisher(publisher);
+                    if (AddDe.equals("Add")){
+                        UsersGenerator.gameService.game_save(game);
+                        sendMessage("guanli");
+                    }else {
+                        UsersGenerator.gameService.game_del(game);
+                        sendMessage("del");
+                    }
+
+                } else if (Buy!=null){
+
+                    sendMessage("success buy");
+
                 }
-
-
 //                String toUserId=jsonObject.getString("password");
 //                //传送给对应toUserId用户的websocket
 //                if(StringUtils.isNotBlank(toUserId)&&webSocketMap.containsKey(toUserId)){

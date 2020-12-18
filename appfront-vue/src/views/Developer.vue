@@ -117,17 +117,24 @@
 
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="editGameFormVisible = false; cancelEdit();">取消</el-button>
-                    <el-button type="primary" @click="editGameFormVisible = false">确定</el-button>
+                    <el-button type="primary" @click="editGameFormVisible = false; changeGame()" >确定</el-button>
                 </div>
             </el-dialog>
         </div>
     </div>
 </template>
 
+
 <script>
+import app from "../App"
+
+var ind = 122
     export default {
         name: 'developer',
+
+       
         data() {
+            // alert("33")
             return {
                 tableData: [{
                     title: "原神",
@@ -136,7 +143,8 @@
                     type: "RPG",
                     publisher: "MiHoYo",
                     language: "中文 (简体)",
-                    abstract: "sb游戏"
+                    abstract: "sb游戏",
+                    AddDe: "false"
                 }],
 
                 newGame: {
@@ -146,7 +154,9 @@
                     type: null,
                     publisher: null,
                     language: null,
-                    abstract: null
+                    abstract: null,
+                    AddDe: null
+
                 },
 
                 addGameFormVisible: false,
@@ -199,9 +209,22 @@
         methods: {
             delGame(index) {
                 this.tableData.splice(index, 1)
+                this.tableData[index].AddDe = "Delete"
+                var sendMsg = JSON.stringify(this.tableData[index])
+                this.socket.send(sendMsg)
+                this.socket.onmessage = function(msg){
+                    alert(msg.data)
+                }
             },
+            
 
             addGame() {
+                this.newGame.AddDe = "Add"
+                var sendMsg = JSON.stringify(this.newGame)
+                this.socket.send(sendMsg)
+                this.socket.onmessage = function(msg){ 
+                    alert(msg.data)
+                }
                 this.tableData.push(this.newGame)
                 this.addGameFormVisible = false
                 this.clear()
@@ -224,6 +247,17 @@
                 this.tempGame=this.clone(this.tableData[index])
             },
 
+            changeGame(){
+                var ind = this.editIndex
+                this.tableData[ind].AddDe = "Add"
+                var sendMsg = JSON.stringify(this.tableData[ind])
+                this.socket.send(sendMsg)
+                this.socket.onmessage = function(msg){
+                    alert(msg.data)
+                }
+            },
+
+
             cancelEdit() {
                 this.tableData.splice(this.editIndex, 1, this.tempGame)
             },
@@ -238,6 +272,34 @@
         },
 
         mounted() {
+             if (typeof WebSocket == "undefined"){
+                console.log("不支持webSocket")
+            } else {
+                console.log("支持webSocket")
+                var socketUrl ="http://localhost:8083/"+Math.floor(Math.random() * 10000)
+                socketUrl = socketUrl.replace("https", "ws").replace("http", "ws")
+                console.log(socketUrl)
+                if (this.socket != null) {
+                    this.socket.close()
+                    this.socket = null
+                }
+                this.socket = new WebSocket(socketUrl)
+
+                this.socket.onopen = function() {
+                    console.log("websocket 打开")
+                }
+                this.socket.onmessage = function(msg) {
+                }
+                this.socket.onclose = function() {
+                    console.log("关闭")
+                }
+                this.socket.onerror = function() {
+                    console.log("错误")
+                }
+            }
+
+
+            
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
         },
 

@@ -129,8 +129,13 @@
 </template>
 
 <script>
+
     export default {
+        a:22,
         name: 'shop',
+       
+
+
         data() {
             return {
                 bannerHeight: '',
@@ -148,6 +153,7 @@
         },
 
         methods: {
+                
             throttle(func, wait) {
                 let lastTime = null
                 let timeout
@@ -170,6 +176,7 @@
                 }
             }
         },
+
 
         handleScroll(){
             let scrollTop = this.$refs.scrollTopList.scrollTop

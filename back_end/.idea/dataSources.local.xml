@@ -4,6 +4,7 @@
     <data-source name="springproject/Hibernate" uuid="f3fd15b5-0c96-4b62-bca4-3f4727daf041">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
       <secret-storage>forget</secret-storage>
+      <schema-mapping />
     </data-source>
   </component>
 </project>

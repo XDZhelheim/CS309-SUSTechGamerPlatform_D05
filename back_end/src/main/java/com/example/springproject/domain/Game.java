@@ -21,7 +21,9 @@ public class Game {
     @NotNull
     private String publisher;
     @NotNull
-    private char language;
+    private String language;
+
+    private Date publishTime;
 
     private String intro;
 
@@ -81,11 +83,19 @@ public class Game {
         this.publisher = publisher;
     }
 
-    public char getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(char language) {
+    public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 }

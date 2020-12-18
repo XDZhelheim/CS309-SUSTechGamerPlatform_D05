@@ -15,6 +15,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -76,81 +77,6 @@ public class WebSocketServer {
             log.error("用户:" + userId + ",网络异常!!!!!!");
         }
     }
-//    public void onOpen(String message, Session session) {
-//        this.session = session;
-//
-////        if(StringUtils.isNotBlank(message)){
-////            try {
-////                //解析发送的报文
-////                JSONObject jsonObject = JSON.parseObject(message);
-////                String id = jsonObject.getString("name");
-////                String password = jsonObject.getString("password");
-////                String confirmPassword = jsonObject.getString("confirmPassword");
-////
-////                //追加发送人(防止串改)
-////                this.userId=id;
-////                if(webSocketMap.containsKey(userId)){
-////                    webSocketMap.remove(userId);
-////                    webSocketMap.put(userId,this);
-////                    //加入set中
-////                }else{
-////                    webSocketMap.put(userId,this);
-////                    //加入set中
-////                    addOnlineCount();
-////                    //在线数加1
-////                }
-////                jsonObject.put("fromUserId",this.userId);
-////
-//////                UserInfo userInfo = new UserInfo(id,password);
-//////                if (userService.checkLogin(userInfo)) {
-//////                    sendMessage("True");
-//////                }else {
-//////                    sendMessage("False");
-//////                }
-////                if (confirmPassword==null){
-//////                    sendMessage("this is not confirm");
-////                    if (id.equals("1") && password.equals("1")){
-////                        sendMessage("T");
-////                    }else {
-////                        sendMessage("F");
-////                    }
-//////                    Users user = new Users();
-//////                    user.setName("11811305");
-//////                    user.setPassword("123456");
-//////                    if (usersService.checkLogin(user)){
-//////                        sendMessage("True");
-//////                    }else {
-//////                        sendMessage("False");
-//////                    }
-////                }else {
-////                    sendMessage("this is confirm");
-////                }
-//////                }
-////            }catch (Exception e){
-////                e.printStackTrace();
-////            }
-////        }
-//
-//        this.userId=message;
-//        if(webSocketMap.containsKey(userId)){
-//            webSocketMap.remove(userId);
-//            webSocketMap.put(userId,this);
-//            //加入set中
-//        }else{
-//            webSocketMap.put(userId,this);
-//            //加入set中
-//            addOnlineCount();
-//            //在线数加1
-//        }
-//
-//        log.info("用户连接:"+userId+",当前在线人数为:" + getOnlineCount());
-//
-//        try {
-//            sendMessage("连接成功");
-//        } catch (IOException e) {
-//            log.error("用户:"+userId+",网络异常!!!!!!");
-//        }
-//    }
 
     /**
      * 连接关闭调用的方法
@@ -198,6 +124,7 @@ public class WebSocketServer {
                 String abstract_String = jsonObject.getString("abstract");
                 String AddDe = jsonObject.getString("AddDe");
                 String Buy = jsonObject.getString("buy");
+                String get_game = jsonObject.getString("get_game");
 
 
 
@@ -226,12 +153,10 @@ public class WebSocketServer {
                     Date d = sdf.parse(date);
                     java.sql.Date sql_date = new java.sql.Date(d.getTime());
                     game.setCreateTime(sql_date);
-
                     game.setId(1);//这个怎么设？？？？？？？？？？？
                     game.setGameType(type);
                     game.setIntro(abstract_String);
-//                    game.setLanguage(language);
-                    game.setLanguage('c');
+                    game.setLanguage(language);
 
                     game.setName(title);
                     game.setPrice(Double.parseDouble(price));
@@ -244,10 +169,12 @@ public class WebSocketServer {
                         sendMessage("del");
                     }
 
+                } else if (get_game != null){
+                    List<Game> all_game = UsersGenerator.gameService.game_get();
+                    sendMessage(all_game.toString());
                 } else if (Buy!=null){
 
                     sendMessage("success buy");
-
                 }
 //                String toUserId=jsonObject.getString("password");
 //                //传送给对应toUserId用户的websocket

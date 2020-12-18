@@ -153,7 +153,7 @@ export default {
                 username: '',
                 password: ''
             },
-            loginStatus: false, // 这里是调试 暂时赋值
+            loginStatus: true, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
@@ -225,7 +225,7 @@ export default {
              this.loginForm.password +
             '"}')
             this.socket.onmessage = function(msg){
-                alert(msg.data)
+                alert(typeof msg.data)
                 if (msg.data=="loginT"){
                     this.loginStatus=true
                 } else {

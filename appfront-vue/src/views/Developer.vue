@@ -3,6 +3,7 @@
         <div id="gl">
             <el-button id="ag" plain type="primary" icon="el-icon-plus" @click="addGameFormVisible = true">添加新游戏</el-button>
             <el-button id="sdk" plain type="primary" icon="el-icon-download" @click="downloadSDK()">下载用户信息</el-button>
+            <el-button id="sdk" plain type="primary" icon="el-icon-download" @click="getGame()">get_game</el-button>
             <h1>管理游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="title" label="名称"></el-table-column>
@@ -134,7 +135,6 @@ var ind = 122
 
        
         data() {
-            // alert("33")
             return {
                 tableData: [{
                     title: "原神",
@@ -252,6 +252,17 @@ var ind = 122
                 this.tableData[ind].AddDe = "Add"
                 var sendMsg = JSON.stringify(this.tableData[ind])
                 this.socket.send(sendMsg)
+                this.socket.onmessage = function(msg){
+                    alert(msg.data)
+                }
+            },
+
+            getGame() {
+                alert("3313")
+                this.socket.send(
+            '{"get_game":"true"}'
+                )
+                alert("33")
                 this.socket.onmessage = function(msg){
                     alert(msg.data)
                 }

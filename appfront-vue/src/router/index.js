@@ -31,6 +31,10 @@ const routes = [
     {
         path: '/gamepage',
         component: () => import('../views/GamePage.vue')
+    },
+    {
+        path: '/admin',
+        component: () => import('../views/Admin.vue')
     }
 ]
 

@@ -1,97 +1,105 @@
 <template>
-    <div id="Admin">
+    <div id="admin">
         <div id="gl">
-            <el-button id="ag" plain type="primary" icon="el-icon-plus" @click="addGameFormVisible = true">添加用户</el-button>
-            
+            <el-button id="au" plain type="primary" icon="el-icon-plus" @click="addUserFormVisible = true">添加用户</el-button>
+
             <h1>管理员界面</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
-                <el-table-column prop="userID" label="用户ID"></el-table-column>
-                <el-table-column prop="name" label="用户名称"></el-table-column>
-                <el-table-column prop="identity" label="用户权限"></el-table-column>
+                <el-table-column prop="username" label="用户名称"></el-table-column>
                 <el-table-column prop="password" label="用户密码"></el-table-column>
-                <el-table-column prop="phone" label="手机号"></el-table-column>
+                <el-table-column prop="usertype" label="用户类型"></el-table-column>
+                <el-table-column prop="createDate" label="创建日期"></el-table-column>
                 <el-table-column prop="mail" label="邮箱"></el-table-column>
-                
+                <el-table-column prop="money" label="账户余额"></el-table-column>
+
                 <el-table-column prop="op" label="编辑/删除" width="180">
                     <template slot-scope="scope">
-                        <el-button icon="el-icon-edit-outline" plain type="primary" @click="editGameFormVisible = true; editGame(scope.$index);"></el-button>
-                        <el-button icon="el-icon-delete" plain type="warning" @click="delGame(scope.$index)"></el-button>
+                        <el-button icon="el-icon-edit-outline" plain type="primary" @click="editUserFormVisible = true; editUser(scope.$index);"></el-button>
+                        <el-button icon="el-icon-delete" plain type="warning" @click="delUser(scope.$index)"></el-button>
                     </template>
-                
+
                 </el-table-column>
             </el-table>
         </div>
 
         <div id="fm">
-            <el-dialog title="添加用户" :visible.sync="addGameFormVisible" :show-close="false" :lock-scroll="false">
+            <el-dialog title="添加用户" :visible.sync="addUserFormVisible" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
-                    <el-form-item label="用户ID">
-                        <el-input v-model="user.userID" style="width:var(--itemLength)"></el-input>
-                    </el-form-item>
-
                     <el-form-item label="用户名称">
-                        <el-input v-model="user.name" style="width:var(--itemLength)"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="用户权限">
-                       <el-select v-model="user.identity" style="width:var(--itemLength)" placeholder="选择权限">
-                            <el-option v-for="item in Identity" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                        <el-input v-model="newUser.username" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="用户密码">
-                        <el-input v-model="user.password" style="width:var(--itemLength)"></el-input>
+                        <el-input v-model="newUser.password" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="手机号">
-                        <el-input v-model="user.phone" style="width:var(--itemLength)"></el-input>
+                    <el-form-item label="用户类型">
+                       <el-select v-model="newUser.usertype" style="width:var(--itemLength)" placeholder="选择类型">
+                            <el-option v-for="item in userTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="创建日期">
+                        <el-date-picker v-model="newUser.createDate" style="width:var(--itemLength)" type="date"
+                            placeholder="选择日期" value-format="yyyy-MM-dd">
+                        </el-date-picker>
                     </el-form-item>
 
                     <el-form-item label="邮箱">
-                        <el-input v-model="user.mail" style="width:var(--itemLength)"></el-input>
+                        <el-input v-model="newUser.mail" style="width:var(--itemLength)"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="余额">
+                        <el-input-number v-model="newUser.money" style="width:var(--itemLength)" :min="0"
+                            :precision="2" :step="1" :controls="false">
+                        </el-input-number>
                     </el-form-item>
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="addGameFormVisible = false; clear();">取消</el-button>
-                    <el-button type="primary" @click="addGame()">确定</el-button>
+                    <el-button @click="addUserFormVisible = false; clear();">取消</el-button>
+                    <el-button type="primary" @click="addUser()">确定</el-button>
                 </div>
             </el-dialog>
         </div>
 
         <div id="edit">
-            <el-dialog title="编辑用户" :visible.sync="editGameFormVisible" :show-close="false" :lock-scroll="false">
+            <el-dialog title="编辑用户" :visible.sync="editUserFormVisible" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
-                    <el-form-item label="用户ID">
-                        <el-input v-model="user.userID" style="width:var(--itemLength)"></el-input>
-                    </el-form-item>
-
                     <el-form-item label="用户名称">
-                        <el-input v-model="user.name" style="width:var(--itemLength)"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="用户权限">
-                       <el-select v-model="user.identity" style="width:var(--itemLength)" placeholder="选择权限">
-                            <el-option v-for="item in Identity" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                        <el-input v-model="tableData[editIndex].username" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
                     <el-form-item label="用户密码">
-                        <el-input v-model="user.password" style="width:var(--itemLength)"></el-input>
+                        <el-input v-model="tableData[editIndex].password" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="手机号">
-                        <el-input v-model="user.phone" style="width:var(--itemLength)"></el-input>
+                    <el-form-item label="用户类型">
+                       <el-select v-model="tableData[editIndex].usertype" style="width:var(--itemLength)" placeholder="选择类型">
+                            <el-option v-for="item in userTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="创建日期">
+                        <el-date-picker v-model="tableData[editIndex].createDate" style="width:var(--itemLength)" type="date"
+                            placeholder="选择日期" value-format="yyyy-MM-dd">
+                        </el-date-picker>
                     </el-form-item>
 
                     <el-form-item label="邮箱">
-                        <el-input v-model="user.mail" style="width:var(--itemLength)"></el-input>
+                        <el-input v-model="tableData[editIndex].mail" style="width:var(--itemLength)"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="余额">
+                        <el-input-number v-model="tableData[editIndex].money" style="width:var(--itemLength)" :min="0"
+                            :precision="2" :step="1" :controls="false">
+                        </el-input-number>
                     </el-form-item>
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="editGameFormVisible = false; cancelEdit();">取消</el-button>
-                    <el-button type="primary" @click="editGameFormVisible = false">确定</el-button>
+                    <el-button @click="editUserFormVisible = false; cancelEdit();">取消</el-button>
+                    <el-button type="primary" @click="editUserFormVisible = false">确定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -104,33 +112,30 @@
         data() {
             return {
                 tableData: [{
-                    userID: "10000000",
-                    name: "董正",
-                    Identity: "管理员",
-                    password: "542b542b",
-                    phone: "18054285428",
-                    mail: "2b.mail.com",
-                    
+                    username: "刘瑞龙",
+                    password: "54nt54nt",
+                    usertype: "管理员",
+                    createDate: "2020-12-19",
+                    mail: "nt@mail.com",
+                    money: 0
                 }],
 
-                user: {
-                    userID: null,
-                    name: null,
-                    identity: null,
+                newUser: {
+                    username: null,
                     password: null,
-                    phone: null,
-                    mail: null,                   
+                    usertype: null,
+                    createDate: null,
+                    mail: null,
+                    money: null
                 },
 
-                addGameFormVisible: false,
+                addUserFormVisible: false,
                 labelPosition: 'right',
-                editGameFormVisible: false,
+                editUserFormVisible: false,
                 editIndex: 0,
-                tempGame: null,
-                uploadGameAdd: '#', // 上传游戏的地址
+                tempUser: null,
 
-
-                Identity: [
+                userTypes: [
                     {
                         value: "用户",
                         label: "用户"
@@ -148,44 +153,40 @@
         },
 
         methods: {
-            delGame(index) {
+            delUser(index) {
                 this.tableData.splice(index, 1)
             },
 
-            addGame() {
-                this.tableData.push(this.user)
-                this.addGameFormVisible = false
+            addUser() {
+                this.tableData.push(this.newUser)
+                this.addUserFormVisible = false
                 this.clear()
             },
 
             clear() {
-                this.user = {
-                    title: null,
-                    date: null,
-                    price: null,
-                    type: null,
-                    publisher: null,
-                    language: null,
-                    abstract: null
+                this.newUser = {
+                    username: null,
+                    password: null,
+                    usertype: null,
+                    createDate: null,
+                    mail: null,
+                    money: null
                 }
             },
 
-            editGame(index) {
+            editUser(index) {
                 this.editIndex=index
-                this.tempGame=this.clone(this.tableData[index])
+                this.tempUser=this.clone(this.tableData[index])
             },
 
             cancelEdit() {
-                this.tableData.splice(this.editIndex, 1, this.tempGame)
+                this.tableData.splice(this.editIndex, 1, this.tempUser)
             },
 
             clone(object) {
                 return JSON.parse(JSON.stringify(object))
             },
 
-            downloadSDK() {
-                // 下载 SDK
-            }
         },
 
         mounted() {
@@ -201,7 +202,7 @@
 </script>
 
 <style scoped>
-    #developer {
+    #admin {
         width: 1600px;
         margin: auto;
     }
@@ -219,13 +220,8 @@
         background-color: rgba(55, 55, 55, 0.3) !important;
     }
 
-    #ag {
+    #au {
         float: right;
-    }
-
-    #sdk {
-        float: right;
-        margin-right: 10px;
     }
 
     .el-form-item__label {

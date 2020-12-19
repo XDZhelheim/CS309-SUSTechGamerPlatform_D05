@@ -34,10 +34,6 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> getAllGame() {
         return gameRepository.findAll();
-//        Game[] games = new Game[(int)gameRepository.count()];
-//        for (int i=0;i<games.length;i++){
-//            games[i] = gameRepository.findAll();
-//        }
     }
 
 

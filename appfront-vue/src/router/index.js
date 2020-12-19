@@ -28,13 +28,21 @@ const routes = [
         path: '/developer',
         component: () => import('../views/Developer.vue')
     },
+    // {
+    //     path: '/gamepage',
+    //     component: () => import('../views/GamePage.vue')
+    // },
     {
-        path: '/gamepage',
-        component: () => import('../views/GamePage.vue')
+        path: '/witcher3',
+        component: () => import('../views/gamepages/witcher3.vue')
     },
     {
         path: '/admin',
         component: () => import('../views/Admin.vue')
+    },
+    {
+        path: '/allgames',
+        component: () => import('../views/AllGames.vue')
     }
 ]
 

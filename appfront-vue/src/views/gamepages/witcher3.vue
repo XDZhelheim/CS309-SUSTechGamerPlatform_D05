@@ -59,11 +59,17 @@
             <div v-for="usercomment in comments" :key="usercomment">
                 <el-row type="flex" align="middle">
                     <el-col span="4" offset="2">
-                        <p>{{usercomment.username}}</p>
+                        <el-link @click="reply_reply(usercomment.username)">{{usercomment.username}}</el-link>
                     </el-col>
                     <el-col span="2"><el-divider direction="vertical" id="divider2"></el-divider></el-col>
                     <el-col>
-                        <p>{{usercomment.comment}}</p>
+                        <p>
+                            {{usercomment.comment}}
+                            <span id="up-down-vote">
+                                <el-link @click="vote(usercomment, true)">赞</el-link>: {{usercomment.upVoteNum}}
+                                <el-link @click="vote(usercomment, false)">踩</el-link>: {{usercomment.downVoteNum}}
+                            </span>
+                        </p>
                     </el-col>
                 </el-row>
 
@@ -83,8 +89,7 @@
 </template>
 
 <script>
-import app from "../App"
-
+    import app from "../../App"
     export default {
         name: "gamepage",
 
@@ -105,30 +110,34 @@ import app from "../App"
 
                 userInfo: {
                     username: "Test User Name",
-                    money: 123
+                    money: 555 // 这里要在页面加载的时候获取当前用户
                 },
                 rate: 0, // 用户打分
                 currentusercomment: "", // 用户评论
 
                 gamepics: [
-                    require('../assets/gamedetailpics/witcher3/1.jpg'),
-                    require('../assets/gamedetailpics/witcher3/2.jpg'),
-                    require('../assets/gamedetailpics/witcher3/3.jpg'),
-                    require('../assets/gamedetailpics/witcher3/4.jpg')
+                    require('../../assets/gamedetailpics/witcher3/1.jpg'),
+                    require('../../assets/gamedetailpics/witcher3/2.jpg'),
+                    require('../../assets/gamedetailpics/witcher3/3.jpg'),
+                    require('../../assets/gamedetailpics/witcher3/4.jpg')
                 ],
 
                 gamevideos: [
-                    require('../assets/videos/witcher3.mp4'),
+                    require('../../assets/videos/witcher3.mp4'),
                 ],
 
                 comments: [
                     {
                         username: "Test User",
-                        comment: "我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍"
+                        comment: "我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍",
+                        upVoteNum: 0,
+                        downVoteNum: 0
                     },
                     {
                         username: "Test User 2",
-                        comment: "我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍"
+                        comment: "我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍",
+                        upVoteNum: 0,
+                        downVoteNum: 0
                     }
                 ]
 
@@ -144,23 +153,32 @@ import app from "../App"
             },
 
             buy() {
-                alert(app.data().userInfo.username)
-                this.socket.send(
-                '{"buy_game_gamepage":"true","name":"' +
-                 this.userInfo.username +
-                '","game_name":"' +
-                 this.gameinfo.title +
-                '"}')
-            this.socket.onmessage = function(msg){
-                alert(typeof msg.data)
-                if (msg.data=="success"){
-                    this.have = true
-                } else {
-                    this.have = false
+                if (!app.data().loginStatus) {
+                    this.$message.error("请登录")
+                    return
                 }
-            }
+                if (this.gameinfo.price>this.userInfo.money) {
+                    this.$message.error("余额不足")
+                    return
+                }
+                // alert(app.data().userInfo.username)
+                // this.socket.send(
+                // '{"buy_game_gamepage":"true","name":"' +
+                // this.userInfo.username +
+                // '","game_name":"' +
+                // this.gameinfo.title +
+                // '"}')
+                // this.socket.onmessage = function(msg){
+                //     alert(typeof msg.data)
+                //     if (msg.data=="success"){
+                //         this.have = true
+                //     } else {
+                //         this.have = false
+                //     }
+                // }
                 this.have=true
-                
+                this.userInfo.money-=this.gameinfo.price
+                alert(this.userInfo.money)
 
                 // 买游戏，扣钱
             },
@@ -184,6 +202,10 @@ import app from "../App"
                 // 把 this.rate 提交到后端
             },
 
+            reply_reply(username) {
+                this.currentusercomment="回复 @"+username+":\n"+this.currentusercomment
+            },
+
             commitComment() {
                 this.socket.send(
                 '{"commit_rate":"true","name":"' +
@@ -197,13 +219,23 @@ import app from "../App"
 
                 }
 
-                
                 let newCommit={
                     username: this.userInfo.username,
                     comment: this.currentusercomment
                 }
                 this.comments.push(newCommit)
-            }
+            },
+
+            vote(usercomment, control) {
+                if (!app.data().loginStatus) {
+                    this.$message.error("请登录")
+                    return
+                }
+                if (control)
+                    usercomment.upVoteNum+=1
+                else
+                    usercomment.downVoteNum+=1
+            },
 
         },
 
@@ -242,6 +274,7 @@ import app from "../App"
                 this.imgLoad()
             }, false)
             this.rate=this.gameinfo.rate
+            // this.userInfo=app.data().userInfo
         },
 
         beforeDestroy() {
@@ -301,6 +334,10 @@ import app from "../App"
 
     #commitcomment {
         margin-top: 20px;
+        float: right;
+    }
+
+    #up-down-vote {
         float: right;
     }
 

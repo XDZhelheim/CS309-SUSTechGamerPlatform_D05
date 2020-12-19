@@ -11,12 +11,13 @@
             active-text-color="#ffd04b"
             router>
                 <el-menu-item index="/">首页</el-menu-item>
+                <el-menu-item index="/allgames">全部游戏</el-menu-item>
                 <el-menu-item index="/shop">游戏商城</el-menu-item>
-                <el-menu-item @click="myGamesVisible=true">我的游戏</el-menu-item>
-                <el-menu-item v-if="loginStatus==false" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
+                <el-menu-item v-if="loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
+                <el-menu-item v-if="loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
-                <el-menu-item index="/admin" class="menu-right">管理员</el-menu-item>
-                <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
+                <el-menu-item v-if="userInfo.usertype=='A' && loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
+                <el-menu-item v-if="userInfo.usertype=='D' && loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
         </nav>
@@ -159,17 +160,11 @@ export default {
                 username: '',
                 password: ''
             },
-            
-           test_f: {
-                a: '',
-                password: ''
-            },
-
-
-            loginStatus: false, // 这里是调试 暂时赋值
+            loginStatus: true, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
+                usertype: "D", // A=admin, D=developer, U=user
                 money: 123
             },
             rechargeMoney: 0,
@@ -177,7 +172,7 @@ export default {
             myGames: [
                 {
                     gametitle: "The Witcher: Wild Hunt",
-                    gameURL: "/GamePage"
+                    gameURL: "/witcher3"
                 },
                 {
                     gametitle: "原神",
@@ -470,7 +465,7 @@ export default {
         background-color: rgb(80, 80, 80) !important;
     }
 
-    .el-drawer .el-link {
+    .el-link {
         font-size: 16px !important;
         color: aqua !important;
     }

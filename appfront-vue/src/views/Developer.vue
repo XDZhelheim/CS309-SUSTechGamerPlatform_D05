@@ -10,9 +10,10 @@
                 <el-table-column prop="date" label="发行日期"></el-table-column>
                 <el-table-column prop="price" label="价格"></el-table-column>
                 <el-table-column prop="type" label="类型"></el-table-column>
-                <el-table-column prop="publisher" label="发行商"></el-table-column>
+                <el-table-column prop="publisher" label="开发商"></el-table-column>
                 <el-table-column prop="language" label="语言"></el-table-column>
                 <el-table-column prop="abstract" label="简介"></el-table-column>
+                <el-table-column prop="discount" label="折扣"></el-table-column>
                 <el-table-column prop="op" label="编辑/删除" width="180">
                     <template slot-scope="scope">
                         <el-button icon="el-icon-edit-outline" plain type="primary" @click="editGameFormVisible = true; editGame(scope.$index);"></el-button>
@@ -67,6 +68,12 @@
                     <el-form-item label="简介">
                         <el-input v-model="newGame.abstract" style="width:var(--itemLength)" type="textarea" maxlength="200" :autosize="{minRows: 3}" show-word-limit></el-input>
                     </el-form-item>
+
+                    <el-form-item label="折扣">
+                        <el-input-number v-model="newGame.discount" style="width:var(--itemLength)" :min="0" :max="1" controls-position="right"
+                            :precision="2" :step="0.05" :controls="true">
+                        </el-input-number>
+                    </el-form-item>
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
@@ -114,6 +121,12 @@
                     <el-form-item label="简介">
                         <el-input v-model="tableData[editIndex].abstract" style="width:var(--itemLength)" type="textarea" maxlength="200" :autosize="{minRows: 3}" show-word-limit></el-input>
                     </el-form-item>
+
+                    <el-form-item label="折扣">
+                        <el-input-number v-model="tableData[editIndex].discount" style="width:var(--itemLength)" :min="0" :max="1" controls-position="right"
+                            :precision="2" :step="0.05" :controls="true">
+                        </el-input-number>
+                    </el-form-item>
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
@@ -133,7 +146,6 @@ var ind = 122
     export default {
         name: 'developer',
 
-
         data() {
             return {
                 tableData: [{
@@ -143,7 +155,8 @@ var ind = 122
                     type: "RPG",
                     publisher: "MiHoYo",
                     language: "中文 (简体)",
-                    abstract: "sb游戏",
+                    abstract: "???",
+                    discount: 0.8,
                     AddDe: "false"
                 },
                 {
@@ -153,7 +166,8 @@ var ind = 122
                     type: "RPG",
                     publisher: "MiHoYo",
                     language: "中文 (简体)",
-                    abstract: "sb游戏",
+                    abstract: "???",
+                    discount: 0,
                     AddDe: "false"
                 }
 
@@ -167,8 +181,8 @@ var ind = 122
                     publisher: null,
                     language: null,
                     abstract: null,
-                    AddDe: null
-
+                    discount: null,
+                    AddDe: ''
                 },
 
                 addGameFormVisible: false,
@@ -254,7 +268,9 @@ var ind = 122
                     type: null,
                     publisher: null,
                     language: null,
-                    abstract: null
+                    abstract: null,
+                    discount: null,
+                    AddDe: ''
                 }
             },
 
@@ -265,7 +281,7 @@ var ind = 122
 
             check() {
                 for (let key in this.newGame)
-                    if (this.newGame[key] == null)
+                    if (this.newGame[key]==null)
                         return false
                 return true
             },
@@ -273,7 +289,7 @@ var ind = 122
             checkEdit() {
                 for (let i = 0; i < this.tableData.length; i++)
                     for (let key in this.tableData[i])
-                        if (this.tableData[i][key]==null || this.tableData[i][key]=='') {
+                        if (this.tableData[i][key]!=0 && (this.tableData[i][key]==null || this.tableData[i][key]=='')) {
                             this.errmsg()
                             return
                         }

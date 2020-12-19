@@ -1,9 +1,9 @@
 <template>
     <div id="admin">
-        <div id="gl">
+        <div id="ul">
             <el-button id="au" plain type="primary" icon="el-icon-plus" @click="addUserFormVisible = true">添加用户</el-button>
 
-            <h1>管理员界面</h1>
+            <h1>管理用户</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="username" label="用户名称"></el-table-column>
                 <el-table-column prop="password" label="用户密码"></el-table-column>
@@ -112,11 +112,11 @@
         data() {
             return {
                 tableData: [{
-                    username: "刘瑞龙",
-                    password: "54nt54nt",
-                    usertype: "管理员",
+                    username: "test user",
+                    password: "123456",
+                    usertype: "用户",
                     createDate: "2020-12-19",
-                    mail: "nt@mail.com",
+                    mail: "xxx@mail.com",
                     money: 0
                 }],
 
@@ -237,7 +237,7 @@
         color: azure;
     }
 
-    #gl {
+    #ul {
         font-family: Georgia, 'Times New Roman', Times, serif;
     }
 
@@ -256,9 +256,9 @@
 </style>
 
 <style>
-    #gl .el-table td,
-    #gl .el-table th,
-    #gl .el-table tr {
+    #ul .el-table td,
+    #ul .el-table th,
+    #ul .el-table tr {
         text-align: center !important;
         color: aqua !important;
         font-size: 18px !important;

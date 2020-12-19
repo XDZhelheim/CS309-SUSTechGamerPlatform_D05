@@ -16,7 +16,7 @@
             <el-row :gutter="20" type="flex" align="top">
                 <el-col id="recent" span="6">
                     <el-row id="r-game" v-for="game in recentgames" :key=game>
-                        <el-image :src="game.url">
+                        <el-image :src="game.url" @click="gotoURL(game.gameURL)">
                             <div slot="placeholder" class="image-slot">
                                 LOADING<span class="dot">...</span>
                             </div>
@@ -239,9 +239,9 @@
             return {
                 bannerHeight: '',
                 recentgames: [
-                    {url: require('../assets/recentgames/r6s.jpg'), name: 'Tom Clancy\'s Rainbow Six Siege'},
-                    {url: require('../assets/recentgames/bf3.jpg'), name: 'Battlefield 3'},
-                    {url: require('../assets/recentgames/codmw.jpeg'), name: 'Call of Duty: Modern Warfare'}
+                    {url: require('../assets/recentgames/witcher.jpg'), name: 'The Witcher: Wild Hunt', gameURL: "/witcher3"},
+                    {url: require('../assets/recentgames/bf3.jpg'), name: 'Battlefield 3', gameURL: "/"},
+                    {url: require('../assets/recentgames/codmw.jpeg'), name: 'Call of Duty: Modern Warfare', gameURL: "/"}
                 ],
                 posters: [
                     require('../assets/poster/sekiro.jpg'),
@@ -294,6 +294,10 @@
 
             showDate() {
                 this.date=new Date().toString().substring(0, 24)
+            },
+
+            gotoURL(url) {
+                this.$router.push(url)
             }
         },
 

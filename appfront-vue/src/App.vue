@@ -35,8 +35,8 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clear();">注册</el-button>
-                    <el-button plain type="warning" @click="loginFormVisible = false; clear();">取消</el-button>
+                    <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clearLogin();">注册</el-button>
+                    <el-button plain type="warning" @click="clearLogin()">取消</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
@@ -61,11 +61,15 @@
                     <el-form-item label="确认密码">
                         <el-input show-password v-model="confirmPassword" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
+
+                    <el-form-item label="邮箱">
+                        <el-input v-model="email" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button plain type="warning" @click="signinFormVisible = false; clear();">取消</el-button>
-                    <el-button plain type="primary" @click="signinFormVisible = false; regis()">注册</el-button>
-                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clear(); login();">登录</el-button>
+                    <el-button plain type="warning" @click="clearRegis()">取消</el-button>
+                    <el-button plain type="primary" @click="regis()">注册</el-button>
+                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clearRegis();">登录</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -145,9 +149,12 @@ export default {
             infoVisible: false,
             myGamesVisible: false,
             labelPosition: 'right',
+            // 注册相关
             name: null,
             password: null,
             confirmPassword: null,
+            email: null,
+
             loginForm: {
                 username: '',
                 password: ''
@@ -174,10 +181,17 @@ export default {
     },
 
     methods: {
-        clear() {
+        clearRegis() {
             this.name=null
             this.password=null
             this.confirmPassword=null
+            this.signinFormVisible=false
+        },
+
+        clearLogin() {
+            this.loginForm.username=''
+            this.loginForm.password=''
+            this.loginFormVisible=false
         },
 
         test(t){
@@ -250,19 +264,25 @@ export default {
                     this.loginStatus=false
                     alert("22222")
                 }
+            this.loginFormVisible=false
         },
 
         regis() {
-           this.socket.send(
-            '{"register":"true","name":"' +
-             this.name +
-            '","password":"' +
-             this.password +
-             '","confirmPassword":"' +
-             this.confirmPassword +
-            '"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)
+            if (this.password!=this.confirmPassword)
+                this.$message.error("密码不一致，请重新输入")
+            else {
+                this.signinFormVisible=false
+                this.socket.send(
+                '{"register":"true","name":"' +
+                this.name +
+                '","password":"' +
+                this.password +
+                '","confirmPassword":"' +
+                this.confirmPassword +
+                '"}')
+                this.socket.onmessage = function(msg){
+                    alert(msg.data)
+                }
             }
         },
 

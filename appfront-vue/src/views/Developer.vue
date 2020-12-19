@@ -118,7 +118,7 @@
 
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="editGameFormVisible = false; cancelEdit();">取消</el-button>
-                    <el-button type="primary" @click="editGameFormVisible = false; changeGame()" >确定</el-button>
+                    <el-button type="primary" @click="checkEdit()" >确定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -133,7 +133,7 @@ var ind = 122
     export default {
         name: 'developer',
 
-       
+
         data() {
             return {
                 tableData: [{
@@ -156,7 +156,7 @@ var ind = 122
                     abstract: "sb游戏",
                     AddDe: "false"
                 }
-                
+
                 ],
 
                 newGame: {
@@ -228,18 +228,22 @@ var ind = 122
                 }
                 this.tableData.splice(index, 1)
             },
-            
+
 
             addGame() {
-                this.newGame.AddDe = "Add"
-                var sendMsg = JSON.stringify(this.newGame)
-                this.socket.send(sendMsg)
-                this.socket.onmessage = function(msg){ 
-                    alert(msg.data)
+                if (this.check()) {
+                    this.newGame.AddDe = "Add"
+                    var sendMsg = JSON.stringify(this.newGame)
+                    this.socket.send(sendMsg)
+                    this.socket.onmessage = function(msg){
+                        alert(msg.data)
+                    }
+                    this.tableData.push(this.newGame)
+                    this.addGameFormVisible = false
+                    this.clear()
                 }
-                this.tableData.push(this.newGame)
-                this.addGameFormVisible = false
-                this.clear()
+                else
+                    this.errmsg()
             },
 
             clear() {
@@ -257,6 +261,28 @@ var ind = 122
             editGame(index) {
                 this.editIndex=index
                 this.tempGame=this.clone(this.tableData[index])
+            },
+
+            check() {
+                for (let key in this.newGame)
+                    if (this.newGame[key] == null)
+                        return false
+                return true
+            },
+
+            checkEdit() {
+                for (let i = 0; i < this.tableData.length; i++)
+                    for (let key in this.tableData[i])
+                        if (this.tableData[i][key]==null || this.tableData[i][key]=='') {
+                            this.errmsg()
+                            return
+                        }
+                this.editGameFormVisible=false
+                this.changeGame()
+            },
+
+            errmsg() {
+                this.$message.error('无效输入')
             },
 
             changeGame(){
@@ -278,7 +304,7 @@ var ind = 122
                 // alert(str)
                 // }
                 var str = "[{\"title\":\"243\",\"date\":\"2020-12-18\",\"price\":240.0,\"type\":\"FPS\",\"publisher\":\"24\",\"language\":\"English\",\"abstract\":\"24\",\"AddDe\":\"Delete\"},{\"title\":\"234\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"MOBA\",\"publisher\":\"fdv\",\"language\":\"English\",\"abstract\":\"234\",\"AddDe\":\"Delete\"},{\"title\":\"原神\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"原神11\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"23\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"FPS\",\"publisher\":\"23\",\"language\":\"中文 (简体)\",\"abstract\":\"23\",\"AddDe\":\"Delete\"}]"
-                    
+
                 // var str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
                 var obj = JSON.parse(str)
                 this.tableData = obj
@@ -304,11 +330,11 @@ var ind = 122
                 //     abstract: "sb游戏",
                 //     AddDe: "false"
                 // }
-                
+
                 // ]
 
 
-   
+
 
 
 // tableData: [{
@@ -372,7 +398,7 @@ var ind = 122
             }
 
 
-            
+
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
         },
 

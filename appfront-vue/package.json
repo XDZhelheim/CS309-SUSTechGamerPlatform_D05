@@ -69,7 +69,8 @@
       "space-before-blocks": "off",
       "prefer-const": "off",
       "quotes": "off",
-      "curly": "off"
+      "curly": "off",
+      "brace-style": "off"
     }
   },
   "browserslist": [

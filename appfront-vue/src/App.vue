@@ -13,10 +13,9 @@
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/shop">游戏商城</el-menu-item>
                 <el-menu-item @click="myGamesVisible=true">我的游戏</el-menu-item>
-                <!-- <el-menu-item index="/community">游戏社区</el-menu-item>
-                <el-menu-item index="/customer-service">客服反馈</el-menu-item> -->
                 <el-menu-item v-if="loginStatus==false" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
+                <el-menu-item index="/admin" class="menu-right">管理员</el-menu-item>
                 <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
@@ -43,7 +42,7 @@
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; putMessage();">putMessage</el-button>
 
-                    
+
                 </div>
             </el-dialog>
         </div>
@@ -216,7 +215,7 @@ export default {
             }
         },
 
-       
+
         login() {
             this.socket.send(
             '{"login":"true","name":"' +
@@ -289,7 +288,7 @@ export default {
                 msg
             )
             // this.socket.onmessage = function(msg){
-            //     // alert(msg.data)    
+            //     // alert(msg.data)
             // }
             // this.loginStatus=true
         },

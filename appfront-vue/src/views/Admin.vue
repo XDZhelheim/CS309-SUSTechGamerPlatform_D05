@@ -112,11 +112,11 @@
         data() {
             return {
                 tableData: [{
-                    username: "刘瑞龙",
-                    password: "54nt54nt",
-                    usertype: "管理员",
+                    username: "test user",
+                    password: "123456",
+                    usertype: "用户",
                     createDate: "2020-12-19",
-                    mail: "nt@mail.com",
+                    mail: "xxx@mail.com",
                     money: 0
                 }],
 

@@ -272,7 +272,7 @@ var ind = 122
             getGame() {
                 // var str = JSON.stringify(this.tableData)
                 //  this.socket.send(
-                // '{"get_game":"true"}')
+                // '{"get_game_develop":"true"}')
                 // this.socket.onmessage = function(msg){
                 // var str = msg.data
                 // alert(str)

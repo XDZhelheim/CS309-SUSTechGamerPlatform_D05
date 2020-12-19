@@ -5,6 +5,7 @@ import cn.hutool.log.LogFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.springproject.domain.Game;
+import com.example.springproject.domain.GameUser;
 import com.example.springproject.domain.Users;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
@@ -122,7 +123,13 @@ public class WebSocketServer {
                 String abstract_String = jsonObject.getString("abstract");
                 String AddDe = jsonObject.getString("AddDe");
                 String Buy = jsonObject.getString("buy");
-                String get_game = jsonObject.getString("get_game");
+                String get_game_develop = jsonObject.getString("get_game_develop");
+                String buy_game_gamepage = jsonObject.getString("buy_game_gamepage");
+                String user_name_gamepage = jsonObject.getString("name");
+                String game_name_gamepage = jsonObject.getString("game_name");
+                String commit_rate = jsonObject.getString("commit_rate");
+                String rate_user = jsonObject.getString("score");
+
 
 
 
@@ -130,7 +137,7 @@ public class WebSocketServer {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
-                    if (UsersGenerator.userService.checkLogin(users)) {
+                    if (UsersGenerator.Services.checkLogin(users)) {
                         sendMessage("True");
                     } else {
                         sendMessage("False");
@@ -139,7 +146,7 @@ public class WebSocketServer {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
-                    UsersGenerator.userService.save(users);
+                    UsersGenerator.Services.save(users);
                     sendMessage("this is confirm");
                 } else if (get_comment != null) {
                     sendMessage("check");
@@ -160,15 +167,15 @@ public class WebSocketServer {
                     game.setPrice(Double.parseDouble(price));
                     game.setPublisher(publisher);
                     if (AddDe.equals("Add")){
-                        UsersGenerator.gameService.game_save(game);
+                        UsersGenerator.Services.game_save(game);
                         sendMessage("success add game");
                     }else {
-                        UsersGenerator.gameService.game_del(game);
+                        UsersGenerator.Services.game_del(game);
                         sendMessage("delete success");
                     }
 
-                } else if (get_game != null){
-                    List<Game> all_game = UsersGenerator.gameService.game_get();
+                } else if (get_game_develop != null){
+                    List<Game> all_game = UsersGenerator.Services.game_get();
                     String str_ans = "[";
 
                     for(int i=0;i<all_game.size();i++){
@@ -196,14 +203,40 @@ public class WebSocketServer {
 //                    String str = "[{\"title\":\"243\",\"date\":\"2020-12-18\",\"price\":240.0,\"type\":\"FPS\",\"publisher\":\"24\",\"language\":\"English\",\"abstract\":\"24\",\"AddDe\":\"Delete\"},{\"title\":\"234\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"MOBA\",\"publisher\":\"fdv\",\"language\":\"English\",\"abstract\":\"234\",\"AddDe\":\"Delete\"},{\"title\":\"原神\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"原神11\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"23\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"FPS\",\"publisher\":\"23\",\"language\":\"中文 (简体)\",\"abstract\":\"23\",\"AddDe\":\"Delete\"}]"
                     
                     // str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
-
                     str_ans += "]";
                     System.out.println(str_ans);
                     sendMessage(str_ans);
-                } else if (Buy!=null){
+                } else if (buy_game_gamepage!=null){
+                    Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
+                    Game game = UsersGenerator.Services.get_game(game_name_gamepage);
 
-                    sendMessage("success buy");
+                    double before_acc = user.getAccount();
+                    double need_money = game.getPrice();
+                    if (need_money>before_acc){
+                        sendMessage("余额不足，购买失败");
+                    }else {
+                        user.setAccount(before_acc-need_money);
+                        GameUser g_u = new GameUser();
+                        g_u.setGame(game);
+                        g_u.setUsers(user);
+                        g_u.setCreditAs('u'); //表示，这个是普通用户
+                        UsersGenerator.Services.save_game(g_u);
+                        UsersGenerator.Services.save(user);
+                        sendMessage("购买成功");
+                    }
+                }else if (commit_rate != null){
+                    Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
+                    Game game = UsersGenerator.Services.get_game(game_name_gamepage);
+                    GameUser g_u = UsersGenerator.Services.get_gu(user,game);
+                    g_u.setScore(Double.parseDouble(rate_user));
+                    UsersGenerator.Services.save_game(g_u);
                 }
+//                else if (){
+//
+//                }
+
+
+
 //                String toUserId=jsonObject.getString("password");
 //                //传送给对应toUserId用户的websocket
 //                if(StringUtils.isNotBlank(toUserId)&&webSocketMap.containsKey(toUserId)){

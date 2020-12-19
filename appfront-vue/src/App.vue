@@ -38,11 +38,10 @@
                 <div slot="footer" class="dialog-footer">
                     <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clear();">注册</el-button>
                     <el-button plain type="warning" @click="loginFormVisible = false; clear();">取消</el-button>
-                    <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
+                    <el-button plain type="primary" @click="login();">登录</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; putMessage();">putMessage</el-button>
-
                     
                 </div>
             </el-dialog>
@@ -146,14 +145,14 @@ export default {
             infoVisible: false,
             myGamesVisible: false,
             labelPosition: 'right',
-            name: null,
+            name: null,   //  这个是注册时用的
             password: null,
             confirmPassword: null,
             loginForm: {
                 username: '',
                 password: ''
             },
-            loginStatus: true, // 这里是调试 暂时赋值
+            loginStatus: false, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
@@ -226,15 +225,13 @@ export default {
             '"}')
             this.socket.onmessage = function(msg){
                 alert(typeof msg.data)
-                var a = msg.data
                 if (msg.data=="loginT"){
-                    alert("333")
                     this.loginStatus=true
+                    this.loginFormVisible=false
                 } else {
                     this.loginStatus=false
                 }
             }
-            alert(a)
 
 
             // this.loginStatus=true

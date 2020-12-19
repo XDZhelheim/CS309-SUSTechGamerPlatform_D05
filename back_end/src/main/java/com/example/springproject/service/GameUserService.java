@@ -7,7 +7,7 @@ import com.example.springproject.domain.Users;
 import java.util.List;
 
 public interface GameUserService {
-    void buy(GameUser gameUser);
+    void save(GameUser gameUser);
 
     void delete(Users users, Game game);
 

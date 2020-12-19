@@ -247,11 +247,11 @@
         top: -965px;
         position:relative;
     }
-    .el-row {
+    /* .el-row {
         margin-bottom: 20px;
         &:last-child
     {margin-bottom: 0;}
-    }
+    } */
 
     .el-col {
     border-radius: 4px;

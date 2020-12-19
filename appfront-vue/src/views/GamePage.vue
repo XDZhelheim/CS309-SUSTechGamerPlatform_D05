@@ -83,6 +83,8 @@
 </template>
 
 <script>
+import app from "../App"
+
     export default {
         name: "gamepage",
 
@@ -142,7 +144,23 @@
             },
 
             buy() {
+                alert(app.data().userInfo.username)
+                this.socket.send(
+                '{"buy_game_gamepage":"true","name":"' +
+                 this.userInfo.username +
+                '","game_name":"' +
+                 this.gameinfo.title +
+                '"}')
+            this.socket.onmessage = function(msg){
+                alert(typeof msg.data)
+                if (msg.data=="success"){
+                    this.have = true
+                } else {
+                    this.have = false
+                }
+            }
                 this.have=true
+                
 
                 // 买游戏，扣钱
             },
@@ -152,10 +170,34 @@
             },
 
             commitRate() {
+                this.socket.send(
+                '{"commit_rate":"true","name":"' +
+                 this.userInfo.username +
+                '","game_name":"' +
+                 this.gameinfo.title +
+                 '","score":"' +
+                 this.rate +
+                '"}')
+                this.socket.onmessage = function(msg){
+
+                }
                 // 把 this.rate 提交到后端
             },
 
             commitComment() {
+                this.socket.send(
+                '{"commit_rate":"true","name":"' +
+                 this.userInfo.username +
+                '","game_name":"' +
+                 this.gameinfo.title +
+                 '","score":"' +
+                 this.rate +
+                '"}')
+                this.socket.onmessage = function(msg){
+
+                }
+
+                
                 let newCommit={
                     username: this.userInfo.username,
                     comment: this.currentusercomment

@@ -153,7 +153,7 @@ export default {
                 username: '',
                 password: ''
             },
-            loginStatus: true, // 这里是调试 暂时赋值
+            loginStatus: false, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
@@ -224,15 +224,33 @@ export default {
             '","password":"' +
              this.loginForm.password +
             '"}')
+            var m2
+            this.testFun.fun = function(m){
+                alert(m)
+            }
             this.socket.onmessage = function(msg){
-                alert(typeof msg.data)
-                if (msg.data=="loginT"){
+                alert(msg.data)
+                var m1 = msg.data
+                m2 = String(m1)
+                // alert(m2)
+                // // alert(m2==="True")
+                // if (m2==="True"){
+                //     this.loginStatus=true
+                //     alert("1111")
+                // } else {
+                //     this.loginStatus=false
+                //     alert("22222")
+                // }
+            }
+                alert(m2)
+                // alert(m2==="True")
+                if (m2==="True"){
                     this.loginStatus=true
+                    alert("1111")
                 } else {
                     this.loginStatus=false
+                    alert("22222")
                 }
-            }
-            // this.loginStatus=true
         },
 
         regis() {
@@ -274,24 +292,6 @@ export default {
             //     // alert(msg.data)    
             // }
             // this.loginStatus=true
-        },
-
-        getTable() {
-             this.socket.send(
-            '{"put_table":"true"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)
-            }
-        },
-
-        putTable() {
-             this.socket.send(
-            '{"put_table":"true","content":"' +
-             this.name +
-            '"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)  
-            }
         },
 
 

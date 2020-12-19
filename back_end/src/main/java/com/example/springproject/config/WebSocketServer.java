@@ -13,8 +13,6 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -149,11 +147,11 @@ public class WebSocketServer {
                     sendMessage(put_mess);
                 } else if (AddDe != null ){
                     Game game = new Game();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-                    Date d = sdf.parse(date);
-                    java.sql.Date sql_date = new java.sql.Date(d.getTime());
-                    game.setCreateTime(sql_date);
-                    game.setId(1);//这个怎么设？？？？？？？？？？？
+//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+//                    Date d = sdf.parse(date);
+//                    java.sql.Date sql_date = new java.sql.Date(d.getTime());
+//                    game.setCreateTime(sql_date);
+//                    game.setId(1);//这个怎么设？？？？？？？？？？？
                     game.setGameType(type);
                     game.setIntro(abstract_String);
                     game.setLanguage(language);
@@ -163,15 +161,45 @@ public class WebSocketServer {
                     game.setPublisher(publisher);
                     if (AddDe.equals("Add")){
                         UsersGenerator.gameService.game_save(game);
-                        sendMessage("guanli");
+                        sendMessage("success add game");
                     }else {
                         UsersGenerator.gameService.game_del(game);
-                        sendMessage("del");
+                        sendMessage("delete success");
                     }
 
                 } else if (get_game != null){
                     List<Game> all_game = UsersGenerator.gameService.game_get();
-                    sendMessage(all_game.toString());
+                    String str_ans = "[";
+
+                    for(int i=0;i<all_game.size();i++){
+                        str_ans += "{";
+                        str_ans += "\"title\":\"";
+                        str_ans += all_game.get(i).getName();
+                        str_ans += "\",\"date\":\"";
+                        str_ans += all_game.get(i).getCreateTime();
+                        str_ans += "\",\"price\":";
+                        str_ans += all_game.get(i).getPrice();
+                        str_ans += ",\"type\":\"";
+                        str_ans += all_game.get(i).getGameType();
+                        str_ans += "\",\"publisher\":\"";
+                        str_ans += all_game.get(i).getPublisher();
+                        str_ans += "\",\"language\":\"";
+                        str_ans += all_game.get(i).getLanguage();
+                        str_ans += "\",\"abstract\":\"";
+                        str_ans += all_game.get(i).getIntro();
+                        str_ans += "\",\"AddDe\":\"Delete\"}";
+                        if (i<all_game.size()-1){
+                            str_ans += ",";
+                        }
+                    }
+
+//                    String str = "[{\"title\":\"243\",\"date\":\"2020-12-18\",\"price\":240.0,\"type\":\"FPS\",\"publisher\":\"24\",\"language\":\"English\",\"abstract\":\"24\",\"AddDe\":\"Delete\"},{\"title\":\"234\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"MOBA\",\"publisher\":\"fdv\",\"language\":\"English\",\"abstract\":\"234\",\"AddDe\":\"Delete\"},{\"title\":\"原神\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"原神11\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"23\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"FPS\",\"publisher\":\"23\",\"language\":\"中文 (简体)\",\"abstract\":\"23\",\"AddDe\":\"Delete\"}]"
+                    
+                    // str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
+
+                    str_ans += "]";
+                    System.out.println(str_ans);
+                    sendMessage(str_ans);
                 } else if (Buy!=null){
 
                     sendMessage("success buy");

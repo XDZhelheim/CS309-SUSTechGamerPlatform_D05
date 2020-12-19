@@ -10,7 +10,7 @@
                 <el-table-column prop="date" label="发行日期"></el-table-column>
                 <el-table-column prop="price" label="价格"></el-table-column>
                 <el-table-column prop="type" label="类型"></el-table-column>
-                <el-table-column prop="publisher" label="发行商"></el-table-column>
+                <el-table-column prop="publisher" label="开发商"></el-table-column>
                 <el-table-column prop="language" label="语言"></el-table-column>
                 <el-table-column prop="abstract" label="简介"></el-table-column>
                 <el-table-column prop="op" label="编辑/删除" width="180">

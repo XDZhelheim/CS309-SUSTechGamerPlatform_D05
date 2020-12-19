@@ -70,7 +70,8 @@
       "prefer-const": "off",
       "quotes": "off",
       "curly": "off",
-      "brace-style": "off"
+      "brace-style": "off",
+      "keyword-spacing": "off"
     }
   },
   "browserslist": [

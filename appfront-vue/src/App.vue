@@ -159,6 +159,13 @@ export default {
                 username: '',
                 password: ''
             },
+            
+           test_f: {
+                a: '',
+                password: ''
+            },
+
+
             loginStatus: false, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
@@ -195,8 +202,13 @@ export default {
         },
 
         test(t){
-            var str = "Apple, Banana, Mango"
-            alert(str.slice(2,))
+            alert("33")
+            function addf(a,b){
+                alert("afun")
+                return a+b
+            }
+            var ee = addf(3,4)
+            alert(ee)
         },
 
         openSocket(){
@@ -237,14 +249,22 @@ export default {
             '","password":"' +
              this.loginForm.password +
             '"}')
-            var m2
-            this.testFun.fun = function(m){
-                alert(m)
-            }
+           
             this.socket.onmessage = function(msg){
                 alert(msg.data)
                 var m1 = msg.data
-                m2 = String(m1)
+                // alert(m2)
+                // alert(m2==="True")
+                if (m1==="True"){
+                    alert("1111")
+                    this.$set(this.test_f,'a',true)
+                    alert(this.te.aa)
+                } else {
+                    this.loginStatus=false
+                    alert("22222")
+                }
+            }
+                    this.$set(this.test_f,'a',true)
                 // alert(m2)
                 // // alert(m2==="True")
                 // if (m2==="True"){
@@ -254,17 +274,7 @@ export default {
                 //     this.loginStatus=false
                 //     alert("22222")
                 // }
-            }
-                alert(m2)
-                // alert(m2==="True")
-                if (m2==="True"){
-                    this.loginStatus=true
-                    alert("1111")
-                } else {
-                    this.loginStatus=false
-                    alert("22222")
-                }
-            this.loginFormVisible=false
+            // this.loginFormVisible=false
         },
 
         regis() {

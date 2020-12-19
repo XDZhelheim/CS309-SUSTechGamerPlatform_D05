@@ -83,8 +83,7 @@
 </template>
 
 <script>
-import app from "../App"
-
+    import app from "../App"
     export default {
         name: "gamepage",
 
@@ -144,24 +143,25 @@ import app from "../App"
             },
 
             buy() {
-                alert(app.data().userInfo.username)
-                this.socket.send(
-                '{"buy_game_gamepage":"true","name":"' +
-                 this.userInfo.username +
-                '","game_name":"' +
-                 this.gameinfo.title +
-                '"}')
-            this.socket.onmessage = function(msg){
-                alert(typeof msg.data)
-                if (msg.data=="success"){
-                    this.have = true
-                } else {
-                    this.have = false
+                if (app.data().loginStatus) {
+                    alert(app.data().userInfo.username)
+                    this.socket.send(
+                    '{"buy_game_gamepage":"true","name":"' +
+                    this.userInfo.username +
+                    '","game_name":"' +
+                    this.gameinfo.title +
+                    '"}')
+                    this.socket.onmessage = function(msg){
+                        alert(typeof msg.data)
+                        if (msg.data=="success"){
+                            this.have = true
+                        } else {
+                            this.have = false
+                        }
+                    }
                 }
-            }
-                this.have=true
-                
-
+                else
+                    this.$message.error("请登录")
                 // 买游戏，扣钱
             },
 
@@ -197,7 +197,7 @@ import app from "../App"
 
                 }
 
-                
+
                 let newCommit={
                     username: this.userInfo.username,
                     comment: this.currentusercomment

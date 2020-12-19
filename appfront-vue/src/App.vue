@@ -226,12 +226,17 @@ export default {
             '"}')
             this.socket.onmessage = function(msg){
                 alert(typeof msg.data)
+                var a = msg.data
                 if (msg.data=="loginT"){
+                    alert("333")
                     this.loginStatus=true
                 } else {
                     this.loginStatus=false
                 }
             }
+            alert(a)
+
+
             // this.loginStatus=true
         },
 

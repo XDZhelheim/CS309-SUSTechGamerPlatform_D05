@@ -145,7 +145,19 @@ var ind = 122
                     language: "中文 (简体)",
                     abstract: "sb游戏",
                     AddDe: "false"
-                }],
+                },
+                {
+                    title: "原神",
+                    date: "2020-09-15",
+                    price: 666.66,
+                    type: "RPG",
+                    publisher: "MiHoYo",
+                    language: "中文 (简体)",
+                    abstract: "sb游戏",
+                    AddDe: "false"
+                }
+                
+                ],
 
                 newGame: {
                     title: null,
@@ -208,13 +220,13 @@ var ind = 122
 
         methods: {
             delGame(index) {
-                this.tableData.splice(index, 1)
                 this.tableData[index].AddDe = "Delete"
                 var sendMsg = JSON.stringify(this.tableData[index])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = function(msg){
                     alert(msg.data)
                 }
+                this.tableData.splice(index, 1)
             },
             
 
@@ -258,14 +270,64 @@ var ind = 122
             },
 
             getGame() {
-                alert("3313")
-                this.socket.send(
-            '{"get_game":"true"}'
-                )
-                alert("33")
-                this.socket.onmessage = function(msg){
-                    alert(msg.data)
-                }
+                // var str = JSON.stringify(this.tableData)
+                //  this.socket.send(
+                // '{"get_game":"true"}')
+                // this.socket.onmessage = function(msg){
+                // var str = msg.data
+                // alert(str)
+                // }
+                var str = "[{\"title\":\"243\",\"date\":\"2020-12-18\",\"price\":240.0,\"type\":\"FPS\",\"publisher\":\"24\",\"language\":\"English\",\"abstract\":\"24\",\"AddDe\":\"Delete\"},{\"title\":\"234\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"MOBA\",\"publisher\":\"fdv\",\"language\":\"English\",\"abstract\":\"234\",\"AddDe\":\"Delete\"},{\"title\":\"原神\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"原神11\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"23\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"FPS\",\"publisher\":\"23\",\"language\":\"中文 (简体)\",\"abstract\":\"23\",\"AddDe\":\"Delete\"}]"
+                    
+                // var str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
+                var obj = JSON.parse(str)
+                this.tableData = obj
+                alert(str)
+
+                // this.tableData = [{
+                //     title: "原31神",
+                //     date: "2020-09-15",
+                //     price: 666.66,
+                //     type: "RPG",
+                //     publisher: "MiHoYo",
+                //     language: "中文 (简体)",
+                //     abstract: "sb游戏",
+                //     AddDe: "false"
+                // },
+                // {
+                //     title: "原神32",
+                //     date: "2020-09-15",
+                //     price: 666.66,
+                //     type: "RPG",
+                //     publisher: "MiHoYo",
+                //     language: "中文 (简体)",
+                //     abstract: "sb游戏",
+                //     AddDe: "false"
+                // }
+                
+                // ]
+
+
+   
+
+
+// tableData: [{
+//                     title: "原神",
+//                     date: "2020-09-15",
+//                     price: 666.66,
+//                     type: "RPG",
+//                     publisher: "MiHoYo",
+//                     language: "中文 (简体)",
+//                     abstract: "sb游戏",
+//                     AddDe: "false"
+//                 }],
+
+            //     this.socket.send(
+            // '{"get_game":"true"}'
+            //     )
+            //     this.socket.onmessage = function(msg){
+            //         alert(msg.data)
+            //     }
             },
 
 

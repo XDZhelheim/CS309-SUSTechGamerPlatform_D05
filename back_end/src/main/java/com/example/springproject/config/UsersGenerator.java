@@ -24,6 +24,7 @@ public class UsersGenerator {
 
     @Autowired
     UsersService usersService;
+    @Autowired
     GameService gamesService;
 
     @RequestMapping("/users")

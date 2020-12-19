@@ -3,6 +3,7 @@ package com.example.springproject.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 public class GameUser {
@@ -23,6 +24,28 @@ public class GameUser {
     private double score;
 
     private String details;
+    @NotNull
+    @OneToMany
+    private Set<Users> good;
+    @NotNull
+    @OneToMany
+    private Set<Users> bad;
+
+    public void newGood(Users u) {
+        good.add(u);
+    }
+
+    public void newBad(Users u) {
+        bad.add(u);
+    }
+
+    public int goods() {
+        return good.size();
+    }
+
+    public int bads() {
+        return bad.size();
+    }
 
     public void setId(long id) {
         this.id = id;

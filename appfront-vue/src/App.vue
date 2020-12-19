@@ -13,10 +13,9 @@
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/shop">游戏商城</el-menu-item>
                 <el-menu-item @click="myGamesVisible=true">我的游戏</el-menu-item>
-                <!-- <el-menu-item index="/community">游戏社区</el-menu-item>
-                <el-menu-item index="/customer-service">客服反馈</el-menu-item> -->
                 <el-menu-item v-if="loginStatus==false" @click="loginFormVisible = true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
+                <el-menu-item index="/admin" class="menu-right">管理员</el-menu-item>
                 <el-menu-item index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
@@ -36,13 +35,14 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clear();">注册</el-button>
-                    <el-button plain type="warning" @click="loginFormVisible = false; clear();">取消</el-button>
-                    <el-button plain type="primary" @click="login();">登录</el-button>
+                    <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clearLogin();">注册</el-button>
+                    <el-button plain type="warning" @click="clearLogin()">取消</el-button>
+                    <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; putMessage();">putMessage</el-button>
-                    
+
+
                 </div>
             </el-dialog>
         </div>
@@ -61,11 +61,15 @@
                     <el-form-item label="确认密码">
                         <el-input show-password v-model="confirmPassword" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
                     </el-form-item>
+
+                    <el-form-item label="邮箱">
+                        <el-input v-model="email" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button plain type="warning" @click="signinFormVisible = false; clear();">取消</el-button>
-                    <el-button plain type="primary" @click="signinFormVisible = false; regis()">注册</el-button>
-                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clear(); login();">登录</el-button>
+                    <el-button plain type="warning" @click="clearRegis()">取消</el-button>
+                    <el-button plain type="primary" @click="regis()">注册</el-button>
+                    <el-button plain type="primary" style="float: left" @click="loginFormVisible= true; signinFormVisible=false; clearRegis();">登录</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -145,9 +149,12 @@ export default {
             infoVisible: false,
             myGamesVisible: false,
             labelPosition: 'right',
-            name: null,   //  这个是注册时用的
+            // 注册相关
+            name: null,
             password: null,
             confirmPassword: null,
+            email: null,
+
             loginForm: {
                 username: '',
                 password: ''
@@ -174,10 +181,17 @@ export default {
     },
 
     methods: {
-        clear() {
+        clearRegis() {
             this.name=null
             this.password=null
             this.confirmPassword=null
+            this.signinFormVisible=false
+        },
+
+        clearLogin() {
+            this.loginForm.username=''
+            this.loginForm.password=''
+            this.loginFormVisible=false
         },
 
         test(t){
@@ -215,7 +229,7 @@ export default {
             }
         },
 
-       
+
         login() {
             this.socket.send(
             '{"login":"true","name":"' +
@@ -223,31 +237,52 @@ export default {
             '","password":"' +
              this.loginForm.password +
             '"}')
+            var m2
+            this.testFun.fun = function(m){
+                alert(m)
+            }
             this.socket.onmessage = function(msg){
-                alert(typeof msg.data)
-                if (msg.data=="loginT"){
+                alert(msg.data)
+                var m1 = msg.data
+                m2 = String(m1)
+                // alert(m2)
+                // // alert(m2==="True")
+                // if (m2==="True"){
+                //     this.loginStatus=true
+                //     alert("1111")
+                // } else {
+                //     this.loginStatus=false
+                //     alert("22222")
+                // }
+            }
+                alert(m2)
+                // alert(m2==="True")
+                if (m2==="True"){
                     this.loginStatus=true
-                    this.loginFormVisible=false
+                    alert("1111")
                 } else {
                     this.loginStatus=false
+                    alert("22222")
                 }
-            }
-
-
-            // this.loginStatus=true
+            this.loginFormVisible=false
         },
 
         regis() {
-           this.socket.send(
-            '{"register":"true","name":"' +
-             this.name +
-            '","password":"' +
-             this.password +
-             '","confirmPassword":"' +
-             this.confirmPassword +
-            '"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)
+            if (this.password!=this.confirmPassword)
+                this.$message.error("密码不一致，请重新输入")
+            else {
+                this.signinFormVisible=false
+                this.socket.send(
+                '{"register":"true","name":"' +
+                this.name +
+                '","password":"' +
+                this.password +
+                '","confirmPassword":"' +
+                this.confirmPassword +
+                '"}')
+                this.socket.onmessage = function(msg){
+                    alert(msg.data)
+                }
             }
         },
 
@@ -273,27 +308,9 @@ export default {
                 msg
             )
             // this.socket.onmessage = function(msg){
-            //     // alert(msg.data)    
+            //     // alert(msg.data)
             // }
             // this.loginStatus=true
-        },
-
-        getTable() {
-             this.socket.send(
-            '{"put_table":"true"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)
-            }
-        },
-
-        putTable() {
-             this.socket.send(
-            '{"put_table":"true","content":"' +
-             this.name +
-            '"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)  
-            }
         },
 
 

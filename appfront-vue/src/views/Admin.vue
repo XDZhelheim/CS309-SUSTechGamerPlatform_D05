@@ -99,7 +99,7 @@
 
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="editUserFormVisible = false; cancelEdit();">取消</el-button>
-                    <el-button type="primary" @click="editUserFormVisible = false">确定</el-button>
+                    <el-button type="primary" @click="checkEdit()">确定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -158,9 +158,13 @@
             },
 
             addUser() {
-                this.tableData.push(this.newUser)
-                this.addUserFormVisible = false
-                this.clear()
+                if (this.check()) {
+                    this.tableData.push(this.newUser)
+                    this.addUserFormVisible = false
+                    this.clear()
+                }
+                else
+                    this.errmsg()
             },
 
             clear() {
@@ -186,6 +190,27 @@
             clone(object) {
                 return JSON.parse(JSON.stringify(object))
             },
+
+            check() {
+                for (let key in this.newUser)
+                    if (this.newUser[key] == null)
+                        return false
+                return true
+            },
+
+            checkEdit() {
+                for (let i = 0; i < this.tableData.length; i++)
+                    for (let key in this.tableData[i])
+                        if (this.tableData[i][key]==null || this.tableData[i][key]=='') {
+                            this.errmsg()
+                            return
+                        }
+                this.editUserFormVisible=false
+            },
+
+            errmsg() {
+                this.$message.error('无效输入')
+            }
 
         },
 

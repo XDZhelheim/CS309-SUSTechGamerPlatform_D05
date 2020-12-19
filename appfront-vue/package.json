@@ -70,7 +70,7 @@
       "prefer-const": "off",
       "quotes": "off",
       "curly": "off",
-      "no-multi-spaces":"off"
+      "brace-style": "off"
     }
   },
   "browserslist": [

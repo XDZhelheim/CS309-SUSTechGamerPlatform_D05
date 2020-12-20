@@ -158,9 +158,10 @@ export default {
 
             loginForm: {
                 username: '',
-                password: ''
+                password: '',
+            loginStatus: false, // 这里是调试 暂时赋值
             },
-            loginStatus: true, // 这里是调试 暂时赋值
+            loginStatus: false, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
@@ -178,10 +179,23 @@ export default {
                     gametitle: "原神",
                     gameURL: "/shop"
                 }
-            ]
+            ],
+            // list:[
+            //     {name: 'ee',id:1},
+            //     {name: 'aa', id:2}
+            // ]
+            list:{
+                name: 'a',
+                id: 1
+            }
         }
     },
 
+    // socket: {
+    //     onmessage(data){
+    //         return "22"
+    //     }
+    // },
     methods: {
         clearRegis() {
             this.name=null
@@ -196,14 +210,20 @@ export default {
             this.loginFormVisible=false
         },
 
-        test(t){
-            alert("33")
-            function addf(a,b){
-                alert("afun")
-                return a+b
-            }
-            var ee = addf(3,4)
-            alert(ee)
+        test(){
+            alert(this.socket.onmessage('e'))
+
+            // this.loginStatus = this.loginForm.loginStatus
+            // alert(this.loginForm.loginStatus)
+            // this.$set(this.loginForm,'loginStatus','true')
+            // alert(this.loginForm.loginStatus)
+
+            // alert(this.list[1].name)
+            // this.$set(this.list,1,{name:'3333', id:3})
+            // alert(this.list[1].name)
+            // alert(this.data()..name)
+            // this.$set(this.list,'name',12)
+            // alert(this.list.name)
         },
 
         openSocket(){
@@ -244,32 +264,28 @@ export default {
             '","password":"' +
              this.loginForm.password +
             '"}')
-           
-            this.socket.onmessage = function(msg){
-                alert(msg.data)
-                var m1 = msg.data
-                // alert(m2)
-                // alert(m2==="True")
-                if (m1==="True"){
-                    alert("1111")
-                    this.$set(this.test_f,'a',true)
-                    alert(this.te.aa)
-                } else {
-                    this.loginStatus=false
-                    alert("22222")
+
+            this.socket.onmessage = (evt) => {
+                alert(evt)
+                var obj = JSON.parse(evt)
+                    alert(obj)
+                if (obj=="True"){
+                    this.loginStatus = true
+                    alert(this.loginStatus)
+                }else{
+                    this.loginStatus = true
+                    alert(this.loginStatus)
                 }
             }
-                    this.$set(this.test_f,'a',true)
-                // alert(m2)
-                // // alert(m2==="True")
-                // if (m2==="True"){
-                //     this.loginStatus=true
-                //     alert("1111")
-                // } else {
-                //     this.loginStatus=false
-                //     alert("22222")
-                // }
-            // this.loginFormVisible=false
+           
+            // this.socket.onmessage = function(msg){
+            //     if (msg.data==="True"){
+            //         this.loginStatus = true
+            //         alert(this.loginStatus)
+            //     } else {
+            //         this.loginStatus=false
+            //     }
+            // }
         },
 
         regis() {
@@ -359,6 +375,8 @@ export default {
         }
 
     }
+
+   
 
 }
 </script>

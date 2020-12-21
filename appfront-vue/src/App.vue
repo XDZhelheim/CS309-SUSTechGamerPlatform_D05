@@ -15,7 +15,7 @@
                 <el-menu-item index="/shop">游戏商城</el-menu-item>
                 <el-menu-item v-if="loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
                 <el-menu-item v-if="loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
-                <el-menu-item v-else @click="infoVisible = true" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
+                <el-menu-item v-else @click="infoVisible = true; getUserInfo();" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item v-if="userInfo.usertype=='A' && loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
                 <el-menu-item v-if="userInfo.usertype=='D' && loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
@@ -160,8 +160,12 @@ export default {
             loginForm: {
                 username: '',
                 password: '',
+<<<<<<< HEAD
+=======
+                loginStatus: false, // 这里是调试 暂时赋值
+>>>>>>> f5f228abac55a93fcee16b0e0658a8e4f745067e
             },
-            loginStatus: false, // 这里是调试 暂时赋值
+            loginStatus: true, // 这里是调试 暂时赋值
             userInfo: {
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
@@ -235,7 +239,6 @@ export default {
             }
         },
 
-
         login() {
             this.socket.send(
             '{"login":"true","name":"' +
@@ -250,6 +253,18 @@ export default {
                     this.loginStatus = false
                 }
             }
+<<<<<<< HEAD
+=======
+
+            // this.socket.onmessage = function(msg){
+            //     if (msg.data==="True"){
+            //         this.loginStatus = true
+            //         alert(this.loginStatus)
+            //     } else {
+            //         this.loginStatus=false
+            //     }
+            // }
+>>>>>>> f5f228abac55a93fcee16b0e0658a8e4f745067e
         },
 
         regis() {
@@ -309,11 +324,17 @@ export default {
             this.loginStatus=false
             this.infoVisible=false
             // 登出，待完善
+        },
+
+        getUserInfo() {
+            // 每次点右上角头像的时候都会调用一次，从后端拿用户信息
+            // 加载页面的时候也要先调用一次
+            alert("每次点头像触发，从后端拿用户信息，在所有页面都能触发")
         }
 
     }
 
-   
+
 
 }
 </script>

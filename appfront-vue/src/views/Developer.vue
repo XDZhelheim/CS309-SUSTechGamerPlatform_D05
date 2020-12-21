@@ -86,10 +86,6 @@
         <div id="edit">
             <el-dialog title="编辑游戏" :visible.sync="editGameFormVisible" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
-                    <el-form-item label="名称">
-                        <el-input v-model="tableData[editIndex].title" style="width:var(--itemLength)"></el-input>
-                    </el-form-item>
-
                     <el-form-item label="发行日期">
                         <el-date-picker v-model="tableData[editIndex].date" style="width:var(--itemLength)" type="date"
                             placeholder="选择日期" value-format="yyyy-MM-dd">

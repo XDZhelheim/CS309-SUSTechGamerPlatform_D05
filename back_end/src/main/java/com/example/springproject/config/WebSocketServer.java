@@ -9,7 +9,6 @@ import com.example.springproject.domain.GameUser;
 import com.example.springproject.domain.Users;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
-
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -131,6 +130,7 @@ public class WebSocketServer {
                 String rate_user = jsonObject.getString("score");
                 String recharge = jsonObject.getString("recharge");
                 String money = jsonObject.getString("money");
+                String a = jsonObject.getString("");
 
 
                 if (check_login != null) {
@@ -207,7 +207,6 @@ public class WebSocketServer {
                             str_ans += ",";
                         }
                     }
-
 //                    String str = "[{\"title\":\"243\",\"date\":\"2020-12-18\",\"price\":240.0,\"type\":\"FPS\",\"publisher\":\"24\",\"language\":\"English\",\"abstract\":\"24\",\"AddDe\":\"Delete\"},{\"title\":\"234\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"MOBA\",\"publisher\":\"fdv\",\"language\":\"English\",\"abstract\":\"234\",\"AddDe\":\"Delete\"},{\"title\":\"原神\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"原神11\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"23\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"FPS\",\"publisher\":\"23\",\"language\":\"中文 (简体)\",\"abstract\":\"23\",\"AddDe\":\"Delete\"}]"
                     
                     // str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
@@ -258,7 +257,6 @@ public class WebSocketServer {
             }
         }
     }
-
 
 //    public void check(String message, Session session){
 //        log.info("用户："+userId+",消息"+message);

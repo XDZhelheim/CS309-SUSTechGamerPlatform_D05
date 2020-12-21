@@ -107,7 +107,7 @@ public class WebSocketServer {
                 jsonObject.put("fromUserId", this.userId);
                 String id = jsonObject.getString("name");
                 String password = jsonObject.getString("password");
-                String confirmPassword = jsonObject.getString("confirmPassword");
+                String email = jsonObject.getString("email");
                 String check_login = jsonObject.getString("login");
                 String check_regis = jsonObject.getString("register");
                 String get_comment = jsonObject.getString("get_comment");
@@ -129,8 +129,8 @@ public class WebSocketServer {
                 String game_name_gamepage = jsonObject.getString("game_name");
                 String commit_rate = jsonObject.getString("commit_rate");
                 String rate_user = jsonObject.getString("score");
-
-
+                String recharge = jsonObject.getString("recharge");
+                String money = jsonObject.getString("money");
 
 
                 if (check_login != null) {
@@ -146,30 +146,38 @@ public class WebSocketServer {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
+                    users.setEmail(email);
                     UsersGenerator.Services.save(users);
-                    sendMessage("this is confirm");
-                } else if (get_comment != null) {
-                    sendMessage("check");
-                } else if (put_comment != null) {
-                    sendMessage(put_mess);
+                    sendMessage("success register");
+                } else if (recharge != null){
+                    Users users = UsersGenerator.Services.get_user(id);
+                    users.setAccount(Double.parseDouble(money));
+                    sendMessage("success recharge");
                 } else if (AddDe != null ){
-                    Game game = new Game();
-//                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-//                    Date d = sdf.parse(date);
-//                    java.sql.Date sql_date = new java.sql.Date(d.getTime());
-//                    game.setCreateTime(sql_date);
-//                    game.setId(1);//这个怎么设？？？？？？？？？？？
-                    game.setGameType(type);
-                    game.setIntro(abstract_String);
-                    game.setLanguage(language);
-
-                    game.setName(title);
-                    game.setPrice(Double.parseDouble(price));
-                    game.setPublisher(publisher);
                     if (AddDe.equals("Add")){
+                        Game game = new Game();
+                        game.setGameType(type);
+                        game.setIntro(abstract_String);
+                        game.setLanguage(language);
+                        game.setName(title);
+                        game.setPrice(Double.parseDouble(price));
+                        game.setPublisher(publisher);
                         UsersGenerator.Services.game_save(game);
                         sendMessage("success add game");
-                    }else {
+                    }else if (AddDe.equals("Change")){
+                        Game Before_game = UsersGenerator.Services.get_game(title);
+                        Game game = new Game();
+                        game.setGameType(type);
+                        game.setIntro(abstract_String);
+                        game.setLanguage(language);
+                        game.setName(title);
+                        game.setPrice(Double.parseDouble(price));
+                        game.setPublisher(publisher);
+                        UsersGenerator.Services.game_del(Before_game);
+                        UsersGenerator.Services.game_save(game);
+                    }
+                    else {
+                        Game game = UsersGenerator.Services.get_game(title);
                         UsersGenerator.Services.game_del(game);
                         sendMessage("delete success");
                     }
@@ -204,12 +212,10 @@ public class WebSocketServer {
                     
                     // str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
                     str_ans += "]";
-                    System.out.println(str_ans);
                     sendMessage(str_ans);
                 } else if (buy_game_gamepage!=null){
                     Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
                     Game game = UsersGenerator.Services.get_game(game_name_gamepage);
-
                     double before_acc = user.getAccount();
                     double need_money = game.getPrice();
                     if (need_money>before_acc){
@@ -230,6 +236,8 @@ public class WebSocketServer {
                     GameUser g_u = UsersGenerator.Services.get_gu(user,game);
                     g_u.setScore(Double.parseDouble(rate_user));
                     UsersGenerator.Services.save_game(g_u);
+                } else if (get_comment != null){
+
                 }
 //                else if (){
 //

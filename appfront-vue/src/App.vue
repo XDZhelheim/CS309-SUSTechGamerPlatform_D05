@@ -136,6 +136,8 @@
 <script>
 import ttt from "./views/Shop.vue"
 import developer from "./views/Developer"
+import w from "./views/gamepages/witcher3"
+import al from "./views/AllGames"
 // tt.t()
 // import {s} from './views/tt.vue'
 
@@ -155,11 +157,9 @@ export default {
             password: null,
             confirmPassword: null,
             email: null,
-
             loginForm: {
                 username: '',
                 password: '',
-            loginStatus: false, // 这里是调试 暂时赋值
             },
             loginStatus: false, // 这里是调试 暂时赋值
             userInfo: {
@@ -179,23 +179,11 @@ export default {
                     gametitle: "原神",
                     gameURL: "/shop"
                 }
-            ],
-            // list:[
-            //     {name: 'ee',id:1},
-            //     {name: 'aa', id:2}
-            // ]
-            list:{
-                name: 'a',
-                id: 1
-            }
+            ]
         }
     },
 
-    // socket: {
-    //     onmessage(data){
-    //         return "22"
-    //     }
-    // },
+   
     methods: {
         clearRegis() {
             this.name=null
@@ -211,20 +199,11 @@ export default {
         },
 
         test(){
-            alert(this.socket.onmessage('e'))
-
-            // this.loginStatus = this.loginForm.loginStatus
-            // alert(this.loginForm.loginStatus)
-            // this.$set(this.loginForm,'loginStatus','true')
-            // alert(this.loginForm.loginStatus)
-
-            // alert(this.list[1].name)
-            // this.$set(this.list,1,{name:'3333', id:3})
-            // alert(this.list[1].name)
-            // alert(this.data()..name)
-            // this.$set(this.list,'name',12)
-            // alert(this.list.name)
+            alert(al.data().rate)
+            al.data().rate = 3
+            alert(al.data().rate)
         },
+
 
         openSocket(){
             if (typeof WebSocket == "undefined"){
@@ -264,28 +243,13 @@ export default {
             '","password":"' +
              this.loginForm.password +
             '"}')
-
             this.socket.onmessage = (evt) => {
-                alert(evt)
-                var obj = JSON.parse(evt)
-                    alert(obj)
-                if (obj=="True"){
+                if (evt.data=="True"){
                     this.loginStatus = true
-                    alert(this.loginStatus)
                 }else{
-                    this.loginStatus = true
-                    alert(this.loginStatus)
+                    this.loginStatus = false
                 }
             }
-           
-            // this.socket.onmessage = function(msg){
-            //     if (msg.data==="True"){
-            //         this.loginStatus = true
-            //         alert(this.loginStatus)
-            //     } else {
-            //         this.loginStatus=false
-            //     }
-            // }
         },
 
         regis() {
@@ -298,43 +262,14 @@ export default {
                 this.name +
                 '","password":"' +
                 this.password +
-                '","confirmPassword":"' +
-                this.confirmPassword +
+                '","email":"' +
+                this.email +
                 '"}')
-                this.socket.onmessage = function(msg){
-                    alert(msg.data)
+                this.socket.onmessage = (evt) => {
+                    alert(evt.data)
                 }
             }
         },
-
-// 这里的getMessage是在商城界面获取评论内容的
-        getMessage() {
-            this.socket.send(
-            '{"get_comment":"true"}')
-            this.socket.onmessage = function(msg){
-                alert(msg.data)
-            }
-            // this.loginStatus=true
-        },
-
-// 这里的putMessage是在商城界面，向后端输送当前的评论内容  ,其中输送的内容即为此处的this.name
-        putMessage() {
-            var msg = JSON.stringify(developer.data().newGame)
-            alert(msg)
-            // JSON.stringify(this.newGame)
-            // var ms = JSON.stringify(inMsg)
-            // this.socket.send("ee")
-            // alert("ee")
-            this.socket.send(
-                msg
-            )
-            // this.socket.onmessage = function(msg){
-            //     // alert(msg.data)
-            // }
-            // this.loginStatus=true
-        },
-
-
 
         handleAvatarSuccess(res, file) {
             this.imageUrl = URL.createObjectURL(file.raw)
@@ -343,7 +278,6 @@ export default {
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg'
             const isLt2M = file.size / 1024 / 1024 < 2
-
             if (!isJPG) {
             this.$message.error('上传头像图片只能是 JPG 格式!')
             }
@@ -360,13 +294,16 @@ export default {
 
         recharge() {
             this.userInfo.money+=this.rechargeMoney
-            // 后端要更新余额
+            this.socket.send(
+            '{"recharge":"true","name":"' +
+             this.userInfo.username +
+            '","money":"' +
+             this.userInfo.money +
+            '"}')
+            this.socket.onmessage = (evt) => {
+            }
         },
 
-        // login() {
-        //     this.loginStatus=true
-        //     // 登录，待完善
-        // },
 
         logout() {
             this.loginStatus=false

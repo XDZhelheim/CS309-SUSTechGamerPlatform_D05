@@ -71,7 +71,8 @@
       "quotes": "off",
       "curly": "off",
       "brace-style": "off",
-      "keyword-spacing": "off"
+      "keyword-spacing": "off",
+      "no-eval": "off"
     }
   },
   "browserslist": [

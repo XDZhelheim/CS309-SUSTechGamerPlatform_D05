@@ -161,25 +161,22 @@
                     this.$message.error("余额不足")
                     return
                 }
-                // alert(app.data().userInfo.username)
-                // this.socket.send(
-                // '{"buy_game_gamepage":"true","name":"' +
-                // this.userInfo.username +
-                // '","game_name":"' +
-                // this.gameinfo.title +
-                // '"}')
-                // this.socket.onmessage = function(msg){
-                //     alert(typeof msg.data)
-                //     if (msg.data=="success"){
-                //         this.have = true
-                //     } else {
-                //         this.have = false
-                //     }
-                // }
-                this.have=true
-                this.userInfo.money-=this.gameinfo.price
-                alert(this.userInfo.money)
+                this.socket.send(
+                '{"buy_game_gamepage":"true","name":"' +
+                this.userInfo.username +
+                '","game_name":"' +
+                this.gameinfo.title +
+                '"}')
+                this.socket.onmessage = (evt) => {
+                    if (evt.data=="success"){
+                        this.have = true
+                    } else {
+                        this.have = false
+                    }
+                }
+                        this.have = true
 
+                this.userInfo.money-=this.gameinfo.price
                 // 买游戏，扣钱
             },
 
@@ -196,8 +193,7 @@
                  '","score":"' +
                  this.rate +
                 '"}')
-                this.socket.onmessage = function(msg){
-
+                this.socket.onmessage = (evt) => {
                 }
                 // 把 this.rate 提交到后端
             },
@@ -237,6 +233,16 @@
                     usercomment.downVoteNum+=1
             },
 
+        },
+
+        get_comment(){
+            this.socket.send(
+            '{"get_comment":"true"}')
+            this.socket.onmessage = (evt) => {
+                var str = evt.data
+                var obj = JSON.parse(str)
+                this.tableData = obj
+            }
         },
 
         mounted() {

@@ -47,6 +47,8 @@
                         url: "/witcher3"
                     },
                 ],
+                rate: 124, // 用户打分
+
 
                 userInfo: {
                     username: "Test User Name",

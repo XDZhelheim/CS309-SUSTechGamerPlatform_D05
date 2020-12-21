@@ -108,10 +108,6 @@
                     abstract: "该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。"
                 },
 
-                userInfo: {
-                    username: "Test User Name",
-                    money: 555 // 这里要在页面加载的时候获取当前用户
-                },
                 rate: 0, // 用户打分
                 currentusercomment: "", // 用户评论
 
@@ -153,17 +149,17 @@
             },
 
             buy() {
-                if (!app.data().loginStatus) {
+                if (!this.$root.loginStatus) {
                     this.$message.error("请登录")
                     return
                 }
-                if (this.gameinfo.price>this.userInfo.money) {
+                if (this.gameinfo.price>this.$root.userInfo.money) {
                     this.$message.error("余额不足")
                     return
                 }
                 this.socket.send(
                 '{"buy_game_gamepage":"true","name":"' +
-                this.userInfo.username +
+                this.$root.userInfo.username +
                 '","game_name":"' +
                 this.gameinfo.title +
                 '"}')
@@ -176,7 +172,7 @@
                 }
                         this.have = true
 
-                this.userInfo.money-=this.gameinfo.price
+                this.$root.userInfo.money-=this.gameinfo.price
                 // 买游戏，扣钱
             },
 
@@ -184,7 +180,7 @@
             commitRate() {
                 this.socket.send(
                 '{"commit_rate":"true","name":"' +
-                 this.userInfo.username +
+                 this.$root.userInfo.username +
                 '","game_name":"' +
                  this.gameinfo.title +
                  '","score":"' +
@@ -201,8 +197,8 @@
 
             commitComment() {
                 this.socket.send(
-                '{"commitComment":"true","name":"' +
-                 this.userInfo.username +
+                '{"commit_rate":"true","name":"' +
+                 this.$root.userInfo.username +
                 '","game_name":"' +
                  this.gameinfo.title +
                  '","comment":"' +
@@ -211,14 +207,14 @@
                 this.socket.onmessage = (evt) => {
                 }
                 let newCommit={
-                    username: this.userInfo.username,
+                    username: this.$root.userInfo.username,
                     comment: this.currentusercomment
                 }
                 this.comments.push(newCommit)
             },
 
             vote(usercomment, control) {
-                if (!app.data().loginStatus) {
+                if (!this.$root.loginStatus) {
                     this.$message.error("请登录")
                     return
                 }
@@ -298,7 +294,6 @@
                 this.imgLoad()
             }, false)
             this.rate=this.gameinfo.rate
-            // this.userInfo=app.data().userInfo
         },
 
         beforeDestroy() {

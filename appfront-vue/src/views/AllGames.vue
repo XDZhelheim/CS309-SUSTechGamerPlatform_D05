@@ -49,27 +49,22 @@
                 ],
                 rate: 124, // 用户打分
 
-
-                userInfo: {
-                    username: "Test User Name",
-                    money: 123
-                },
-
             }
         },
 
         methods: {
             buy(game) {
-                if (!app.data().loginStatus) { // FIXME: 这里获取不行
+                if (!this.$root.loginStatus) {
                     this.$message.error("请登录")
                     return
                 }
-                if (game.price>this.userInfo.price) {
+                if (game.price>this.$root.userInfo.price) {
                     this.$message.error("余额不足")
                     return
                 }
                 game.userhave=true
-                this.userInfo.money-=game.price
+                this.$root.userInfo.money-=game.price
+                alert(this.$root.userInfo.money)
                 // 然后购买, 记得更新余额
             },
 

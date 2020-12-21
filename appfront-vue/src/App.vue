@@ -13,11 +13,11 @@
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/allgames">全部游戏</el-menu-item>
                 <el-menu-item index="/shop">游戏商城</el-menu-item>
-                <el-menu-item v-if="loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
-                <el-menu-item v-if="loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
-                <el-menu-item v-else @click="infoVisible = true; getUserInfo();" class="menu-right"><el-avatar :size="40" :src="userInfo.avatarURL"></el-avatar></el-menu-item>
-                <el-menu-item v-if="userInfo.usertype=='A' && loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
-                <el-menu-item v-if="userInfo.usertype=='D' && loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
+                <el-menu-item v-if="this.$root.loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
+                <el-menu-item v-if="this.$root.loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
+                <el-menu-item v-else @click="infoVisible = true; getUserInfo();" class="menu-right"><el-avatar :size="40" :src="this.$root.userInfo.avatarURL"></el-avatar></el-menu-item>
+                <el-menu-item v-if="this.$root.userInfo.usertype=='A' && this.$root.loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
+                <el-menu-item v-if="this.$root.userInfo.usertype=='D' && this.$root.loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
                 <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
             </el-menu>
         </nav>
@@ -81,7 +81,7 @@
 
                     <el-col :span="8">
                         <el-row class="row-avatar" type="flex" justify="center" align="middle">
-                            <el-avatar :size="150" :src="userInfo.avatarURL"></el-avatar>
+                            <el-avatar :size="150" :src="this.$root.userInfo.avatarURL"></el-avatar>
                         </el-row>
                         <el-row type="flex" justify="center">
                             <el-upload
@@ -100,11 +100,11 @@
                     <el-col :span="12">
                         <el-row>
                             <p class="p-username">用户名:</p>
-                            <p class="p-username">{{userInfo.username}}</p>
+                            <p class="p-username">{{this.$root.userInfo.username}}</p>
                         </el-row>
                         <el-row>
                             <p class="p-username">账户余额:</p>
-                            <p class="p-username">{{userInfo.money}}</p>
+                            <p class="p-username">{{this.$root.userInfo.money}}</p>
                             <div>
                                 <el-input-number v-model="rechargeMoney" controls-position="right" size="mini" :precision="2" :step="1" :min="0"></el-input-number>&emsp;
                                 <el-button size="mini" round plain type="success" @click="recharge();">充值</el-button>
@@ -160,13 +160,6 @@ export default {
                 username: '',
                 password: '',
             },
-            loginStatus: true, // 这里是调试 暂时赋值
-            userInfo: {
-                avatarURL: require("./assets/avatars/testavatar.jpg"),
-                username: "Test User Name",
-                usertype: "D", // A=admin, D=developer, U=user
-                money: 123
-            },
             rechargeMoney: 0,
             uploadAvatarAdd: "#", // 后端处理上传头像的地址
             myGames: [
@@ -182,7 +175,7 @@ export default {
         }
     },
 
-   
+
     methods: {
         clearRegis() {
             this.name=null
@@ -246,13 +239,13 @@ export default {
                 var str = evt.data
                 var obj = JSON.parse(str)
                 if (obj[0].login=="True"){
-                    this.loginStatus = true
-                    this.userInfo.username = this.loginForm.username
-                    this.userInfo.money = obj[0].money
-                    this.userInfo.usertype = obj[0].user_type
-                    // this.userInfo.usertype = 'A'
+                    this.$root.loginStatus = true
+                    this.$root.userInfo.username = this.loginForm.username
+                    this.$root.userInfo.money = obj[0].money
+                    this.$root.userInfo.usertype = obj[0].user_type
+                    // this.$root.userInfo.usertype = 'A'
                 }else{
-                    this.loginStatus = false
+                    this.$root.loginStatus = false
                 }
             }
         },
@@ -298,12 +291,12 @@ export default {
         },
 
         recharge() {
-            this.userInfo.money+=this.rechargeMoney
+            this.$root.userInfo.money+=this.rechargeMoney
             this.socket.send(
             '{"recharge":"true","name":"' +
-             this.userInfo.username +
+             this.$root.userInfo.username +
             '","money":"' +
-             this.userInfo.money +
+             this.$root.userInfo.money +
             '"}')
             this.socket.onmessage = (evt) => {
             }
@@ -311,7 +304,7 @@ export default {
 
 
         logout() {
-            this.loginStatus=false
+            this.$root.loginStatus=false
             this.infoVisible=false
             // 登出，待完善
         },

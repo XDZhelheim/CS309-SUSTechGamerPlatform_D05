@@ -137,7 +137,7 @@ public class WebSocketServer {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
-                    if (UsersGenerator.Services.checkLogin(users)) {
+                    if (UsersGenerator.Services.usersService.checkLogin(users)) {
                         sendMessage("True");
                     } else {
                         sendMessage("False");
@@ -147,10 +147,10 @@ public class WebSocketServer {
                     users.setName(id);
                     users.setPassword(password);
                     users.setEmail(email);
-                    UsersGenerator.Services.save(users);
+                    UsersGenerator.Services.usersService.save(users);
                     sendMessage("success register");
                 } else if (recharge != null){
-                    Users users = UsersGenerator.Services.get_user(id);
+                    Users users = UsersGenerator.Services.usersService.findByUsername(id);
                     users.setAccount(Double.parseDouble(money));
                     sendMessage("success recharge");
                 } else if (AddDe != null ){
@@ -162,10 +162,10 @@ public class WebSocketServer {
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        UsersGenerator.Services.game_save(game);
+                        UsersGenerator.Services.gamesService.save(game);
                         sendMessage("success add game");
                     }else if (AddDe.equals("Change")){
-                        Game Before_game = UsersGenerator.Services.get_game(title);
+                        Game Before_game = UsersGenerator.Services.gamesService.getGame(title);
                         Game game = new Game();
                         game.setGameType(type);
                         game.setIntro(abstract_String);
@@ -173,17 +173,17 @@ public class WebSocketServer {
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        UsersGenerator.Services.game_del(Before_game);
-                        UsersGenerator.Services.game_save(game);
+                        UsersGenerator.Services.gamesService.delete(Before_game);
+                        UsersGenerator.Services.gamesService.save(game);
                     }
                     else {
-                        Game game = UsersGenerator.Services.get_game(title);
-                        UsersGenerator.Services.game_del(game);
+                        Game game = UsersGenerator.Services.gamesService.getGame(title);
+                        UsersGenerator.Services.gamesService.delete(game);
                         sendMessage("delete success");
                     }
 
                 } else if (get_game_develop != null){
-                    List<Game> all_game = UsersGenerator.Services.game_get();
+                    List<Game> all_game = UsersGenerator.Services.gamesService.getAllGame();
                     String str_ans = "[";
 
                     for(int i=0;i<all_game.size();i++){
@@ -213,8 +213,8 @@ public class WebSocketServer {
                     str_ans += "]";
                     sendMessage(str_ans);
                 } else if (buy_game_gamepage!=null){
-                    Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
-                    Game game = UsersGenerator.Services.get_game(game_name_gamepage);
+                    Users user = UsersGenerator.Services.usersService.findByUsername(buy_game_gamepage);
+                    Game game = UsersGenerator.Services.gamesService.getGame(game_name_gamepage);
                     double before_acc = user.getAccount();
                     double need_money = game.getPrice();
                     if (need_money>before_acc){
@@ -225,16 +225,16 @@ public class WebSocketServer {
                         g_u.setGame(game);
                         g_u.setUsers(user);
                         g_u.setCreditAs('u'); //表示，这个是普通用户
-                        UsersGenerator.Services.save_game(g_u);
-                        UsersGenerator.Services.save(user);
+                        UsersGenerator.Services.gameUserService.save(g_u);
+                        UsersGenerator.Services.usersService.save(user);
                         sendMessage("购买成功");
                     }
                 }else if (commit_rate != null){
-                    Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
-                    Game game = UsersGenerator.Services.get_game(game_name_gamepage);
-                    GameUser g_u = UsersGenerator.Services.get_gu(user,game);
-                    g_u.setScore(Double.parseDouble(rate_user));
-                    UsersGenerator.Services.save_game(g_u);
+//                    Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
+//                    Game game = UsersGenerator.Services.get_game(game_name_gamepage);
+//                    GameUser g_u = UsersGenerator.Services.get_gu(user,game);
+//                    g_u.setScore(Double.parseDouble(rate_user));
+//                    UsersGenerator.Services.save_game(g_u);
                 } else if (get_comment != null){
 
                 }

@@ -1,6 +1,6 @@
 package com.example.springproject.web;
 
-import com.example.springproject.config.UsersGenerator;
+import com.example.springproject.config.Service;
 import com.example.springproject.domain.SDKLog;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ public class Download {
     public void log(HttpServletResponse response) throws IOException {
         response.setHeader("Content-Disposition", "attachment;filename=log.txt");
         response.setContentType("application/octet-stream;charset=UTF-8");
-        List<SDKLog> list = UsersGenerator.Services.sdkLogService.listLog();
+        List<SDKLog> list = Service.Services.sdkLogService.listLog();
         StringBuilder s = new StringBuilder();
         for (SDKLog log : list) {
             s.append("user_id = ").append(log.getUsers().getId()).append(", game_name = ").append(log.getGame().getName()).append(", log = ").append(log.getLog()).append(System.lineSeparator());

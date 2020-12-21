@@ -109,8 +109,6 @@ public class WebSocketServer {
                 String email = jsonObject.getString("email");
                 String check_login = jsonObject.getString("login");
                 String check_regis = jsonObject.getString("register");
-                String get_comment = jsonObject.getString("get_comment");
-                String put_comment = jsonObject.getString("put_comment");
                 String put_mess = jsonObject.getString("put_mess");
 //下面是，收到 管理游戏 消息时处理
                 String title = jsonObject.getString("title");
@@ -132,15 +130,18 @@ public class WebSocketServer {
                 String recharge = jsonObject.getString("recharge");
                 String money = jsonObject.getString("money");
                 String downloadSDK_user = jsonObject.getString("downloadSDK_user");
-                String a = jsonObject.getString("");
+                String commitComment = jsonObject.getString("commitComment");
+                String user_comment = jsonObject.getString("comment");
+                String get_comment = jsonObject.getString("get_comment");
+                String get_rate =  jsonObject.getString("get_rate");
 
 
                 if (check_login != null) {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
-                    if (UsersGenerator.Services.usersService.checkLogin(users)) {
-                        Users user = UsersGenerator.Services.usersService.findByUsername(id);
+                    if (Service.Services.usersService.checkLogin(users)) {
+                        Users user = Service.Services.usersService.findByUsername(id);
                         double mon = user.getAccount();
                         char user_type = user.getRole();
                         String str_ans = "[";
@@ -159,10 +160,10 @@ public class WebSocketServer {
                     users.setName(id);
                     users.setPassword(password);
                     users.setEmail(email);
-                    UsersGenerator.Services.usersService.save(users);
+                    Service.Services.usersService.save(users);
                     sendMessage("success register");
                 } else if (recharge != null){
-                    Users users = UsersGenerator.Services.usersService.findByUsername(id);
+                    Users users = Service.Services.usersService.findByUsername(id);
                     users.setAccount(Double.parseDouble(money));
                     sendMessage("success recharge");
                 } else if (AddDe != null ){
@@ -175,10 +176,10 @@ public class WebSocketServer {
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        UsersGenerator.Services.gamesService.save(game);
+                        Service.Services.gamesService.save(game);
                         sendMessage("success add game");
                     }else if (AddDe.equals("Change")){
-                        Game Before_game = UsersGenerator.Services.gamesService.getGame(title);
+                        Game Before_game = Service.Services.gamesService.getGame(title);
                         Game game = new Game();
                         game.setGameType(type);
                         game.setIntro(abstract_String);
@@ -187,17 +188,17 @@ public class WebSocketServer {
                         game.setDiscount(Double.parseDouble(discount_get));
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        UsersGenerator.Services.gamesService.delete(Before_game);
-                        UsersGenerator.Services.gamesService.save(game);
+                        Service.Services.gamesService.delete(Before_game);
+                        Service.Services.gamesService.save(game);
                     }
                     else {
-                        Game game = UsersGenerator.Services.gamesService.getGame(title);
-                        UsersGenerator.Services.gamesService.delete(game);
+                        Game game = Service.Services.gamesService.getGame(title);
+                        Service.Services.gamesService.delete(game);
                         sendMessage("delete success");
                     }
 
                 } else if (get_game_develop != null){
-                    List<Game> all_game = UsersGenerator.Services.gamesService.getAllGame();
+                    List<Game> all_game = Service.Services.gamesService.getAllGame();
                     String str_ans = "[";
 
                     for(int i=0;i<all_game.size();i++){
@@ -231,8 +232,8 @@ public class WebSocketServer {
                     str_ans += "]";
                     sendMessage(str_ans);
                 } else if (buy_game_gamepage!=null){
-                    Users user = UsersGenerator.Services.usersService.findByUsername(buy_game_gamepage);
-                    Game game = UsersGenerator.Services.gamesService.getGame(game_name_gamepage);
+                    Users user = Service.Services.usersService.findByUsername(buy_game_gamepage);
+                    Game game = Service.Services.gamesService.getGame(game_name_gamepage);
                     double before_acc = user.getAccount();
                     double need_money = game.getPrice();
                     if (need_money>before_acc){
@@ -243,19 +244,52 @@ public class WebSocketServer {
                         g_u.setGame(game);
                         g_u.setUsers(user);
                         g_u.setCreditAs('u'); //表示，这个是普通用户
-                        UsersGenerator.Services.gameUserService.save(g_u);
-                        UsersGenerator.Services.usersService.save(user);
+                        Service.Services.gameUserService.save(g_u);
+                        Service.Services.usersService.save(user);
                         sendMessage("购买成功");
                     }
                 }else if (commit_rate != null){
-//                    Users user = UsersGenerator.Services.get_user(buy_game_gamepage);
-//                    Game game = UsersGenerator.Services.get_game(game_name_gamepage);
-//                    GameUser g_u = UsersGenerator.Services.get_gu(user,game);
-//                    g_u.setScore(Double.parseDouble(rate_user));
-//                    UsersGenerator.Services.save_game(g_u);
-                } else if (true){
-                    String url = "localhost:8083/log";
-                    sendMessage(url);
+                    Users user = Service.Services.usersService.findByUsername(user_name_gamepage);
+                    Game game = Service.Services.gamesService.getGame(game_name_gamepage);
+                    GameUser g_u = Service.Services.gameUserService.getRecord(user,game);
+                    g_u.setScore(Double.parseDouble(rate_user));
+                    Service.Services.gameUserService.save(g_u);
+                } else if (commitComment != null){
+                    Users user = Service.Services.usersService.findByUsername(user_name_gamepage);
+                    Game game = Service.Services.gamesService.getGame(game_name_gamepage);
+                    GameUser g_u = Service.Services.gameUserService.getRecord(user,game);
+                    g_u.setDetails(user_comment);
+                    Service.Services.gameUserService.save(g_u);
+                } else if (get_comment != null){
+                    Game game = Service.Services.gamesService.getGame(game_name_gamepage);
+                    List<GameUser> list = Service.Services.gameUserService.getComment(game);
+
+
+                    String str_ans = "[";
+                    for(int i=0;i<list.size();i++){
+                        str_ans += "{";
+                        str_ans += "\"username\":\"";
+                        str_ans += list.get(i).getUsers().getName();
+                        str_ans += "\",\"comment\":\"";
+                        str_ans += list.get(i).getDetails();
+                        str_ans += "\",\"upVoteNum\":";
+                        str_ans += list.get(i).goods();
+                        str_ans += ",\"downVoteNum\":\"";
+                        str_ans += list.get(i).bads();
+
+                        str_ans += "}";
+                        if (i<list.size()-1){
+                            str_ans += ",";
+                        }
+                    }
+                   str_ans += "]";
+                    System.out.println(str_ans);
+                    sendMessage(str_ans);
+
+
+                } else if (get_rate != null){
+                    Game game = Service.Services.gamesService.getGame(game_name_gamepage);
+                    sendMessage(Double.toString(Service.Services.gameUserService.averageScore(game)));
                 }
 //                else if (){
 //

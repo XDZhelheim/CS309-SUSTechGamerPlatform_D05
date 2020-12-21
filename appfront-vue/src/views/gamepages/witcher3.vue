@@ -201,17 +201,15 @@
 
             commitComment() {
                 this.socket.send(
-                '{"commit_rate":"true","name":"' +
+                '{"commitComment":"true","name":"' +
                  this.userInfo.username +
                 '","game_name":"' +
                  this.gameinfo.title +
-                 '","score":"' +
-                 this.rate +
+                 '","comment":"' +
+                 this.currentusercomment +
                 '"}')
                 this.socket.onmessage = (evt) => {
-
                 }
-
                 let newCommit={
                     username: this.userInfo.username,
                     comment: this.currentusercomment
@@ -234,11 +232,34 @@
 
         get_comment(){
             this.socket.send(
-            '{"get_comment":"true"}')
+                '{"get_comment":"true","name":"' +
+                 this.userInfo.username +
+                '","game_name":"' +
+                 this.gameinfo.title +
+                 '","comment":"' +
+                 this.currentusercomment +
+            '"}')
+            
             this.socket.onmessage = (evt) => {
                 var str = evt.data
                 var obj = JSON.parse(str)
                 this.tableData = obj
+            }
+        },
+
+        get_rate(){
+            this.socket.send(
+                '{"get_rate":"true","name":"' +
+                 this.userInfo.username +
+                '","game_name":"' +
+                 this.gameinfo.title +
+                 '","comment":"' +
+                 this.currentusercomment +
+            '"}')
+            
+            this.socket.onmessage = (evt) => {
+                var str = evt.data
+                this.gameinfo.rate = str
             }
         },
 

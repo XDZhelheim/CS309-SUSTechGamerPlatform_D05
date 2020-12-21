@@ -17,7 +17,6 @@ public class UsersServiceImpl implements UsersService {
         users.setAccount(0);
         users.setCreateDate(new Date(System.currentTimeMillis()));
         users.setRole('U');
-        users.setId(usersRepository.count() + 1);
         usersRepository.save(users);
     }
 

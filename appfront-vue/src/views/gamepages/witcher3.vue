@@ -34,7 +34,7 @@
                     <p id="p-abstract">{{gameinfo.abstract}}</p>
                     <p id="p-placehold"></p>
                     <el-button v-if="have==false" type="primary" icon="el-icon-shopping-cart-2" @click="buy()">购买</el-button>
-                    <el-button v-else type="primary" icon="el-icon-download" @click="download()">下载</el-button>
+                    <el-button v-else type="primary" icon="el-icon-download" @click="download()"><a href="http://localhost:8083/game/witcher" target="_blank">下载</a></el-button>
                     <el-rate v-if="have==false" id="rate"
                         v-model="gameinfo.rate"
                         show-score
@@ -180,10 +180,6 @@
                 // 买游戏，扣钱
             },
 
-            download() {
-                
-                // 下载游戏
-            },
 
             commitRate() {
                 this.socket.send(
@@ -212,7 +208,7 @@
                  '","score":"' +
                  this.rate +
                 '"}')
-                this.socket.onmessage = function(msg){
+                this.socket.onmessage = (evt) => {
 
                 }
 

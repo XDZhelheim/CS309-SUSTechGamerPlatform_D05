@@ -18,7 +18,6 @@ public class GameUserServiceImpl implements GameUserService {
     @Override
     public void save(GameUser gameUser) {
         gameUser.setPurchaseTime(new Date(System.currentTimeMillis()));
-        gameUser.setId(gameUserRepository.count() + 1);
         gameUserRepository.save(gameUser);
     }
 

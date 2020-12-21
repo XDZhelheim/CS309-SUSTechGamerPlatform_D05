@@ -22,6 +22,8 @@ public class Game {
     private String publisher;
     @NotNull
     private String language;
+    @NotNull
+    private double discount = 1;
 
     private Date publishTime;
 
@@ -97,5 +99,13 @@ public class Game {
 
     public void setPublishTime(Date publishTime) {
         this.publishTime = publishTime;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

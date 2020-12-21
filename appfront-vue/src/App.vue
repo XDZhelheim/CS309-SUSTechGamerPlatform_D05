@@ -245,25 +245,16 @@ export default {
              this.socket.onmessage = (evt) => {
                 var str = evt.data
                 var obj = JSON.parse(str)
-                if (obj.login=="True"){
-
+                if (obj[0].login=="True"){
+                    this.loginStatus = true
+                    this.userInfo.username = this.loginForm.username
+                    this.userInfo.money = obj[0].money
+                    this.userInfo.usertype = obj[0].user_type
+                    // this.userInfo.usertype = 'A'
                 }else{
                     this.loginStatus = false
                 }
             }
-
-
-            {"login":"True",
-            // this.socket.onmessage = (evt) => {
-
-            //     if (evt.data=="True"){
-            //         this.loginStatus = true
-            //         this.userInfo.username = this.loginForm.username
-            //         this.userInfo.money = 
-            //     }else{
-            //         this.loginStatus = false
-            //     }
-            // }
         },
 
         regis() {

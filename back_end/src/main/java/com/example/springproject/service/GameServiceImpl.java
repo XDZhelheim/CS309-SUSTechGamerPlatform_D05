@@ -17,7 +17,6 @@ public class GameServiceImpl implements GameService {
     @Override
     public void save(Game game) {
         game.setCreateTime(new Date(System.currentTimeMillis()));
-        game.setId(gameRepository.count() + 1);
         gameRepository.save(game);
     }
 

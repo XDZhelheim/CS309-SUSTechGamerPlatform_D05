@@ -25,7 +25,6 @@ public class Download {
         in.read(bytes);
         response.getOutputStream().write(bytes);
     }
-
     @RequestMapping("/log")
     public void log(HttpServletResponse response) throws IOException {
         response.setHeader("Content-Disposition", "attachment;filename=log.txt");

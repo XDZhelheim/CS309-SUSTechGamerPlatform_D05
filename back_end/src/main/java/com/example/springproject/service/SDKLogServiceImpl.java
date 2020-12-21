@@ -19,7 +19,6 @@ public class SDKLogServiceImpl implements SDKLogService {
 
     @Override
     public void saveLog(SDKLog log) {
-        log.setId(sdkLogRepository.count() + 1);
         sdkLogRepository.save(log);
     }
 }

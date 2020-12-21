@@ -5,13 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4e477888-207a-4c2c-9601-a8578403dab0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/Download.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../appfront-vue/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/../appfront-vue/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../appfront-vue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../appfront-vue/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/config/UsersGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/config/UsersGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/config/WebSocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/config/WebSocketServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/domain/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/FriendshipServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/FriendshipServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/GameUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/SDKLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/SDKLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/UsersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/service/UsersServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/springproject/web/Download.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/config/UsersGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/config/UsersGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/config/WebSocketServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/config/WebSocketServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/domain/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/domain/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/FriendshipServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/FriendshipServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/GameServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/GameServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/GameUserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/GameUserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/SDKLogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/SDKLogServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/service/UsersServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/service/UsersServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/springproject/test.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/springproject/test.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,17 +133,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SpringprojectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="springproject" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.springproject.SpringprojectApplication" />
@@ -145,7 +147,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -241,5 +243,39 @@
     <MESSAGE value="personal account update" />
     <MESSAGE value="game info update" />
     <option name="LAST_COMMIT_MESSAGE" value="game info update" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1493" height="165" key="GridCell.Tab.0.bottom" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
+    <state width="1493" height="165" key="GridCell.Tab.0.center" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
+    <state width="1493" height="165" key="GridCell.Tab.0.left" timestamp="1608557809308">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1608557809308" />
+    <state width="1493" height="165" key="GridCell.Tab.0.right" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
+    <state width="1493" height="165" key="GridCell.Tab.1.bottom" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
+    <state width="1493" height="165" key="GridCell.Tab.1.center" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
+    <state width="1493" height="165" key="GridCell.Tab.1.left" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
+    <state width="1493" height="165" key="GridCell.Tab.1.right" timestamp="1608557809309">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="165" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1608557809309" />
   </component>
 </project>

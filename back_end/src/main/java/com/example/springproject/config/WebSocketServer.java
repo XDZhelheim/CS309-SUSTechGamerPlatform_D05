@@ -120,6 +120,7 @@ public class WebSocketServer {
                 String publisher = jsonObject.getString("publisher");
                 String language = jsonObject.getString("language");
                 String abstract_String = jsonObject.getString("abstract");
+                String discount_get = jsonObject.getString("discount");
                 String AddDe = jsonObject.getString("AddDe");
                 String Buy = jsonObject.getString("buy");
                 String get_game_develop = jsonObject.getString("get_game_develop");
@@ -130,6 +131,7 @@ public class WebSocketServer {
                 String rate_user = jsonObject.getString("score");
                 String recharge = jsonObject.getString("recharge");
                 String money = jsonObject.getString("money");
+                String downloadSDK_user = jsonObject.getString("downloadSDK_user");
                 String a = jsonObject.getString("");
 
 
@@ -168,6 +170,7 @@ public class WebSocketServer {
                         Game game = new Game();
                         game.setGameType(type);
                         game.setIntro(abstract_String);
+                        game.setDiscount(Double.parseDouble(discount_get));
                         game.setLanguage(language);
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
@@ -181,6 +184,7 @@ public class WebSocketServer {
                         game.setIntro(abstract_String);
                         game.setLanguage(language);
                         game.setName(title);
+                        game.setDiscount(Double.parseDouble(discount_get));
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
                         UsersGenerator.Services.gamesService.delete(Before_game);
@@ -208,6 +212,10 @@ public class WebSocketServer {
                         str_ans += all_game.get(i).getGameType();
                         str_ans += "\",\"publisher\":\"";
                         str_ans += all_game.get(i).getPublisher();
+
+                        str_ans += "\",\"discount\":\"";
+                        str_ans += all_game.get(i).getDiscount();
+
                         str_ans += "\",\"language\":\"";
                         str_ans += all_game.get(i).getLanguage();
                         str_ans += "\",\"abstract\":\"";
@@ -245,8 +253,9 @@ public class WebSocketServer {
 //                    GameUser g_u = UsersGenerator.Services.get_gu(user,game);
 //                    g_u.setScore(Double.parseDouble(rate_user));
 //                    UsersGenerator.Services.save_game(g_u);
-                } else if (get_comment != null){
-
+                } else if (true){
+                    String url = "localhost:8083/log";
+                    sendMessage(url);
                 }
 //                else if (){
 //

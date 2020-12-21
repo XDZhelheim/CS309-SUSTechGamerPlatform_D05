@@ -17,7 +17,6 @@ public class FriendshipServiceImpl implements FriendshipService {
     @Override
     public void addFriend(Friendship friendship) {
         friendship.setAddTime(new Date(System.currentTimeMillis()));
-        friendship.setId(friendshipRepository.count() + 1);
         friendshipRepository.save(friendship);
     }
 

@@ -41,7 +41,6 @@
                     <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
-                    <el-button plain type="primary" @click="loginFormVisible = false; putMessage();">putMessage</el-button>
 
 
                 </div>
@@ -160,10 +159,6 @@ export default {
             loginForm: {
                 username: '',
                 password: '',
-<<<<<<< HEAD
-=======
-                loginStatus: false, // 这里是调试 暂时赋值
->>>>>>> f5f228abac55a93fcee16b0e0658a8e4f745067e
             },
             loginStatus: true, // 这里是调试 暂时赋值
             userInfo: {
@@ -246,25 +241,29 @@ export default {
             '","password":"' +
              this.loginForm.password +
             '"}')
-            this.socket.onmessage = (evt) => {
-                if (evt.data=="True"){
-                    this.loginStatus = true
+
+             this.socket.onmessage = (evt) => {
+                var str = evt.data
+                var obj = JSON.parse(str)
+                if (obj.login=="True"){
+
                 }else{
                     this.loginStatus = false
                 }
             }
-<<<<<<< HEAD
-=======
 
-            // this.socket.onmessage = function(msg){
-            //     if (msg.data==="True"){
+
+            {"login":"True",
+            // this.socket.onmessage = (evt) => {
+
+            //     if (evt.data=="True"){
             //         this.loginStatus = true
-            //         alert(this.loginStatus)
-            //     } else {
-            //         this.loginStatus=false
+            //         this.userInfo.username = this.loginForm.username
+            //         this.userInfo.money = 
+            //     }else{
+            //         this.loginStatus = false
             //     }
             // }
->>>>>>> f5f228abac55a93fcee16b0e0658a8e4f745067e
         },
 
         regis() {

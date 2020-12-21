@@ -137,8 +137,18 @@ public class WebSocketServer {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
-                    if (UsersGenerator.Services.checkLogin(users)) {
-                        sendMessage("True");
+                    if (UsersGenerator.Services.usersService.checkLogin(users)) {
+                        Users user = UsersGenerator.Services.usersService.findByUsername(id);
+                        double mon = user.getAccount();
+                        char user_type = user.getRole();
+                        String str_ans = "[";
+                        str_ans += "{\"login\":\"True\",";
+                        str_ans += "\"money\":\"";
+                        str_ans += mon;
+                        str_ans += "\",\"user_type\":\"";
+                        str_ans += user_type;
+                        str_ans += "\"}]";
+                        sendMessage(str_ans);
                     } else {
                         sendMessage("False");
                     }
@@ -147,10 +157,10 @@ public class WebSocketServer {
                     users.setName(id);
                     users.setPassword(password);
                     users.setEmail(email);
-                    UsersGenerator.Services.save(users);
+                    UsersGenerator.Services.usersService.save(users);
                     sendMessage("success register");
                 } else if (recharge != null){
-                    Users users = UsersGenerator.Services.get_user(id);
+                    Users users = UsersGenerator.Services.usersService.findByUsername(id);
                     users.setAccount(Double.parseDouble(money));
                     sendMessage("success recharge");
                 } else if (AddDe != null ){
@@ -162,10 +172,10 @@ public class WebSocketServer {
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        UsersGenerator.Services.game_save(game);
+                        UsersGenerator.Services.gamesService.save(game);
                         sendMessage("success add game");
                     }else if (AddDe.equals("Change")){
-                        Game Before_game = UsersGenerator.Services.get_game(title);
+                        Game Before_game = UsersGenerator.Services.gamesService.getGame(title);
                         Game game = new Game();
                         game.setGameType(type);
                         game.setIntro(abstract_String);
@@ -173,7 +183,7 @@ public class WebSocketServer {
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        UsersGenerator.Services.game_del(Before_game);
+                        UsersGenerator.Services.gamesService.game_del(Before_game);
                         UsersGenerator.Services.game_save(game);
                     }
                     else {

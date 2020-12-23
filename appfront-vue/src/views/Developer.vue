@@ -22,8 +22,9 @@
                 </el-table-column>
                 <el-table-column prop="op" label="上传游戏" width="100">
                     <el-upload
-                        action="uploadGameAdd"
-                        :show-file-list="false">
+                        action=""
+                        :show-file-list="false"
+                        :http-request="submit">
                         <el-button icon="el-icon-upload2" plain type="success"></el-button>
                     </el-upload>
                 </el-table-column>
@@ -137,6 +138,7 @@
 
 <script>
 import app from "../App"
+import axios from 'axios'
 
 var ind = 122
     export default {
@@ -187,6 +189,7 @@ var ind = 122
                 editIndex: 0,
                 tempGame: null,
                 uploadGameAdd: 'http://localhost:8083/upload/singlefile', // 上传游戏的地址
+                file: '',
 
                 gameTypes: [
                     {
@@ -315,7 +318,6 @@ var ind = 122
                 var obj = JSON.parse(str)
                 this.tableData = obj
                 }
-                alert("getgame")
             },
 
 
@@ -325,6 +327,28 @@ var ind = 122
 
             clone(object) {
                 return JSON.parse(JSON.stringify(object))
+            },
+
+            // getFile: function (event) {
+            //     this.file = event.target.files[0]
+            //     console.log(this.file)
+            // },
+
+            submit(params) {
+                // event.preventDefault()
+                let formData = new FormData()
+                formData.append("file", params.file)
+                axios.post('http://localhost:8083/upload/singlefile', formData)
+                .then(function (response) {
+                alert(response.data)
+                console.log(response)
+                window.location.reload()
+                })
+                .catch(function (error) {
+                alert("上传失败")
+                console.log(error)
+                window.location.reload()
+                })
             }
 
             // downloadSDK() {
@@ -364,12 +388,6 @@ var ind = 122
                 }
             }
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
-            alert("mounted")
-        },
-
-        beforeMount() {
-            alert("beforeMount")
-            this.getGame()
         },
 
         beforeDestroy() {

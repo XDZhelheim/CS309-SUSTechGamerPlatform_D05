@@ -370,15 +370,7 @@ var ind = 122
                 // }
             }
 
-           
-
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
-            alert("mounted")
-        },
-
-        beforeMount() {
-            alert("beforeMount")
-            this.getGame()
         },
 
         beforeDestroy() {

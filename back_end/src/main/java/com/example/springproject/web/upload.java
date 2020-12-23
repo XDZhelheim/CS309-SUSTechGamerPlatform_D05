@@ -25,10 +25,10 @@ public class upload {
         }
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get("E:\\ooad_pro\\game" + file.getOriginalFilename());
+            Path path = Paths.get("E:\\ooad_pro\\game\\" + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
-                Files.createDirectories(Paths.get("E:\\ooad_pro\\game"));
+                Files.createDirectories(Paths.get("E:\\ooad_pro\\game\\"));
             }
             //文件写入指定路径
             Files.write(path, bytes);

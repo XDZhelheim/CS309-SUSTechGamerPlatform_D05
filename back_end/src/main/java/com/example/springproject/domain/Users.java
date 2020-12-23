@@ -48,6 +48,9 @@ public class Users {
     }
 
     public void setCreateDate(Date createDate) {
+        if (this.createDate != null) {
+            return;
+        }
         this.createDate = createDate;
     }
 

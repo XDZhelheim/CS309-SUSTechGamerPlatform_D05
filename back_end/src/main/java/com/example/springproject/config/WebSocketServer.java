@@ -13,6 +13,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -119,9 +120,11 @@ public class WebSocketServer {
                 String language = jsonObject.getString("language");
                 String abstract_String = jsonObject.getString("abstract");
                 String discount_get = jsonObject.getString("discount");
-                String AddDe = jsonObject.getString("AddDe");
+                String AddDe_game = jsonObject.getString("AddDe_game");
+                String AddDe_user = jsonObject.getString("AddDe_user");
                 String Buy = jsonObject.getString("buy");
                 String get_game_develop = jsonObject.getString("get_game_develop");
+                String get_user_develop = jsonObject.getString("get_user_develop");
                 String buy_game_gamepage = jsonObject.getString("buy_game_gamepage");
                 String user_name_gamepage = jsonObject.getString("name");
                 String game_name_gamepage = jsonObject.getString("game_name");
@@ -134,7 +137,6 @@ public class WebSocketServer {
                 String user_comment = jsonObject.getString("comment");
                 String get_comment = jsonObject.getString("get_comment");
                 String get_rate =  jsonObject.getString("get_rate");
-
 
                 if (check_login != null) {
                     Users users = new Users();
@@ -160,14 +162,16 @@ public class WebSocketServer {
                     users.setName(id);
                     users.setPassword(password);
                     users.setEmail(email);
+                    users.setRole('U');
+                    users.setAccount(0);
                     Service.Services.usersService.save(users);
                     sendMessage("success register");
                 } else if (recharge != null){
                     Users users = Service.Services.usersService.findByUsername(id);
                     users.setAccount(Double.parseDouble(money));
                     sendMessage("success recharge");
-                } else if (AddDe != null ){
-                    if (AddDe.equals("Add")){
+                } else if (AddDe_game != null ){
+                    if (AddDe_game.equals("Add")){
                         Game game = new Game();
                         game.setGameType(type);
                         game.setIntro(abstract_String);
@@ -178,7 +182,7 @@ public class WebSocketServer {
                         game.setPublisher(publisher);
                         Service.Services.gamesService.save(game);
                         sendMessage("success add game");
-                    }else if (AddDe.equals("Change")){
+                    }else if (AddDe_game.equals("Change")){
                         Game Before_game = Service.Services.gamesService.getGame(title);
                         Game game = new Game();
                         game.setGameType(type);
@@ -196,8 +200,92 @@ public class WebSocketServer {
                         Service.Services.gamesService.delete(game);
                         sendMessage("delete success");
                     }
+                }
+                else if (AddDe_user != null ) {
+                    if (AddDe_user.equals("Delete")) {
+                        Game game = Service.Services.gamesService.getGame(title);
+                        Service.Services.gamesService.delete(game);
+                        sendMessage("delete success");
+                    } else {
+                        Users users = null;
+                        String name = jsonObject.getString("username");
+                        Users Before_user = Service.Services.usersService.findByUsername(name);
+                        String time = null;
+                        users = new Users();
+                        if (AddDe_user.equals("Add")) {
+                            users.setName(name);
+                            users.setCreateDate(new Date(System.currentTimeMillis()));
+                        }else if (AddDe_user.equals("Change")){
+                            users.setCreateDate(Before_user.getCreateDate());
+                            Service.Services.usersService.delete(Before_user);
+                        }
+                        String pwd = jsonObject.getString("password");
+                        users.setPassword(pwd);
+                        String u_type = jsonObject.getString("usertype");
+                        switch (u_type) {
+                            case "用户":
+                                users.setRole('U');
+                                break;
+                            case "开发者":
+                                users.setRole('D');
+                                break;
+                            case "管理员":
+                                users.setRole('A');
+                                break;
+                        }
+                        String mail = jsonObject.getString("mail");
+                        users.setEmail(mail);
+                        String acco = jsonObject.getString("money");
+                        users.setAccount(Double.parseDouble(acco));
+                        Service.Services.usersService.save(users);
+                        sendMessage("success add user");
+                    }
+                }else if (get_user_develop != null){
+                    List<Users> all_user = Service.Services.usersService.findAllUsers();
 
-                } else if (get_game_develop != null){
+
+
+                    String str_ans = "[";
+
+                    for(int i=0;i<all_user.size();i++){
+                        str_ans += "{";
+                        str_ans += "\"username\":\"";
+                        str_ans += all_user.get(i).getName();
+                        str_ans += "\",\"password\":\"";
+                        str_ans += all_user.get(i).getPassword();
+                        str_ans += "\",\"usertype\":";
+
+                        char u_type = all_user.get(i).getRole();
+                        switch (u_type) {
+                            case 'U':
+                                str_ans += "\"用户\"";
+                                break;
+                            case 'D':
+                                str_ans += "\"开发者\"";
+                                break;
+                            case 'A':
+                                str_ans += "\"管理员\"";
+                                break;
+                        }
+
+                        str_ans += ",\"createDate\":\"";
+                        str_ans += all_user.get(i).getCreateDate();
+                        str_ans += "\",\"mail\":\"";
+                        str_ans += all_user.get(i).getEmail();
+
+                        str_ans += "\",\"money\":\"";
+                        str_ans += all_user.get(i).getAccount();
+
+                        str_ans += "\",\"AddDe_game\":\"Delete\"}";
+                        if (i<all_user.size()-1){
+                            str_ans += ",";
+                        }
+                    }
+                    str_ans += "]";
+                    System.out.println(str_ans);
+                    sendMessage(str_ans);
+                }
+                else if (get_game_develop != null){
                     List<Game> all_game = Service.Services.gamesService.getAllGame();
                     String str_ans = "[";
 
@@ -221,15 +309,14 @@ public class WebSocketServer {
                         str_ans += all_game.get(i).getLanguage();
                         str_ans += "\",\"abstract\":\"";
                         str_ans += all_game.get(i).getIntro();
-                        str_ans += "\",\"AddDe\":\"Delete\"}";
+                        str_ans += "\",\"AddDe_game\":\"Delete\"}";
                         if (i<all_game.size()-1){
                             str_ans += ",";
                         }
                     }
-//                    String str = "[{\"title\":\"243\",\"date\":\"2020-12-18\",\"price\":240.0,\"type\":\"FPS\",\"publisher\":\"24\",\"language\":\"English\",\"abstract\":\"24\",\"AddDe\":\"Delete\"},{\"title\":\"234\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"MOBA\",\"publisher\":\"fdv\",\"language\":\"English\",\"abstract\":\"234\",\"AddDe\":\"Delete\"},{\"title\":\"原神\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"原神11\",\"date\":\"2020-12-18\",\"price\":666.66,\"type\":\"RPG\",\"publisher\":\"MiHoYo\",\"language\":\"中文 (简体)\",\"abstract\":\"sb游戏\",\"AddDe\":\"Delete\"},{\"title\":\"23\",\"date\":\"2020-12-18\",\"price\":230.0,\"type\":\"FPS\",\"publisher\":\"23\",\"language\":\"中文 (简体)\",\"abstract\":\"23\",\"AddDe\":\"Delete\"}]"
-                    
-                    // str = {"title":"原神","date":"2020-09-15","price":666.66,"type":"RPG","publisher":"MiHoYo","language":"中文 (简体)","abstract":"sb游戏","AddDe":"Delete"}
+
                     str_ans += "]";
+                    System.out.println(str_ans);
                     sendMessage(str_ans);
                 } else if (buy_game_gamepage!=null){
                     Users user = Service.Services.usersService.findByUsername(buy_game_gamepage);

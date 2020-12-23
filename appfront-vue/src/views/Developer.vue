@@ -155,7 +155,7 @@ var ind = 122
                     language: "中文 (简体)",
                     abstract: "???",
                     discount: 0.8,
-                    AddDe: "false"
+                    AddDe_game: "false"
                 },
                 {
                     title: "原神",
@@ -166,7 +166,7 @@ var ind = 122
                     language: "中文 (简体)",
                     abstract: "???",
                     discount: 0,
-                    AddDe: "false"
+                    AddDe_game: "false"
                 }
 
                 ],
@@ -180,7 +180,7 @@ var ind = 122
                     language: null,
                     abstract: null,
                     discount: null,
-                    AddDe: ''
+                    AddDe_game: ''
                 },
 
                 addGameFormVisible: false,
@@ -233,7 +233,7 @@ var ind = 122
 
         methods: {
             delGame(index) {
-                this.tableData[index].AddDe = "Delete"
+                this.tableData[index].AddDe_game = "Delete"
                 var sendMsg = JSON.stringify(this.tableData[index])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = (evt) => {
@@ -245,7 +245,7 @@ var ind = 122
 
             addGame() {
                 if (this.check()) {
-                    this.newGame.AddDe = "Add"
+                    this.newGame.AddDe_game = "Add"
                     var sendMsg = JSON.stringify(this.newGame)
                     this.socket.send(sendMsg)
                     this.socket.onmessage = (evt) => {
@@ -269,7 +269,7 @@ var ind = 122
                     language: null,
                     abstract: null,
                     discount: null,
-                    AddDe: ''
+                    AddDe_game: ''
                 }
             },
 
@@ -302,7 +302,7 @@ var ind = 122
 
             changeGame(){
                 var ind = this.editIndex
-                this.tableData[ind].AddDe = "Change"
+                this.tableData[ind].AddDe_game = "Change"
                 var sendMsg = JSON.stringify(this.tableData[ind])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = function(msg){
@@ -319,7 +319,6 @@ var ind = 122
                 this.tableData = obj
                 }
             },
-
 
             cancelEdit() {
                 this.tableData.splice(this.editIndex, 1, this.tempGame)
@@ -386,7 +385,17 @@ var ind = 122
                 this.socket.onerror = function() {
                     console.log("错误")
                 }
+                //   this.socket.send(
+                // '{"get_game_develop":"true"}')
+                // this.socket.onmessage = (evt) => {
+                // var str = evt.data
+                // var obj = JSON.parse(str)
+                // this.tableData = obj
+                // }
             }
+
+           
+
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
         },
 

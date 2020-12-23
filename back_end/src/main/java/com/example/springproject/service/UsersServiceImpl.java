@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.List;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -14,9 +15,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void save(Users users) {
-        users.setAccount(0);
         users.setCreateDate(new Date(System.currentTimeMillis()));
-        users.setRole('U');
         usersRepository.save(users);
     }
 
@@ -28,6 +27,11 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Users findByUsername(String username) {
         return usersRepository.findUserByName(username);
+    }
+
+    @Override
+    public List<Users> findAllUsers() {
+        return usersRepository.findAll();
     }
 
     @Override

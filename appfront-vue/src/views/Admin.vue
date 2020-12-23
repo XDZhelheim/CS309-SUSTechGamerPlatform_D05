@@ -2,6 +2,7 @@
     <div id="admin">
         <div id="ul">
             <el-button id="au" plain type="primary" icon="el-icon-plus" @click="addUserFormVisible = true">添加用户</el-button>
+            <el-button id="sdk" plain type="primary" icon="el-icon-download" @click="getUser()">getUser</el-button>
 
             <h1>管理用户</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
@@ -105,7 +106,8 @@
                     usertype: "用户",
                     createDate: "2020-12-19",
                     mail: "xxx@mail.com",
-                    money: 0
+                    money: 0,
+                    AddDe_user: "Add"
                 }],
 
                 newUser: {
@@ -114,7 +116,8 @@
                     usertype: null,
                     createDate: null,
                     mail: null,
-                    money: null
+                    money: null,
+                    AddDe_user:"Add"
                 },
 
                 addUserFormVisible: false,
@@ -142,15 +145,28 @@
 
         methods: {
             delUser(index) {
+                this.tableData[index].AddDe_user = "Delete"
+                var sendMsg = JSON.stringify(this.tableData[index])
+                this.socket.send(sendMsg)
+                this.socket.onmessage = (evt) => {
+                    alert(evt.data)
+                }
                 this.tableData.splice(index, 1)
             },
 
             addUser() {
                 if (this.check()) {
+                    this.newUser.AddDe_user = "Add"
+                    var sendMsg = JSON.stringify(this.newUser)
+                    this.socket.send(sendMsg)
+                    this.socket.onmessage = (evt) => {
+                        alert(evt.data)
+                    }
                     this.tableData.push(this.newUser)
                     this.addUserFormVisible = false
                     this.clear()
                 }
+               
                 else
                     this.errmsg()
             },
@@ -170,14 +186,7 @@
                 this.editIndex=index
                 this.tempUser=this.clone(this.tableData[index])
             },
-
-            cancelEdit() {
-                this.tableData.splice(this.editIndex, 1, this.tempUser)
-            },
-
-            clone(object) {
-                return JSON.parse(JSON.stringify(object))
-            },
+   
 
             check() {
                 for (let key in this.newUser)
@@ -193,16 +202,70 @@
                             this.errmsg()
                             return
                         }
+                this.changeUser()
                 this.editUserFormVisible=false
             },
 
             errmsg() {
                 this.$message.error('无效输入')
+            },
+
+            changeUser(){
+                var ind = this.editIndex
+                this.tableData[ind].AddDe_user = "Change"
+                var sendMsg = JSON.stringify(this.tableData[ind])
+                this.socket.send(sendMsg)
+                this.socket.onmessage = function(msg){
+                    alert(msg.data)
+                }
+            },
+
+            getUser() {
+                 this.socket.send(
+                '{"get_user_develop":"true"}')
+                this.socket.onmessage = (evt) => {
+                var str = evt.data
+                var obj = JSON.parse(str)
+                this.tableData = obj
+                }
+            },
+
+            cancelEdit() {
+                this.tableData.splice(this.editIndex, 1, this.tempUser)
+            },
+
+            clone(object) {
+                return JSON.parse(JSON.stringify(object))
             }
 
         },
 
         mounted() {
+             if (typeof WebSocket == "undefined"){
+                console.log("不支持webSocket")
+            } else {
+                console.log("支持webSocket")
+                var socketUrl ="http://localhost:8083/"+Math.floor(Math.random() * 10000)
+                socketUrl = socketUrl.replace("https", "ws").replace("http", "ws")
+                console.log(socketUrl)
+                if (this.socket != null) {
+                    this.socket.close()
+                    this.socket = null
+                }
+                this.socket = new WebSocket(socketUrl)
+
+                this.socket.onopen = function() {
+                    console.log("websocket 打开")
+                }
+                this.socket.onmessage = function(msg) {
+                }
+                this.socket.onclose = function() {
+                    console.log("关闭")
+                }
+                this.socket.onerror = function() {
+                    console.log("错误")
+                }
+            }
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
         },
 

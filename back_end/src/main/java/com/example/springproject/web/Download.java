@@ -5,6 +5,7 @@ import com.example.springproject.domain.SDKLog;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -14,6 +15,13 @@ import java.util.List;
 
 @RestController("/Games")
 public class Download {
+
+
+    @RequestMapping("/upload/{id}")
+    public void upload(MultipartFile file, @PathVariable String id) throws IOException {
+        String path = "E:\\ooad_pro\\game\\" + id + ".exe";
+        file.transferTo(new File(path));
+    }
     @RequestMapping("/game/{id}")
     public void Game(HttpServletResponse response, @PathVariable String id) throws IOException {
         response.setHeader("Content-Disposition", "attachment;filename=" + id + ".exe");

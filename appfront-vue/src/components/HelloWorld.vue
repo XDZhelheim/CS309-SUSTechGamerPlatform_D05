@@ -1,60 +1,43 @@
 <template>
-  <div class="hello">
-    <img src="../assets/logo.png" alt="">
-    <h1>Welcome</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h1 id="sgp">
-      SUSTech Gamer Platform
-    </h1>
-    <h3>Team</h3>
-    <ul>
-      <li>董正</li>
-      <li>刘瑞龙</li>
-      <li>田野</li>
-      <li>崔俞崧</li>
-      <li>王宇辰</li>
-    </ul>
-  </div>
+ <div class="hello">
+ <h1>{{ msg }}</h1>
+ <form>
+  <input type="file" @change="getFile($event)">
+  <button class="button button-primary button-pill button-small" @click="submit($event)">提交</button>
+ </form>
+ </div>
 </template>
-
 <script>
-export default {
-  name: 'HelloWorld'
-}
+ import axios from 'axios'
+ export default {
+ name: 'HelloWorld',
+ data() {
+  return {
+  msg: 'Welcome to Your Vue.js App',
+  file: ''
+  }
+ },
+ methods: {
+  getFile: function (event) {
+  this.file = event.target.files[0]
+  console.log(this.file)
+  },
+  submit: function (event) {
+  event.preventDefault()
+  let formData = new FormData()
+  formData.append("file", this.file)
+  axios.post('http://localhost:8083/upload/singlefile', formData)
+   .then(function (response) {
+   alert(response.data)
+   console.log(response)
+   window.location.reload()
+   })
+   .catch(function (error) {
+   alert("上传失败")
+   console.log(error)
+   window.location.reload()
+   })
+  }
+ }
+ }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus">
-h3 {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-ul
-  list-style-type none
-  padding 0
-
-li
-  display inline-block
-  margin 0 10px
-
-a
-  color #42b983
-
-#sgp {
-  font-family 'Source Han Serif CN', 'Times New Roman', serif
-}
-
-.hello {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
-
-</style>

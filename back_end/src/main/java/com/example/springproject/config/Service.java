@@ -48,7 +48,6 @@ public class Service {
                     s.close();
                 }
             } catch (IOException ignored) {
-
             }
         }).start();
     }

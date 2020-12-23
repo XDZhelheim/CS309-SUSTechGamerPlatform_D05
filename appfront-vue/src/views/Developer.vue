@@ -3,7 +3,7 @@
         <div id="gl">
             <el-button id="ag" plain type="primary" icon="el-icon-plus" @click="addGameFormVisible = true">添加新游戏</el-button>
              <el-button id="sdk" plain type="primary" icon="el-icon-download" ><a href="http://localhost:8083/log" target="_blank">下载用户信息</a></el-button>
-            <el-button id="sdk" plain type="primary" icon="el-icon-download" @click="getGame()">get_game</el-button>
+            <el-button id="getgame" plain type="primary" icon="el-icon-refresh" @click="getGame()">刷新列表</el-button>
             <h1>管理游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="title" label="名称"></el-table-column>
@@ -186,7 +186,7 @@ var ind = 122
                 editGameFormVisible: false,
                 editIndex: 0,
                 tempGame: null,
-                uploadGameAdd: '#', // 上传游戏的地址
+                uploadGameAdd: 'http://localhost:8083/upload/singlefile', // 上传游戏的地址
 
                 gameTypes: [
                     {
@@ -308,13 +308,14 @@ var ind = 122
             },
 
             getGame() {
-                 this.socket.send(
+                this.socket.send(
                 '{"get_game_develop":"true"}')
                 this.socket.onmessage = (evt) => {
                 var str = evt.data
                 var obj = JSON.parse(str)
                 this.tableData = obj
                 }
+                alert("getgame")
             },
 
             cancelEdit() {
@@ -372,6 +373,12 @@ var ind = 122
            
 
             document.querySelector('body').setAttribute('style', 'background-color:rgb(55, 55, 55)')
+            alert("mounted")
+        },
+
+        beforeMount() {
+            alert("beforeMount")
+            this.getGame()
         },
 
         beforeDestroy() {
@@ -405,7 +412,7 @@ var ind = 122
         float: right;
     }
 
-    #sdk {
+    #sdk, #getgame {
         float: right;
         margin-right: 10px;
     }

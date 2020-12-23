@@ -40,12 +40,6 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="创建日期">
-                        <el-date-picker v-model="newUser.createDate" style="width:var(--itemLength)" type="date"
-                            placeholder="选择日期" value-format="yyyy-MM-dd">
-                        </el-date-picker>
-                    </el-form-item>
-
                     <el-form-item label="邮箱">
                         <el-input v-model="newUser.mail" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
@@ -79,12 +73,6 @@
                        <el-select v-model="tableData[editIndex].usertype" style="width:var(--itemLength)" placeholder="选择类型">
                             <el-option v-for="item in userTypes" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
-                    </el-form-item>
-
-                    <el-form-item label="创建日期">
-                        <el-date-picker v-model="tableData[editIndex].createDate" style="width:var(--itemLength)" type="date"
-                            placeholder="选择日期" value-format="yyyy-MM-dd">
-                        </el-date-picker>
                     </el-form-item>
 
                     <el-form-item label="邮箱">
@@ -210,7 +198,7 @@
             checkEdit() {
                 for (let i = 0; i < this.tableData.length; i++)
                     for (let key in this.tableData[i])
-                        if (this.tableData[i][key]==null || this.tableData[i][key]=='') {
+                        if (this.tableData[i][key]!=0 && (this.tableData[i][key]==null || this.tableData[i][key]=='')) {
                             this.errmsg()
                             return
                         }

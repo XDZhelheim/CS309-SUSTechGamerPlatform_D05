@@ -86,11 +86,11 @@
         data() {
             return {
                 tableData: [{
-                    username: "test user",
-                    password: "123456",
-                    usertype: "用户",
-                    createDate: "2020-12-19",
-                    mail: "xxx@mail.com",
+                    username: "admin",
+                    password: "admin",
+                    usertype: "管理员",
+                    createDate: "2020-12-24",
+                    mail: "admin@admin.com",
                     money: 0,
                     AddDe_user: "Add"
                 }],
@@ -133,7 +133,7 @@
                 var sendMsg = JSON.stringify(this.tableData[index])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = (evt) => {
-                    alert(evt.data)
+                    // alert(evt.data)
                 }
                 this.tableData.splice(index, 1)
             },
@@ -144,7 +144,7 @@
                     var sendMsg = JSON.stringify(this.newUser)
                     this.socket.send(sendMsg)
                     this.socket.onmessage = (evt) => {
-                        alert(evt.data)
+                        // alert(evt.data)
                     }
                     this.tableData.push(this.newUser)
                     this.addUserFormVisible = false
@@ -160,8 +160,8 @@
                     username: null,
                     password: null,
                     usertype: null,
-                    createDate: 1,
-                    mail: null
+                    createDate: null,
+                    mail: null,
                 }
             },
 
@@ -172,9 +172,10 @@
 
 
             check() {
+                var aData = new Date()
+                this.newUser.createDate = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate()
                 for (let key in this.newUser)
                     if (this.newUser[key]!=0 && (this.newUser[key] == null || this.newUser[key]=='')) {
-                        alert(key)
                         return false
                     }
                 return true
@@ -201,7 +202,7 @@
                 var sendMsg = JSON.stringify(this.tableData[ind])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = function(msg){
-                    alert(msg.data)
+                    // alert(msg.data)
                 }
             },
 
@@ -242,7 +243,7 @@
                 this.socket.onopen = function() {
                     console.log("websocket 打开")
                 }
-                
+
                 this.socket.onmessage = function(msg) {
                 }
 

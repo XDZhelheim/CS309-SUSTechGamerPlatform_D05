@@ -34,7 +34,7 @@
                     <p id="p-abstract">{{gameinfo.abstract}}</p>
                     <p id="p-placehold"></p>
                     <el-button v-if="have==false" type="primary" icon="el-icon-shopping-cart-2" @click="buy()">购买</el-button>
-                    <el-button v-else type="primary" icon="el-icon-download" @click="download()"><a href="http://localhost:8083/game/witcher" target="_blank">下载</a></el-button>
+                    <a v-else href="http://localhost:8083/game/witcher" target="_blank"><el-button type="primary" icon="el-icon-download">下载</el-button></a>
                     <el-rate v-if="have==false" id="rate"
                         v-model="gameinfo.rate"
                         show-score
@@ -235,7 +235,7 @@
                  '","comment":"' +
                  this.currentusercomment +
             '"}')
-            
+
             this.socket.onmessage = (evt) => {
                 var str = evt.data
                 var obj = JSON.parse(str)
@@ -252,7 +252,7 @@
                  '","comment":"' +
                  this.currentusercomment +
             '"}')
-            
+
             this.socket.onmessage = (evt) => {
                 var str = evt.data
                 this.gameinfo.rate = str

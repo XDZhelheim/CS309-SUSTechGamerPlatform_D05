@@ -1,6 +1,7 @@
 <template>
     <div id="allgames">
         <div id="allgamelist">
+            <el-button id="getallgames" plain type="primary" icon="el-icon-refresh" @click="getAllGames()">刷新列表</el-button>
             <h1>全部游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="title" label="名称" width="300">
@@ -17,7 +18,7 @@
                 <el-table-column label="下载游戏" width="120">
                     <template v-slot="temp">
                         <el-button v-if="temp.row.userhave==false" type="primary" icon="el-icon-shopping-cart-2" @click="buy(temp.row)">购买</el-button>
-                        <el-button v-else type="primary" icon="el-icon-download" @click="download(temp.row)"><a href="http://localhost:8083/game/witcher" target="_blank">下载</a></el-button>
+                        <a v-else href="http://localhost:8083/game/witcher" target="_blank"><el-button type="primary" icon="el-icon-download">下载</el-button></a>
                     </template>
                 </el-table-column>
             </el-table>
@@ -85,6 +86,10 @@
 
             gotoURL(url) {
                 this.$router.push(url)
+            },
+
+            getAllGames() {
+                // 从后端拿全部游戏
             }
 
         },
@@ -150,6 +155,10 @@
 
     #gametitle {
         font-size: 18px !important;
+    }
+
+    #getallgames {
+        float: right;
     }
 </style>
 

@@ -12,13 +12,13 @@
             router>
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/allgames">全部游戏</el-menu-item>
-                <el-menu-item index="/shop">游戏商城</el-menu-item>
+                <!-- <el-menu-item index="/shop">游戏商城</el-menu-item> -->
                 <el-menu-item v-if="this.$root.loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
                 <el-menu-item v-if="this.$root.loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true;" class="menu-right"><el-avatar :size="40" :src="this.$root.userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item v-if="this.$root.userInfo.usertype=='A' && this.$root.loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
                 <el-menu-item v-if="this.$root.userInfo.usertype=='D' && this.$root.loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
-                <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
+                <!-- <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item> -->
             </el-menu>
         </nav>
         <div id="placehold"></div>
@@ -41,8 +41,6 @@
                     <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
-
-
                 </div>
             </el-dialog>
         </div>
@@ -86,7 +84,8 @@
                         <el-row type="flex" justify="center">
                             <el-upload
                                 class="avatar-uploader"
-                                action="uploadAvatarAdd"
+                                action=""
+                                :http-request="submit"
                                 :show-file-list="false"
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
@@ -137,6 +136,7 @@ import ttt from "./views/Shop.vue"
 import developer from "./views/Developer"
 import w from "./views/gamepages/witcher3"
 import al from "./views/AllGames"
+import axios from 'axios'
 // tt.t()
 // import {s} from './views/tt.vue'
 
@@ -161,7 +161,6 @@ export default {
                 password: '',
             },
             rechargeMoney: 0,
-            uploadAvatarAdd: "#", // 后端处理上传头像的地址
             myGames: [
                 {
                     gametitle: "The Witcher: Wild Hunt",
@@ -286,6 +285,23 @@ export default {
             return isJPG && isLt2M
         },
 
+        submit(params) {
+            const copyFile = new File([params.file], `${this.$root.userInfo.ID}`)
+            let formData = new FormData()
+            formData.append("file", copyFile)
+            axios.post('http://localhost:8083/upload/upphoto', formData)
+            .then(function (response) {
+            alert(response.data)
+            console.log(response)
+            window.location.reload()
+            })
+            .catch(function (error) {
+            alert("上传失败")
+            console.log(error)
+            window.location.reload()
+            })
+        },
+
         gotoURL(url) {
             this.$router.push(url)
             this.myGamesVisible=false
@@ -311,7 +327,7 @@ export default {
             // 登出，待完善
         },
 
-        
+
     }
 
 

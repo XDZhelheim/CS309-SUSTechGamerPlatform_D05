@@ -2,7 +2,7 @@
     <div id="admin">
         <div id="ul">
             <el-button id="au" plain type="primary" icon="el-icon-plus" @click="addUserFormVisible = true">添加用户</el-button>
-            <el-button id="sdk" plain type="primary" icon="el-icon-download" @click="getUser()">getUser</el-button>
+            <el-button id="getuser" plain type="primary" icon="el-icon-refresh" @click="getUser()">刷新列表</el-button>
 
             <h1>管理用户</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
@@ -11,7 +11,6 @@
                 <el-table-column prop="usertype" label="用户类型"></el-table-column>
                 <el-table-column prop="createDate" label="创建日期"></el-table-column>
                 <el-table-column prop="mail" label="邮箱"></el-table-column>
-                <el-table-column prop="money" label="账户余额"></el-table-column>
 
                 <el-table-column prop="op" label="编辑/删除" width="180">
                     <template slot-scope="scope">
@@ -44,11 +43,6 @@
                         <el-input v-model="newUser.mail" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="余额">
-                        <el-input-number v-model="newUser.money" style="width:var(--itemLength)" :min="0"
-                            :precision="2" :step="1" :controls="false">
-                        </el-input-number>
-                    </el-form-item>
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
@@ -79,11 +73,6 @@
                         <el-input v-model="tableData[editIndex].mail" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="余额">
-                        <el-input-number v-model="tableData[editIndex].money" style="width:var(--itemLength)" :min="0"
-                            :precision="2" :step="1" :controls="false">
-                        </el-input-number>
-                    </el-form-item>
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
@@ -166,7 +155,7 @@
                     this.addUserFormVisible = false
                     this.clear()
                 }
-               
+
                 else
                     this.errmsg()
             },
@@ -186,7 +175,7 @@
                 this.editIndex=index
                 this.tempUser=this.clone(this.tableData[index])
             },
-   
+
 
             check() {
                 for (let key in this.newUser)
@@ -298,8 +287,9 @@
         background-color: rgba(55, 55, 55, 0.3) !important;
     }
 
-    #au {
+    #au, #getuser {
         float: right;
+        margin-right: 10px;
     }
 
     .el-form-item__label {

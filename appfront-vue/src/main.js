@@ -18,7 +18,8 @@ new Vue({
                 money: 666
             },
 
-            loginStatus: false
+            loginStatus: false,
+            witcher3_have: false
         }
     },
     router,

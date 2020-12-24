@@ -3,6 +3,8 @@ package com.example.springproject.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,29 +26,32 @@ public class GameUser {
     private double score;
 
     private String details;
-    @NotNull
-    @OneToMany
-    private Set<Users> good;
-    @NotNull
-    @OneToMany
-    private Set<Users> bad;
+//    @NotNull
+//    @OneToMany
+//    private Set<Users> good;
+//    @NotNull
+//    @OneToMany
+//    private Set<Users> bad;
 
-    public void newGood(Users u) {
-        good.add(u);
+//    public void newGood(Users u) {
+//        good.add(u);
+//    }
+//
+//    public void newBad(Users u) {
+//        bad.add(u);
+//    }
+//
+//    public int goods() {
+//        return good.size();
+//    }
+//
+//    public int bads() {
+//        return bad.size();
+//    }
+
+    public GameUser(){
+        details = "";
     }
-
-    public void newBad(Users u) {
-        bad.add(u);
-    }
-
-    public int goods() {
-        return good.size();
-    }
-
-    public int bads() {
-        return bad.size();
-    }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -95,11 +100,17 @@ public class GameUser {
         return score;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    private static final String split = "////";
+
+    public void addDetails(String details) {
+        if (this.details.length() == 0) {
+            this.details = details;
+        } else {
+            this.details += split + details;
+        }
     }
 
-    public String getDetails() {
-        return details;
+    public String[] getDetails() {
+        return details.split(split);
     }
 }

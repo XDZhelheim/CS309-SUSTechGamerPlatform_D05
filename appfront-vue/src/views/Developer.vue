@@ -12,7 +12,7 @@
                 <el-table-column prop="type" label="类型"></el-table-column>
                 <el-table-column prop="publisher" label="开发商"></el-table-column>
                 <el-table-column prop="language" label="语言"></el-table-column>
-                <el-table-column prop="abstract" label="简介"></el-table-column>
+                <el-table-column prop="abstract" label="简介" width="300"></el-table-column>
                 <el-table-column prop="discount" label="折扣"></el-table-column>
                 <el-table-column prop="op" label="编辑/删除" width="180">
                     <template slot-scope="scope">
@@ -147,28 +147,17 @@ var ind = 122
         data() {
             return {
                 tableData: [{
-                    title: "原神",
-                    date: "2020-09-15",
-                    price: 666.66,
+                    title: "The Witcher: Wild Hunt",
+                    date: "2015-05-19",
+                    price: 47,
                     type: "RPG",
-                    publisher: "MiHoYo",
-                    language: "中文 (简体)",
-                    abstract: "???",
-                    discount: 0.8,
+                    publisher: "Rubbish publisher",
+                    language: "English",
+                    rate: 4.8,
+                    abstract: "该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。",
+                    discount: 0.0,
                     AddDe_game: "false"
                 },
-                {
-                    title: "原神",
-                    date: "2020-09-15",
-                    price: 666.66,
-                    type: "RPG",
-                    publisher: "MiHoYo",
-                    language: "中文 (简体)",
-                    abstract: "???",
-                    discount: 0,
-                    AddDe_game: "false"
-                }
-
                 ],
 
                 newGame: {
@@ -236,7 +225,7 @@ var ind = 122
                 var sendMsg = JSON.stringify(this.tableData[index])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = (evt) => {
-                    alert(evt.data)
+                    // alert(evt.data)
                 }
                 this.tableData.splice(index, 1)
             },
@@ -248,7 +237,7 @@ var ind = 122
                     var sendMsg = JSON.stringify(this.newGame)
                     this.socket.send(sendMsg)
                     this.socket.onmessage = (evt) => {
-                        alert(evt.data)
+                        // alert(evt.data)
                     }
                     this.tableData.push(this.newGame)
                     this.addGameFormVisible = false
@@ -305,13 +294,14 @@ var ind = 122
                 var sendMsg = JSON.stringify(this.tableData[ind])
                 this.socket.send(sendMsg)
                 this.socket.onmessage = function(msg){
-                    alert(msg.data)
+                    // alert(msg.data)
                 }
             },
 
             getGame() {
                 this.socket.send(
                 '{"get_game_develop":"true"}')
+                
                 this.socket.onmessage = (evt) => {
                 var str = evt.data
                 var obj = JSON.parse(str)
@@ -338,14 +328,13 @@ var ind = 122
                 formData.append("file", params.file)
                 axios.post('http://localhost:8083/upload/singlefile', formData)
                 .then(function (response) {
-                alert(response.data)
+                // alert(response.data)
+                alert("上传成功!")
                 console.log(response)
-                window.location.reload()
                 })
                 .catch(function (error) {
                 alert("上传失败")
                 console.log(error)
-                window.location.reload()
                 })
             }
 

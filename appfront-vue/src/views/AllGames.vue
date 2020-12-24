@@ -2,7 +2,6 @@
     <div id="allgames">
         <div id="allgamelist">
             <el-button id="getallgames" plain type="primary" icon="el-icon-refresh" @click="getAllGames()">刷新列表</el-button>
-            <el-button id="getallgames" plain type="primary" icon="el-icon-refresh" @click="tt()">tt</el-button>
             <h1>全部游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="title" label="名称" width="300">
@@ -36,22 +35,8 @@
 
         data() {
             return {
-                tableData: [
-                    {
-                        title: "The Witcher: Wild Hunt",
-                        date: "2015 年 5 月 19 日",
-                        price: 47,
-                        type: "RPG",
-                        publisher: "CD Projekt RED",
-                        language: "English",
-                        rate: 4.8,
-                        abstract: "该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。",
-                        userhave: 'false', // 这里要从后端知道当前 user 有没有这个游戏
-                        url: "/witcher3"
-                    },
-                ],
+                tableData: [],
                 rate: 124, // 用户打分
-
             }
         },
 
@@ -61,18 +46,29 @@
                     this.$message.error("请登录")
                     return
                 }
-                if (game.price>this.$root.userInfo.price) {
-                    this.$message.error("余额不足")
-                    return
+                // if (game.price>this.$root.userInfo.price) {
+                //     this.$message.error("余额不足")
+                //     return
+                // }
+                this.socket.send(
+                '{"buy_game_gamepage":"true","name":"' +
+                this.$root.userInfo.username +
+                '","game_name":"' +
+                game.title +
+                '"}')
+                this.socket.onmessage = (evt) => {
+                    // alert(evt.data)
+                    if (evt.data=="购买成功"){
+                        game.userhave = 'true'
+                        this.$root.userInfo.money-=game.price
+                    } else {
+                        this.$message.error("余额不足")
+                        game.userhave = 'false'
+                    }
                 }
-                game.userhave=true
-                this.$root.userInfo.money-=game.price
-                alert(this.$root.userInfo.money)
-                // 然后购买, 记得更新余额
+                // alert(this.$root.userInfo.money)
             },
-            tt(){
-                alert(this.tableData[0].userhave)
-            },
+         
 
             getAllGames() {
                 this.socket.send(
@@ -84,6 +80,11 @@
                 var str = evt.data
                 var obj = JSON.parse(str)
                 this.tableData = obj
+                for (let i = 0; i < this.tableData.length; i++)
+                    if (this.tableData[i].title=="The Witcher: Wild Hunt") {
+                        this.$root.witcher3_have=this.tableData[i].userhave
+                    }
+                // alert("刷新成功")
                 }
                 // var str = "[{\"title\":\"123\",\"date\":\"2015 年 5 月 19 日\",\"price\":\"130.0\",\"type\":\"FPS\",\"publisher\":\"313e\",\"language\":\"中文 (繁体)\",\"rate\":\"4.8\",\"abstract\":\"wedf\",\"userhave\":\"falseurl:null},{\"title\":\"The Witcher: Wild Hunt\",\"date\":\"2020-12-24\",\"price\":47.0,\"type\":\"RPG\",\"publisher\":\"Rubbish publisher\",\"language\":\"English\",\"rate\":\"4.8\",\"abstract\":\"该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。\",\"userhave\":\"falseurl: \"/witcher3\"}]"
                 // var obj = JSON.parse(str)

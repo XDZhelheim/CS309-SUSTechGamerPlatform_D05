@@ -33,9 +33,9 @@
                     <p class="p-gameinfo">价格: {{gameinfo.price}} ￥</p>
                     <p id="p-abstract">{{gameinfo.abstract}}</p>
                     <p id="p-placehold"></p>
-                    <el-button v-if="have==false" type="primary" icon="el-icon-shopping-cart-2" @click="buy()">购买</el-button>
+                    <el-button v-if="this.$root.witcher3_have=='false'" type="primary" icon="el-icon-shopping-cart-2" @click="buy()">购买</el-button>
                     <a v-else href="http://localhost:8083/game/witcher" target="_blank"><el-button type="primary" icon="el-icon-download">下载</el-button></a>
-                    <el-rate v-if="have==false" id="rate"
+                    <el-rate v-if="this.$root.witcher3_have=='false'" id="rate"
                         v-model="gameinfo.rate"
                         show-score
                         disabled
@@ -54,8 +54,8 @@
 
         <el-divider></el-divider>
 
-        <div id="comments">
-            <h1>评论</h1>
+        <h1 @click="getComment()">评论</h1>
+        <div id="comments" v-if="showComments">
             <div v-for="usercomment in comments" :key="usercomment">
                 <el-row type="flex" align="middle">
                     <el-col span="4" offset="2">
@@ -65,10 +65,10 @@
                     <el-col>
                         <p>
                             {{usercomment.comment}}
-                            <span id="up-down-vote">
+                            <!-- <span id="up-down-vote">
                                 <el-link @click="vote(usercomment, true)">赞</el-link>: {{usercomment.upVoteNum}}
                                 <el-link @click="vote(usercomment, false)">踩</el-link>: {{usercomment.downVoteNum}}
-                            </span>
+                            </span> -->
                         </p>
                     </el-col>
                 </el-row>
@@ -78,7 +78,7 @@
                 </el-row>
             </div>
 
-            <div v-if="have">
+            <div v-if="this.$root.witcher3_have=='true'">
                 <el-col offset="2" span="22">
                     <el-input v-model="currentusercomment" type="textarea" maxlength="200" :autosize="{minRows: 5}" show-word-limit></el-input>
                 </el-col>
@@ -96,7 +96,7 @@
         data() {
             return {
                 bannerHeight: '',
-                have: false, // 用户是不是已经买了，从后端获取
+                // have: false, // 用户是不是已经买了，从后端获取
                 gameinfo: {
                     title: "The Witcher: Wild Hunt",
                     date: "2015 年 5 月 19 日",
@@ -110,6 +110,7 @@
 
                 rate: 0, // 用户打分
                 currentusercomment: "", // 用户评论
+                showComments: false,
 
                 gamepics: [
                     require('../../assets/gamedetailpics/witcher3/1.jpg'),
@@ -122,21 +123,7 @@
                     require('../../assets/videos/witcher3.mp4'),
                 ],
 
-                comments: [
-                    {
-                        username: "Test User",
-                        comment: "我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍我觉得彳亍",
-                        upVoteNum: 0,
-                        downVoteNum: 0
-                    },
-                    {
-                        username: "Test User 2",
-                        comment: "我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍我觉得8彳亍",
-                        upVoteNum: 0,
-                        downVoteNum: 0
-                    }
-                ]
-
+                comments: []
             }
         },
 
@@ -164,14 +151,15 @@
                 this.gameinfo.title +
                 '"}')
                 this.socket.onmessage = (evt) => {
-                    if (evt.data=="success"){
-                        this.have = true
+                    // alert(evt.data)
+                    if (evt.data=="购买成功"){
+                        this.$root.witcher3_have = true
+                        // alert(this.$root.witcher3_have)
                     } else {
-                        this.have = false
+                        this.$root.witcher3_have = false
                     }
                 }
-                        this.have = true
-
+                
                 this.$root.userInfo.money-=this.gameinfo.price
                 // 买游戏，扣钱
             },
@@ -192,12 +180,12 @@
             },
 
             reply_reply(username) {
-                this.currentusercomment="回复 @"+username+":\n"+this.currentusercomment
+                this.currentusercomment="回复 @"+username+":"+this.currentusercomment
             },
 
             commitComment() {
                 this.socket.send(
-                '{"commit_rate":"true","name":"' +
+                '{"commitComment":"true","name":"' +
                  this.$root.userInfo.username +
                 '","game_name":"' +
                  this.gameinfo.title +
@@ -211,6 +199,7 @@
                     comment: this.currentusercomment
                 }
                 this.comments.push(newCommit)
+                this.currentusercomment=''
             },
 
             vote(usercomment, control) {
@@ -224,38 +213,37 @@
                     usercomment.downVoteNum+=1
             },
 
-        },
+            getComment(){
+                this.socket.send(
+                    '{"get_comment":"true","name":"' +
+                     this.$root.userInfo.username +
+                    '","game_name":"' +
+                     this.gameinfo.title +
+                     '","comment":"' +
+                     this.currentusercomment +
+                '"}')
+                this.socket.onmessage = (evt) => {
+                    var str = evt.data
+                    var obj = JSON.parse(str)
+                    this.comments = obj
+                    this.showComments=true
+                }
+            },
 
-        get_comment(){
-            this.socket.send(
-                '{"get_comment":"true","name":"' +
-                 this.userInfo.username +
-                '","game_name":"' +
-                 this.gameinfo.title +
-                 '","comment":"' +
-                 this.currentusercomment +
-            '"}')
+            get_rate(){
+                this.socket.send(
+                    '{"get_rate":"true","name":"' +
+                    this.$root.userInfo.username +
+                    '","game_name":"' +
+                    this.$root.gameinfo.title +
+                    '","comment":"' +
+                    this.currentusercomment +
+                '"}')
 
-            this.socket.onmessage = (evt) => {
-                var str = evt.data
-                var obj = JSON.parse(str)
-                this.tableData = obj
-            }
-        },
-
-        get_rate(){
-            this.socket.send(
-                '{"get_rate":"true","name":"' +
-                 this.userInfo.username +
-                '","game_name":"' +
-                 this.gameinfo.title +
-                 '","comment":"' +
-                 this.currentusercomment +
-            '"}')
-
-            this.socket.onmessage = (evt) => {
-                var str = evt.data
-                this.gameinfo.rate = str
+                this.socket.onmessage = (evt) => {
+                    var str = evt.data
+                    this.gameinfo.rate = str
+                }
             }
         },
 

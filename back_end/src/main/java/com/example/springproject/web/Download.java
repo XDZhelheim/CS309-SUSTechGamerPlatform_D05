@@ -65,6 +65,9 @@ public class Download {
 
 //        response.setContentType("image/jpeg;charset=UTF-8");
         File f = new File("E:\\ooad_pro\\avatars\\" + id.substring(0, id.indexOf('-')) );
+        if (!f.exists()) {
+            return;
+        }
         int all = (int) f.length();
         FileInputStream in = new FileInputStream(f);
         byte[] bytes = new byte[all];

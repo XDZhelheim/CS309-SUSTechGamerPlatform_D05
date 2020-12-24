@@ -69,7 +69,7 @@ public class WebSocketServer {
             //在线数加1
         }
 
-        log.info("用户连接:" + userId + ",当前在线人数为:" + getOnlineCount());
+//        log.info("用户连接:" + userId + ",当前在线人数为:" + getOnlineCount());
 
         try {
             sendMessage("连接成功");
@@ -88,7 +88,7 @@ public class WebSocketServer {
             //从set中删除
             subOnlineCount();
         }
-        log.info("用户退出:" + userId + ",当前在线人数为:" + getOnlineCount());
+//        log.info("用户退出:" + userId + ",当前在线人数为:" + getOnlineCount());
     }
 
     /**
@@ -139,6 +139,7 @@ public class WebSocketServer {
                 String user_comment = jsonObject.getString("comment");
                 String get_comment = jsonObject.getString("get_comment");
                 String get_rate =  jsonObject.getString("get_rate");
+                String getMyGames = jsonObject.getString("getMyGames");
 
                 if (check_login != null) {
                     Users users = new Users();
@@ -176,9 +177,33 @@ public class WebSocketServer {
                     users.setAccount(0);
                     Service.Services.usersService.save(users);
                     sendMessage("success register");
+                } else if (getMyGames != null){
+                    String name = jsonObject.getString("name");
+                    Users users = Service.Services.usersService.findByUsername(name);
+                    List<GameUser> games = Service.Services.gameUserService.getOwnerUsers(users);
+                    String str_ans = "[";
+                    for(int i=0;i<games.size();i++){
+                        str_ans += "{";
+                        str_ans += "\"gametitle\":\"";
+                        str_ans += games.get(i).getGame().getName();
+                        str_ans += "\",\"gameURL\":\"";
+                        if (games.get(i).getGame().getName().equals("The Witcher: Wild Hunt")){
+                            str_ans += "/witcher3\"";
+                        }else {
+                            str_ans += "null";
+                        }
+                        str_ans += "}";
+                        if (i<games.size()-1){
+                            str_ans += ",";
+                        }
+                    }
+                    str_ans += "]";
+                    System.out.println(str_ans);
+                    sendMessage(str_ans);
                 } else if (recharge != null){
                     Users users = Service.Services.usersService.findByUsername(id);
                     users.setAccount(Double.parseDouble(money));
+                    Service.Services.usersService.save(users);
                     sendMessage("success recharge");
                 } else if (AddDe_game != null ){
                     if (AddDe_game.equals("Add")){
@@ -190,12 +215,15 @@ public class WebSocketServer {
                         game.setName(title);
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
+                        String pub_time = jsonObject.getString("date");
+                        game.setPublishTime(Date.valueOf(pub_time));
                         Service.Services.gamesService.save(game);
                         sendMessage("success add game");
                     }else if (AddDe_game.equals("Change")){
                         Game Before_game = Service.Services.gamesService.getGame(title);
                         Game game = new Game();
                         game.setId(Before_game.getId());
+                        game.setPublishTime(Before_game.getPublishTime());
                         game.setGameType(type);
                         game.setIntro(abstract_String);
                         game.setLanguage(language);
@@ -299,9 +327,9 @@ public class WebSocketServer {
                         str_ans += "\"title\":\"";
                         str_ans += all_game.get(i).getName();
                         str_ans += "\",\"date\":\"";
-                        str_ans += all_game.get(i).getCreateTime();
+                        str_ans += all_game.get(i).getPublishTime();
                         str_ans += "\",\"price\":";
-                        str_ans += all_game.get(i).getPrice();
+                        str_ans += all_game.get(i).getPrice() * (1-all_game.get(i).getDiscount());
                         str_ans += ",\"type\":\"";
                         str_ans += all_game.get(i).getGameType();
                         str_ans += "\",\"publisher\":\"";
@@ -315,16 +343,7 @@ public class WebSocketServer {
 //                        str_ans += Service.Services.gameUserService.averageScore(all_game.get(i));
                         str_ans += "\",\"abstract\":\"";
                         str_ans += all_game.get(i).getIntro();
-//                        "[{\"title\":\"123\",\"date\":\"2020-12-23\",\"price\":130.0,\"type\":\"FPS\",\"publisher\":\"313e\",\"language\":\"中文 (繁体)\",\"rate\":\"4.8\",\"abstract\":\"wedf\",\"userhave\":\"falseurl:null},{\"title\":\"The Witcher: Wild Hunt\",\"date\":\"2020-12-24\",\"price\":47.0,\"type\":\"RPG\",\"publisher\":\"Rubbish publisher\",\"language\":\"English\",\"rate\":\"4.8\",\"abstract\":\"该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。\",\"userhave\":\"false\",\"url: \"/witcher3\"}]"
-//                        "[{\"title\":\"123\",\"date\":\"2020-12-23\",\"price\":130.0,\"type\":\"FPS\",\"publisher\":\"313e\",\"language\":\"中文 (繁体)\",\"rate\":\"4.8\",\"abstract\":\"wedf\",\"userhave\":\"falseurl:null},{\"title\":\"The Witcher: Wild Hunt\",\"date\":\"2020-12-24\",\"price\":47.0,\"type\":\"RPG\",\"publisher\":\"Rubbish publisher\",\"language\":\"English\",\"rate\":\"4.8\",\"abstract\":\"该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。\",\"userhave\":\"falseurl: \"/witcher3\"}]"
-//                        List<GameUser> all = Service.Services.gameUserService.getOwnerUsers(tmp_user);
-//                        Boolean has = false;
-//                        for (GameUser tmp: all){
-//                            Game g = tmp.getGame();
-//                            if (g.getId() == all_game.get(i).getId()){
-//                                has = true;
-//                            }
-//                        }
+
                         str_ans += "\",\"userhave\":\"";
                         str_ans += gu != null;
                         if (all_game.get(i).getName().equals("The Witcher: Wild Hunt")){
@@ -350,14 +369,13 @@ public class WebSocketServer {
                         str_ans += "\"title\":\"";
                         str_ans += all_game.get(i).getName();
                         str_ans += "\",\"date\":\"";
-                        str_ans += all_game.get(i).getCreateTime();
+                        str_ans += all_game.get(i).getPublishTime();
                         str_ans += "\",\"price\":";
                         str_ans += all_game.get(i).getPrice();
                         str_ans += ",\"type\":\"";
                         str_ans += all_game.get(i).getGameType();
                         str_ans += "\",\"publisher\":\"";
                         str_ans += all_game.get(i).getPublisher();
-
                         str_ans += "\",\"discount\":\"";
                         str_ans += all_game.get(i).getDiscount();
 
@@ -375,21 +393,26 @@ public class WebSocketServer {
                     System.out.println(str_ans);
                     sendMessage(str_ans);
                 } else if (buy_game_gamepage!=null){
-                    Users user = Service.Services.usersService.findByUsername(buy_game_gamepage);
+                    Users user = Service.Services.usersService.findByUsername(id);
                     Game game = Service.Services.gamesService.getGame(game_name_gamepage);
-                    double before_acc = user.getAccount();
-                    double need_money = game.getPrice();
-                    if (need_money>before_acc){
-                        sendMessage("余额不足，购买失败");
-                    }else {
-                        user.setAccount(before_acc-need_money);
-                        GameUser g_u = new GameUser();
-                        g_u.setGame(game);
-                        g_u.setUsers(user);
-                        g_u.setCreditAs('u'); //表示，这个是普通用户
-                        Service.Services.gameUserService.save(g_u);
-                        Service.Services.usersService.save(user);
-                        sendMessage("购买成功");
+                    if (Service.Services.gameUserService.getRecord(user, game) != null) {
+                        sendMessage("已购买");
+                    } else {
+                        double before_acc = user.getAccount();
+                        double be_need_money = game.getPrice();
+                        double need_money = be_need_money * (1-game.getDiscount());
+                        if (need_money > before_acc) {
+                            sendMessage("fail");
+                        } else {
+                            user.setAccount(before_acc - need_money);
+                            GameUser g_u = new GameUser();
+                            g_u.setGame(game);
+                            g_u.setUsers(user);
+                            g_u.setCreditAs('U'); //表示，这个是普通用户
+                            Service.Services.gameUserService.save(g_u);
+                            Service.Services.usersService.save(user);
+                            sendMessage("购买成功");
+                        }
                     }
                 }else if (commit_rate != null){
                     Users user = Service.Services.usersService.findByUsername(user_name_gamepage);
@@ -401,31 +424,32 @@ public class WebSocketServer {
                     Users user = Service.Services.usersService.findByUsername(user_name_gamepage);
                     Game game = Service.Services.gamesService.getGame(game_name_gamepage);
                     GameUser g_u = Service.Services.gameUserService.getRecord(user,game);
-                    g_u.setDetails(user_comment);
+                    g_u.addDetails(user_comment);
                     Service.Services.gameUserService.save(g_u);
                 } else if (get_comment != null){
                     Game game = Service.Services.gamesService.getGame(game_name_gamepage);
                     List<GameUser> list = Service.Services.gameUserService.getComment(game);
-
-
                     String str_ans = "[";
                     for(int i=0;i<list.size();i++){
-                        str_ans += "{";
-                        str_ans += "\"username\":\"";
-                        str_ans += list.get(i).getUsers().getName();
-                        str_ans += "\",\"comment\":\"";
-                        str_ans += list.get(i).getDetails();
-                        str_ans += "\",\"upVoteNum\":";
-                        str_ans += list.get(i).goods();
-                        str_ans += ",\"downVoteNum\":\"";
-                        str_ans += list.get(i).bads();
+                        String[] comment_all = list.get(i).getDetails();
+                        for (int j=0;j<comment_all.length;j++){
+                            if (comment_all[j].length()==0)
+                                continue;
+                            str_ans += "{";
+                            str_ans += "\"username\":\"";
+                            str_ans += list.get(i).getUsers().getName();
+                            str_ans += "\",\"comment\":\"";
+                            str_ans += comment_all[j];
+//                        str_ans += "\",\"upVoteNum\":";
+//                        str_ans += list.get(i).goods();
+//                        str_ans += ",\"downVoteNum\":\"";
+//                        str_ans += list.get(i).bads();
+                            str_ans += "\"},";
 
-                        str_ans += "}";
-                        if (i<list.size()-1){
-                            str_ans += ",";
                         }
                     }
-                   str_ans += "]";
+                    str_ans = str_ans.substring(0,str_ans.length()-1);
+                    str_ans += "]";
                     System.out.println(str_ans);
                     sendMessage(str_ans);
 
@@ -454,25 +478,6 @@ public class WebSocketServer {
         }
     }
 
-//    public void check(String message, Session session){
-//        log.info("用户："+userId+",消息"+message);
-//        log.info("开启了check操作");
-//        if(StringUtils.isNotBlank(message)){
-//            try {
-//                //解析发送的报文
-//                JSONObject jsonObject = JSON.parseObject(message);
-//                //追加发送人(防止串改)
-//                jsonObject.put("fromUserId",this.userId);
-//                String id = jsonObject.getString("name");
-//                String password=jsonObject.getString("password");
-//                //传送给对应toUserId用户的websocket
-//                sendMessage("True");
-//
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     /**
      * @param session a
@@ -496,11 +501,11 @@ public class WebSocketServer {
      * 发送自定义消息
      */
     public static void sendInfo(String message, @PathParam("userId") String userId) throws IOException {
-        log.info("发送消息到:" + userId + "，报文:" + message);
+//        log.info("发送消息到:" + userId + "，报文:" + message);
         if (StringUtils.isNotBlank(userId) && webSocketMap.containsKey(userId)) {
             webSocketMap.get(userId).sendMessage(message);
         } else {
-            log.error("用户" + userId + ",不在线！");
+//            log.error("用户" + userId + ",不在线！");
         }
     }
 

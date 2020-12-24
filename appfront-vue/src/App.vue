@@ -13,8 +13,8 @@
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/allgames">全部游戏</el-menu-item>
                 <!-- <el-menu-item index="/shop">游戏商城</el-menu-item> -->
-                <el-menu-item v-if="this.$root.loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
-                <el-menu-item v-if="this.$root.loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
+                <el-menu-item v-if="this.$root.loginStatus==true" @click="myGamesVisible=true; getMyGames();">我的游戏</el-menu-item>
+                <el-menu-item v-if="this.$root.loginStatus==false" @click="loginFormVisible= true; openSocket();" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true;" class="menu-right"><el-avatar :size="40" :src="this.$root.userInfo.avatarURL" :key="this.$root.userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item v-if="this.$root.userInfo.usertype=='A' && this.$root.loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
                 <el-menu-item v-if="this.$root.userInfo.usertype=='D' && this.$root.loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
@@ -39,8 +39,8 @@
                     <el-button plain type="primary" style="float: left" @click="loginFormVisible = false; signinFormVisible=true; clearLogin();">注册</el-button>
                     <el-button plain type="warning" @click="clearLogin()">取消</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
-                    <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
-                    <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
+                    <!-- <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
+                    <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button> -->
                 </div>
             </el-dialog>
         </div>
@@ -61,7 +61,7 @@
                     </el-form-item>
 
                     <el-form-item label="邮箱">
-                        <el-input v-model="email" style="width:var(--itemLength)" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
+                        <el-input v-model="email" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -162,14 +162,14 @@ export default {
             },
             rechargeMoney: 0,
             myGames: [
-                {
-                    gametitle: "The Witcher: Wild Hunt",
-                    gameURL: "/witcher3"
-                },
-                {
-                    gametitle: "原神",
-                    gameURL: "/shop"
-                }
+                // {
+                //     gametitle: "The Witcher: Wild Hunt",
+                //     gameURL: "/witcher3"
+                // },
+                // {
+                //     gametitle: "原神",
+                //     gameURL: "/shop"
+                // }
             ]
         }
     },
@@ -214,7 +214,7 @@ export default {
                     console.log("websocket 打开")
                 }
                 this.socket.onmessage = function(msg) {
-                    alert(msg.data)
+                    // alert(msg.data)
                 }
                 this.socket.onclose = function() {
                     console.log("关闭")
@@ -239,13 +239,27 @@ export default {
                 if (obj[0].login=="True"){
                     this.$root.loginStatus = true
                     this.$root.userInfo.username = this.loginForm.username
-                    this.$root.userInfo.money = obj[0].money
+                    this.$root.userInfo.money = parseFloat(obj[0].money)
                     this.$root.userInfo.usertype = obj[0].user_type
                     this.$root.userInfo.ID = obj[0].ID
                     this.$root.userInfo.avatarURL = obj[0].avatarURL
                 }else{
                     this.$root.loginStatus = false
                 }
+            }
+        },
+
+        getMyGames(){
+            this.socket.send(
+            '{"getMyGames":"true","name":"' +
+             this.loginForm.username +
+            '"}')
+
+             this.socket.onmessage = (evt) => {
+                var str = evt.data
+                // alert(str)
+                var obj = JSON.parse(str)
+                this.myGames = obj
             }
         },
 
@@ -263,7 +277,7 @@ export default {
                 this.email +
                 '"}')
                 this.socket.onmessage = (evt) => {
-                    alert(evt.data)
+                    // alert(evt.data)
                 }
             }
         },
@@ -291,7 +305,7 @@ export default {
             formData.append("file", copyFile)
             axios.post('http://localhost:8083/upload/upphoto', formData)
             .then(function (response) {
-            alert(response.data)
+            // alert(response.data)
             console.log(response)
             })
             .catch(function (error) {
@@ -319,6 +333,7 @@ export default {
              this.$root.userInfo.money +
             '"}')
             this.socket.onmessage = (evt) => {
+                // alert(evt.data)
             }
         },
 
@@ -327,11 +342,16 @@ export default {
             this.$root.loginStatus=false
             this.infoVisible=false
             this.$root.userInfo=[]
-            // 登出，待完善
+            this.$root.witcher3_have=false
+            this.$router.push('/')
         },
 
 
-    }
+    },
+
+     mounted() {
+            
+        }
 
 
 

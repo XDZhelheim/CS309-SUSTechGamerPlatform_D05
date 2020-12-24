@@ -14,8 +14,9 @@
                 <el-table-column prop="type" label="类型" width="100"></el-table-column>
                 <el-table-column prop="publisher" label="开发商" width="200"></el-table-column>
                 <el-table-column prop="language" label="语言" width="100"></el-table-column>
+                <el-table-column prop="rate" label="评分" width="70"></el-table-column>
                 <el-table-column prop="abstract" label="简介"></el-table-column>
-                <el-table-column label="下载游戏" width="120">
+                <el-table-column label="获取游戏" width="120">
                     <template v-slot="temp">
                         <el-button v-if="temp.row.userhave==false" type="primary" icon="el-icon-shopping-cart-2" @click="buy(temp.row)">购买</el-button>
                         <a v-else href="http://localhost:8083/game/witcher" target="_blank"><el-button type="primary" icon="el-icon-download">下载</el-button></a>

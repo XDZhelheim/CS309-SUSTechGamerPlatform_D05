@@ -86,7 +86,8 @@
                         <el-row type="flex" justify="center">
                             <el-upload
                                 class="avatar-uploader"
-                                action="uploadAvatarAdd"
+                                action=""
+                                :http-request="submit"
                                 :show-file-list="false"
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
@@ -285,6 +286,22 @@ export default {
             return isJPG && isLt2M
         },
 
+        submit(params) {
+            let formData = new FormData()
+            formData.append("file", params.file)
+            axios.post('http://localhost:8083/upload/singlefile', formData)
+            .then(function (response) {
+            alert(response.data)
+            console.log(response)
+            window.location.reload()
+            })
+            .catch(function (error) {
+            alert("上传失败")
+            console.log(error)
+            window.location.reload()
+            })
+        },
+
         gotoURL(url) {
             this.$router.push(url)
             this.myGamesVisible=false
@@ -310,7 +327,7 @@ export default {
             // 登出，待完善
         },
 
-        
+
     }
 
 

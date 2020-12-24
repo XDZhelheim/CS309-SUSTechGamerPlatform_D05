@@ -163,7 +163,6 @@ export default {
                 password: '',
             },
             rechargeMoney: 0,
-            uploadAvatarAdd: "#", // 后端处理上传头像的地址
             myGames: [
                 {
                     gametitle: "The Witcher: Wild Hunt",
@@ -288,9 +287,10 @@ export default {
         },
 
         submit(params) {
+            const copyFile = new File([params.file], `${this.$root.userInfo.ID}`)
             let formData = new FormData()
-            formData.append("file", params.file)
-            axios.post('http://localhost:8083/upload/singlefile', formData)
+            formData.append("file", copyFile)
+            axios.post('http://localhost:8083/upload/upphoto', formData)
             .then(function (response) {
             alert(response.data)
             console.log(response)

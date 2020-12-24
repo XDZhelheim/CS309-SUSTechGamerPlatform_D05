@@ -188,7 +188,6 @@ var ind = 122
                 editGameFormVisible: false,
                 editIndex: 0,
                 tempGame: null,
-                uploadGameAdd: 'http://localhost:8083/upload/singlefile', // 上传游戏的地址
                 file: '',
 
                 gameTypes: [

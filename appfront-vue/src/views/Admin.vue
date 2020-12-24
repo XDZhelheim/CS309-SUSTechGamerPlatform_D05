@@ -55,10 +55,6 @@
         <div id="edit">
             <el-dialog title="编辑用户" :visible.sync="editUserFormVisible" :show-close="false" :lock-scroll="false">
                 <el-form :label-position="labelPosition" label-width="100px" size="medium">
-                    <el-form-item label="用户名称">
-                        <el-input v-model="tableData[editIndex].username" style="width:var(--itemLength)"></el-input>
-                    </el-form-item>
-
                     <el-form-item label="用户密码">
                         <el-input v-model="tableData[editIndex].password" style="width:var(--itemLength)"></el-input>
                     </el-form-item>
@@ -105,7 +101,6 @@
                     usertype: null,
                     createDate: null,
                     mail: null,
-                    money: null,
                     AddDe_user:"Add"
                 },
 
@@ -167,7 +162,6 @@
                     usertype: null,
                     createDate: null,
                     mail: null,
-                    money: null
                 }
             },
 
@@ -178,9 +172,12 @@
 
 
             check() {
+                var aData = new Date()
+                this.newUser.createDate = aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate()
                 for (let key in this.newUser)
-                    if (this.newUser[key] == null)
+                    if (this.newUser[key]!=0 && (this.newUser[key] == null || this.newUser[key]=='')) {
                         return false
+                    }
                 return true
             },
 
@@ -246,7 +243,7 @@
                 this.socket.onopen = function() {
                     console.log("websocket 打开")
                 }
-                
+
                 this.socket.onmessage = function(msg) {
                 }
 

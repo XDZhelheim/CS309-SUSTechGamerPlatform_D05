@@ -201,7 +201,6 @@ export default {
                 console.log("不支持webSocket")
             } else {
                 console.log("支持webSocket")
-                // alert("支持")
                 var socketUrl ="http://localhost:8083/"+Math.floor(Math.random() * 10000)
                 socketUrl = socketUrl.replace("https", "ws").replace("http", "ws")
                 console.log(socketUrl)
@@ -237,7 +236,6 @@ export default {
              this.socket.onmessage = (evt) => {
                 var str = evt.data
                 var obj = JSON.parse(str)
-                alert(evt.data)
                 if (obj[0].login=="True"){
                     this.$root.loginStatus = true
                     this.$root.userInfo.username = this.loginForm.username

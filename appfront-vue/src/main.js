@@ -18,7 +18,7 @@ new Vue({
                 money: 666
             },
 
-            loginStatus: true
+            loginStatus: false
         }
     },
     router,

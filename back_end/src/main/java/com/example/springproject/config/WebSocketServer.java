@@ -213,16 +213,17 @@ public class WebSocketServer {
                 }
                 else if (AddDe_user != null ) {
                     if (AddDe_user.equals("Delete")) {
-                        Game game = Service.Services.gamesService.getGame(title);
-                        Service.Services.gamesService.delete(game);
+                        String name = jsonObject.getString("username");
+                        Users users = Service.Services.usersService.findByUsername(name);
+                        Service.Services.usersService.delete(users);
                         sendMessage("delete success");
                     } else {
                         Users users = null;
                         String name = jsonObject.getString("username");
                         Users Before_user = Service.Services.usersService.findByUsername(name);
                         users = new Users();
+                        users.setName(name);
                         if (AddDe_user.equals("Add")) {
-                            users.setName(name);
                             users.setCreateDate(new Date(System.currentTimeMillis()));
                         }else if (AddDe_user.equals("Change")){
                             users.setCreateDate(Before_user.getCreateDate());
@@ -244,8 +245,7 @@ public class WebSocketServer {
                         }
                         String mail = jsonObject.getString("mail");
                         users.setEmail(mail);
-                        String acco = jsonObject.getString("money");
-                        users.setAccount(Double.parseDouble(acco));
+                        users.setAccount(0);
                         Service.Services.usersService.save(users);
                         sendMessage("success add user");
                     }
@@ -280,7 +280,7 @@ public class WebSocketServer {
                         str_ans += "\",\"money\":\"";
                         str_ans += all_user.get(i).getAccount();
 
-                        str_ans += "\",\"AddDe_game\":\"Delete\"}";
+                        str_ans += "\",\"AddDe_user\":\"Delete\"}";
                         if (i<all_user.size()-1){
                             str_ans += ",";
                         }

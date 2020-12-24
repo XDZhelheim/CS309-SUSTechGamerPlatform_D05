@@ -243,6 +243,7 @@ export default {
                     this.$root.userInfo.username = this.loginForm.username
                     this.$root.userInfo.money = obj[0].money
                     this.$root.userInfo.usertype = obj[0].user_type
+                    this.$root.userInfo.ID = obj[0].ID
                     // this.$root.userInfo.usertype = 'A'
                 }else{
                     this.$root.loginStatus = false

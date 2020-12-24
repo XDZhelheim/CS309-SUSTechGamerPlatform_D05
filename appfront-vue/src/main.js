@@ -13,7 +13,8 @@ new Vue({
                 avatarURL: require("./assets/avatars/testavatar.jpg"),
                 username: "Test User Name",
                 usertype: "D", // A=admin, D=developer, U=user
-                money: 666
+                money: 666,
+                ID:1
             },
 
             loginStatus: true

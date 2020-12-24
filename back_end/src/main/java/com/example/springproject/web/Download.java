@@ -44,4 +44,29 @@ public class Download {
         }
         response.getOutputStream().write(s.toString().getBytes());
     }
+
+//    @RequestMapping("/photo")
+//    public void photo(HttpServletResponse response) throws IOException {
+//        response.setHeader("Content-Disposition", "attachment;filename=photo.jpg");
+//        response.setContentType("image/jpeg;charset=UTF-8");
+//        List<SDKLog> list = Service.Services.sdkLogService.listLog();
+//        StringBuilder s = new StringBuilder();
+//        for (SDKLog log : list) {
+//            s.append("user_id = ").append(log.getUsers().getId()).append(", game_name = ").append(log.getGame().getName()).append(", log = ").append(log.getLog()).append(System.lineSeparator());
+//        }
+//        response.getOutputStream().write(s.toString().getBytes());
+//    }
+
+
+    @RequestMapping("/photo/{id}")
+    public void photo(HttpServletResponse response, @PathVariable String id) throws IOException {
+        response.setContentType("image/jpeg;charset=UTF-8");
+        File f = new File("E:\\ooad_pro\\avatars\\" + id + ".jpg");
+        int all = (int) f.length();
+        FileInputStream in = new FileInputStream(f);
+        byte[] bytes = new byte[all];
+        in.read(bytes);
+        response.getOutputStream().write(bytes);
+    }
+
 }

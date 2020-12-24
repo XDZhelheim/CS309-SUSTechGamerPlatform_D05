@@ -257,8 +257,10 @@
                 this.socket.onopen = function() {
                     console.log("websocket 打开")
                 }
+                
                 this.socket.onmessage = function(msg) {
                 }
+
                 this.socket.onclose = function() {
                     console.log("关闭")
                 }

@@ -8,6 +8,7 @@ import com.example.springproject.domain.Game;
 import com.example.springproject.domain.GameUser;
 import com.example.springproject.domain.Users;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.id.GUIDGenerator;
 import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -125,6 +126,7 @@ public class WebSocketServer {
                 String Buy = jsonObject.getString("buy");
                 String get_game_develop = jsonObject.getString("get_game_develop");
                 String get_user_develop = jsonObject.getString("get_user_develop");
+                String get_game_allGame = jsonObject.getString("get_game_allGame");
                 String buy_game_gamepage = jsonObject.getString("buy_game_gamepage");
                 String user_name_gamepage = jsonObject.getString("name");
                 String game_name_gamepage = jsonObject.getString("game_name");
@@ -146,12 +148,15 @@ public class WebSocketServer {
                         Users user = Service.Services.usersService.findByUsername(id);
                         double mon = user.getAccount();
                         char user_type = user.getRole();
+                        long ID = user.getId();
                         String str_ans = "[";
                         str_ans += "{\"login\":\"True\",";
                         str_ans += "\"money\":\"";
                         str_ans += mon;
                         str_ans += "\",\"user_type\":\"";
                         str_ans += user_type;
+                        str_ans += "\",\"ID\":\"";
+                        str_ans += ID;
                         str_ans += "\"}]";
                         sendMessage(str_ans);
                     } else {
@@ -185,6 +190,7 @@ public class WebSocketServer {
                     }else if (AddDe_game.equals("Change")){
                         Game Before_game = Service.Services.gamesService.getGame(title);
                         Game game = new Game();
+                        game.setId(Before_game.getId());
                         game.setGameType(type);
                         game.setIntro(abstract_String);
                         game.setLanguage(language);
@@ -192,7 +198,6 @@ public class WebSocketServer {
                         game.setDiscount(Double.parseDouble(discount_get));
                         game.setPrice(Double.parseDouble(price));
                         game.setPublisher(publisher);
-                        Service.Services.gamesService.delete(Before_game);
                         Service.Services.gamesService.save(game);
                     }
                     else {
@@ -217,7 +222,7 @@ public class WebSocketServer {
                             users.setCreateDate(new Date(System.currentTimeMillis()));
                         }else if (AddDe_user.equals("Change")){
                             users.setCreateDate(Before_user.getCreateDate());
-                            Service.Services.usersService.delete(Before_user);
+                            users.setId(Before_user.getId());
                         }
                         String pwd = jsonObject.getString("password");
                         users.setPassword(pwd);
@@ -242,11 +247,7 @@ public class WebSocketServer {
                     }
                 }else if (get_user_develop != null){
                     List<Users> all_user = Service.Services.usersService.findAllUsers();
-
-
-
                     String str_ans = "[";
-
                     for(int i=0;i<all_user.size();i++){
                         str_ans += "{";
                         str_ans += "\"username\":\"";
@@ -254,7 +255,6 @@ public class WebSocketServer {
                         str_ans += "\",\"password\":\"";
                         str_ans += all_user.get(i).getPassword();
                         str_ans += "\",\"usertype\":";
-
                         char u_type = all_user.get(i).getRole();
                         switch (u_type) {
                             case 'U':
@@ -284,11 +284,61 @@ public class WebSocketServer {
                     str_ans += "]";
                     System.out.println(str_ans);
                     sendMessage(str_ans);
+                }else if (get_game_allGame != null){
+                    List<Game> all_game = Service.Services.gamesService.getAllGame();
+                    String str_ans = "[";
+                    String tmp_username = jsonObject.getString("name");
+                    Users tmp_user = Service.Services.usersService.findByUsername(tmp_username);
+                    for(int i=0;i<all_game.size();i++){
+                        GameUser gu = Service.Services.gameUserService.getRecord(tmp_user,all_game.get(i));
+
+                        str_ans += "{";
+                        str_ans += "\"title\":\"";
+                        str_ans += all_game.get(i).getName();
+                        str_ans += "\",\"date\":\"";
+                        str_ans += all_game.get(i).getCreateTime();
+                        str_ans += "\",\"price\":";
+                        str_ans += all_game.get(i).getPrice();
+                        str_ans += ",\"type\":\"";
+                        str_ans += all_game.get(i).getGameType();
+                        str_ans += "\",\"publisher\":\"";
+                        str_ans += all_game.get(i).getPublisher();
+
+                        str_ans += "\",\"language\":\"";
+                        str_ans += all_game.get(i).getLanguage();
+
+                        str_ans += "\",\"rate\":\"";
+                        str_ans += Service.Services.gameUserService.averageScore(all_game.get(i));
+                        str_ans += "\",\"abstract\":\"";
+                        str_ans += all_game.get(i).getIntro();
+//                        List<GameUser> all = Service.Services.gameUserService.getOwnerUsers(tmp_user);
+//                        Boolean has = false;
+//                        for (GameUser tmp: all){
+//                            Game g = tmp.getGame();
+//                            if (g.getId() == all_game.get(i).getId()){
+//                                has = true;
+//                            }
+//                        }
+                        str_ans += "\",\"userhave\":\"";
+                        str_ans += gu != null;
+                        if (all_game.get(i).getName().equals("The Witcher: Wild Hunt")){
+                            str_ans += "url: \"/witcher3\"";
+                        }else {
+                            str_ans += "url:null";
+                        }
+                        str_ans += "}";
+                        if (i<all_game.size()-1){
+                            str_ans += ",";
+                        }
+                    }
+                    str_ans += "]";
+                    System.out.println(str_ans);
+                    sendMessage(str_ans);
+
                 }
                 else if (get_game_develop != null){
                     List<Game> all_game = Service.Services.gamesService.getAllGame();
                     String str_ans = "[";
-
                     for(int i=0;i<all_game.size();i++){
                         str_ans += "{";
                         str_ans += "\"title\":\"";

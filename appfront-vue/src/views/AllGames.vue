@@ -68,13 +68,25 @@
                 // 然后购买, 记得更新余额
             },
 
-            download(game) {
-                // 下载
+            getGame() {
+                this.socket.send(
+                '{"get_game_allGame":"true","name":"' +
+                this.$root.userInfo.username +
+                '"}')
+
+
+
+                this.socket.onmessage = (evt) => {
+                var str = evt.data
+                var obj = JSON.parse(str)
+                this.tableData = obj
+                }
             },
 
             gotoURL(url) {
                 this.$router.push(url)
             }
+
         },
 
         mounted() {

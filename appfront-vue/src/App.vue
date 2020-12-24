@@ -41,8 +41,6 @@
                     <el-button plain type="primary" @click="loginFormVisible = false; login();">登录</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; openSocket();">openSocket</el-button>
                     <el-button plain type="primary" @click="loginFormVisible = false; test();">test</el-button>
-
-
                 </div>
             </el-dialog>
         </div>

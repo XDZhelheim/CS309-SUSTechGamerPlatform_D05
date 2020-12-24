@@ -1,6 +1,7 @@
 <template>
     <div id="allgames">
         <div id="allgamelist">
+            <el-button id="getallgames" plain type="primary" icon="el-icon-refresh" @click="getAllGames()">刷新列表</el-button>
             <h1>全部游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">
                 <el-table-column prop="title" label="名称" width="300">
@@ -70,6 +71,10 @@
 
             gotoURL(url) {
                 this.$router.push(url)
+            },
+
+            getAllGames() {
+                // 从后端拿全部游戏
             }
         },
 
@@ -134,6 +139,10 @@
 
     #gametitle {
         font-size: 18px !important;
+    }
+
+    #getallgames {
+        float: right;
     }
 </style>
 

@@ -2,7 +2,7 @@
     <div id="developer">
         <div id="gl">
             <el-button id="ag" plain type="primary" icon="el-icon-plus" @click="addGameFormVisible = true">添加新游戏</el-button>
-             <el-button id="sdk" plain type="primary" icon="el-icon-download" ><a href="http://localhost:8083/log" target="_blank">下载用户信息</a></el-button>
+            <a href="http://localhost:8083/log" target="_blank"><el-button id="sdk" plain type="primary" icon="el-icon-download" >下载用户信息</el-button></a>
             <el-button id="getgame" plain type="primary" icon="el-icon-refresh" @click="getGame()">刷新列表</el-button>
             <h1>管理游戏</h1>
             <el-table border :data="tableData" borderstyle="width: 100%" id="tb">

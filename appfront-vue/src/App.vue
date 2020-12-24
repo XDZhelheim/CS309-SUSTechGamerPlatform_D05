@@ -12,13 +12,13 @@
             router>
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/allgames">全部游戏</el-menu-item>
-                <el-menu-item index="/shop">游戏商城</el-menu-item>
+                <!-- <el-menu-item index="/shop">游戏商城</el-menu-item> -->
                 <el-menu-item v-if="this.$root.loginStatus==true" @click="myGamesVisible=true">我的游戏</el-menu-item>
                 <el-menu-item v-if="this.$root.loginStatus==false" @click="loginFormVisible= true" class="menu-right">登录</el-menu-item>
                 <el-menu-item v-else @click="infoVisible = true;" class="menu-right"><el-avatar :size="40" :src="this.$root.userInfo.avatarURL"></el-avatar></el-menu-item>
                 <el-menu-item v-if="this.$root.userInfo.usertype=='A' && this.$root.loginStatus" index="/admin" class="menu-right">管理员</el-menu-item>
                 <el-menu-item v-if="this.$root.userInfo.usertype=='D' && this.$root.loginStatus" index="/developer" class="menu-right">开发者</el-menu-item>
-                <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item>
+                <!-- <el-menu-item index="/hello" class="menu-right">欢迎</el-menu-item> -->
             </el-menu>
         </nav>
         <div id="placehold"></div>
@@ -138,6 +138,7 @@ import ttt from "./views/Shop.vue"
 import developer from "./views/Developer"
 import w from "./views/gamepages/witcher3"
 import al from "./views/AllGames"
+import axios from 'axios'
 // tt.t()
 // import {s} from './views/tt.vue'
 

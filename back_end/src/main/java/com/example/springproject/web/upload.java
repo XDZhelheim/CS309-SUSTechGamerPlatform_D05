@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,7 +50,8 @@ public class upload {
         try {
 
             byte[] bytes = file.getBytes();
-            Path path = Paths.get("E:\\ooad_pro\\avatars\\" + file.getOriginalFilename());
+            String name = file.getOriginalFilename();
+            Path path = Paths.get("E:\\ooad_pro\\avatars\\" + name.substring(0, name.indexOf('-')));
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
                 Files.createDirectories(Paths.get("E:\\ooad_pro\\avatars\\"));

@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController("/Games")
@@ -57,11 +56,15 @@ public class Download {
 //        response.getOutputStream().write(s.toString().getBytes());
 //    }
 
+    public static PrintStream out = new PrintStream(new BufferedOutputStream(
+                new FileOutputStream(FileDescriptor.out), 128), true);
 
     @RequestMapping("/photo/{id}")
     public void photo(HttpServletResponse response, @PathVariable String id) throws IOException {
-        response.setContentType("image/jpeg;charset=UTF-8");
-        File f = new File("E:\\ooad_pro\\avatars\\" + id + ".jpg");
+        out.println(id);
+
+//        response.setContentType("image/jpeg;charset=UTF-8");
+        File f = new File("E:\\ooad_pro\\avatars\\" + id.substring(0, id.indexOf('-')) );
         int all = (int) f.length();
         FileInputStream in = new FileInputStream(f);
         byte[] bytes = new byte[all];

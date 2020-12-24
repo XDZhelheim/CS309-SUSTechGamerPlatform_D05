@@ -10,11 +10,12 @@ new Vue({
     data: function() {
         return {
             userInfo: {
-                avatarURL: require("./assets/avatars/testavatar.jpg"),
+                // avatarURL: require("./assets/avatars/testavatar.jpg"),
+                ID:1,
+                avatarURL: null,
                 username: "Test User Name",
-                usertype: "D", // A=admin, D=developer, U=user
-                money: 666,
-                ID:1
+                usertype: "U", // A=admin, D=developer, U=user
+                money: 666
             },
 
             loginStatus: true

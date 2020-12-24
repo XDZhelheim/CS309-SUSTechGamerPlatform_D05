@@ -144,11 +144,12 @@ public class WebSocketServer {
                     Users users = new Users();
                     users.setName(id);
                     users.setPassword(password);
+
                     if (Service.Services.usersService.checkLogin(users)) {
                         Users user = Service.Services.usersService.findByUsername(id);
                         double mon = user.getAccount();
                         char user_type = user.getRole();
-                        long ID = user.getId();
+                        String ID = Long.toString(user.getId());
                         String str_ans = "[";
                         str_ans += "{\"login\":\"True\",";
                         str_ans += "\"money\":\"";
@@ -157,7 +158,11 @@ public class WebSocketServer {
                         str_ans += user_type;
                         str_ans += "\",\"ID\":\"";
                         str_ans += ID;
+                        str_ans += "\",\"avatarURL\":\"";
+                        str_ans += "http://localhost:8083/photo/"+ID+"-"+Math.random();
+//                        avatarURL = "localhost:8083/photo"+ID
                         str_ans += "\"}]";
+                        System.out.println(str_ans);
                         sendMessage(str_ans);
                     } else {
                         sendMessage("False");
@@ -215,7 +220,6 @@ public class WebSocketServer {
                         Users users = null;
                         String name = jsonObject.getString("username");
                         Users Before_user = Service.Services.usersService.findByUsername(name);
-                        String time = null;
                         users = new Users();
                         if (AddDe_user.equals("Add")) {
                             users.setName(name);
@@ -291,7 +295,6 @@ public class WebSocketServer {
                     Users tmp_user = Service.Services.usersService.findByUsername(tmp_username);
                     for(int i=0;i<all_game.size();i++){
                         GameUser gu = Service.Services.gameUserService.getRecord(tmp_user,all_game.get(i));
-
                         str_ans += "{";
                         str_ans += "\"title\":\"";
                         str_ans += all_game.get(i).getName();
@@ -308,9 +311,12 @@ public class WebSocketServer {
                         str_ans += all_game.get(i).getLanguage();
 
                         str_ans += "\",\"rate\":\"";
-                        str_ans += Service.Services.gameUserService.averageScore(all_game.get(i));
+                        str_ans += "4.8";
+//                        str_ans += Service.Services.gameUserService.averageScore(all_game.get(i));
                         str_ans += "\",\"abstract\":\"";
                         str_ans += all_game.get(i).getIntro();
+//                        "[{\"title\":\"123\",\"date\":\"2020-12-23\",\"price\":130.0,\"type\":\"FPS\",\"publisher\":\"313e\",\"language\":\"中文 (繁体)\",\"rate\":\"4.8\",\"abstract\":\"wedf\",\"userhave\":\"falseurl:null},{\"title\":\"The Witcher: Wild Hunt\",\"date\":\"2020-12-24\",\"price\":47.0,\"type\":\"RPG\",\"publisher\":\"Rubbish publisher\",\"language\":\"English\",\"rate\":\"4.8\",\"abstract\":\"该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。\",\"userhave\":\"false\",\"url: \"/witcher3\"}]"
+//                        "[{\"title\":\"123\",\"date\":\"2020-12-23\",\"price\":130.0,\"type\":\"FPS\",\"publisher\":\"313e\",\"language\":\"中文 (繁体)\",\"rate\":\"4.8\",\"abstract\":\"wedf\",\"userhave\":\"falseurl:null},{\"title\":\"The Witcher: Wild Hunt\",\"date\":\"2020-12-24\",\"price\":47.0,\"type\":\"RPG\",\"publisher\":\"Rubbish publisher\",\"language\":\"English\",\"rate\":\"4.8\",\"abstract\":\"该作承接《巫师2：国王刺客》的剧情，那些想要利用杰洛特的人已经不在了。杰洛特寻求改变自己的生活，着手于新的个人使命，而世界的秩序也在悄然改变。2015年10月，获第33届金摇杆奖最佳剧情、最佳视觉设计、最佳游戏时刻，更获得了年度最佳游戏大奖。并获得IGN 2015年度最佳游戏。2016年其DLC“血与酒”获得了The Game Awards2016年年度“最佳游戏角色扮演游戏”奖。\",\"userhave\":\"falseurl: \"/witcher3\"}]"
 //                        List<GameUser> all = Service.Services.gameUserService.getOwnerUsers(tmp_user);
 //                        Boolean has = false;
 //                        for (GameUser tmp: all){
@@ -322,9 +328,9 @@ public class WebSocketServer {
                         str_ans += "\",\"userhave\":\"";
                         str_ans += gu != null;
                         if (all_game.get(i).getName().equals("The Witcher: Wild Hunt")){
-                            str_ans += "url: \"/witcher3\"";
+                            str_ans += "\",\"url\": \"/witcher3\"";
                         }else {
-                            str_ans += "url:null";
+                            str_ans += "\",\"url\":null";
                         }
                         str_ans += "}";
                         if (i<all_game.size()-1){

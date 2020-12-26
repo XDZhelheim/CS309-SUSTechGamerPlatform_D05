@@ -315,7 +315,7 @@ export default {
             // this.$root.userInfo.avatarURL='http://localhost:8083/photo/'+this.$root.userInfo.ID
             
             this.$nextTick(() => {
-                this.$root.userInfo.avatarURL='http://localhost:8083/photo/3-'+Math.random()
+                this.$root.userInfo.avatarURL='http://localhost:8083/photo/' + this.$root.userInfo.ID + '-'+Math.random()
             })
         },
 
